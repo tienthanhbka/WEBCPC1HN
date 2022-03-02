@@ -1,0 +1,164 @@
+<template>
+  <div
+    shadow="always"
+    style="margin: auto; width: 700px; position: relative;margin-bottom: 200px;"
+  >
+    <div>
+      <el-card>
+        <div
+          style="color: #819FF7; font-weight: bold;margin-botton: 10px;font-size: 18px;"
+        >
+          {{ this.lines[0].Name }}
+        </div>
+        <div style="font-size:11pt;font-style:initial;">
+          (Công ty rất mong nhận được ý kiến của anh chị. Ý kiến của anh chị sẽ
+          giúp hệ thống trở nên tốt hơn)
+        </div>
+        <!-- <el-input placeholder="Nhập tiêu đề"  v-model="title"></el-input> -->
+      </el-card>
+    </div>
+    <div :key="acc">
+      <div v-for="(line, index) in lines" :key="index" class="row">
+        <div>
+          <el-card>
+            <el-row style="margin-bottom: 20px;">
+              <el-col :span="1">
+                <div
+                  class="grid-content bg-purple-light"
+                  style=" margin-left: 3px;"
+                >
+                  <!-- <i class="far fa-question-circle"></i> -->
+                  <span> {{ index + 1 }}. </span>
+                </div>
+              </el-col>
+              <el-col :span="14">
+                <span> {{ line.Content }} </span>
+              </el-col>
+            </el-row>
+            <div
+              v-if="line.TypeQuestion == 1"
+              class="grid-content bg-purple-light"
+            >
+              <el-input
+                placeholder="Nhập câu trả lời"
+                v-model="line.answer"
+              ></el-input>
+            </div>
+            <div v-if="line.TypeQuestion == 2" class="">
+              <el-radio-group
+                v-model="line.answer"
+                v-for="(select, index) in line.select"
+                :key="index"
+              >
+                <div style="width: 500px;">
+                  <el-radio :label="select.IDSelect">{{
+                    select.Name
+                  }}</el-radio>
+                </div>
+              </el-radio-group>
+              <!-- 
+                    <div v-for="(select, index) in line.select" :key="index">
+              <el-radio v-model="radio" label="index">{{ select.Name }}</el-radio>
+                </div> -->
+            </div>
+            <div
+              v-if="line.TypeQuestion == 3"
+              class="grid-content bg-purple-light"
+            >
+              <el-checkbox-group v-model="line.answer">
+                <el-checkbox
+                  style="width: 500px;"
+                  v-for="select in line.select"
+                  :label="select.IDSelect"
+                  :key="select.IDSelect"
+                  >{{ select.Name }}</el-checkbox
+                >
+              </el-checkbox-group>
+              <!-- <div v-for="(select, index) in line.select" :key="index">
+              <el-radio v-model="radio" label="1">{{ select.Name }}</el-radio>
+                </div> -->
+            </div>
+          </el-card>
+        </div>
+      </div>
+      <br />
+      <el-card>
+        <div style="color: #02bc77;font-weight: bold; ">
+          Cảm ơn anh/chị đã trả lời các câu hỏi của Công ty.
+        </div>
+      </el-card>
+    </div>
+
+    <!-- <div ><el-button type="primary" icon="fas fa-plus"  @click="addLine" > Tạo phiếu khảo sát</el-button> </div> -->
+    <div style="position:fixed; bottom: 100px;right: 40px;z-index: 1000">
+      <el-button type="primary" icon="fas fa-plus" @click="submit">
+        Submit</el-button
+      >
+    </div>
+  </div>
+</template>
+
+<script>
+import Question1 from "@/views/survey/component/question1/index";
+import Question2 from "@/views/survey/component/question2/index";
+import Question3 from "@/views/survey/component/question3/index";
+import Cookies from "js-cookie";
+import { GetSurveyByID, SubmitSurvey } from "@/api/survey";
+export default {
+  name: "PhoneNumberLine",
+  components: {},
+  data() {
+    return {
+      lines: [],
+      acc: 0,
+      select1: []
+    };
+  },
+  watch: {
+    $route: "fetchData"
+  },
+  methods: {
+    submit() {
+      var req = {
+        IDEmployee: Cookies.get("idEmployee"),
+        lines: this.lines
+      };
+      console.log(req);
+      SubmitSurvey(req).then(response => {
+        if (response.ResCode == 0) {
+          this.$notify({
+            title: "Thành công",
+            message: "Hoàn thành phiếu khảo sát",
+            type: "success",
+            position: "top-left"
+          });
+        }
+      });
+    },
+    handleCheckedCitiesChange(value) {
+      // let checkedCount = value.length;
+      // this.checkAll = checkedCount === this.cities.length;
+      // this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+    },
+    fetchData() {
+      //this.coin = list_coins[this.$route.params.id]
+      var req = {
+        ID: this.$route.params.id
+      };
+      GetSurveyByID(req).then(response => {
+        if (response.ResCode == 0) {
+          this.lines = response.Data;
+          // this.lines.answer = [];
+          console.log(this.lines[0].select[0]);
+        }
+      });
+    }
+  },
+  mounted() {
+    //this.addLine()
+  },
+  created() {
+    this.fetchData();
+  }
+};
+</script>

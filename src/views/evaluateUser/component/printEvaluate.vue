@@ -1,0 +1,173 @@
+<template>
+  <div>
+    <el-table
+      :data="CriteriaLineLst"
+      style="width: 100%;"
+      stripe
+      border
+      :header-row-style="{ color: '#1c456f' }"
+      :span-method="objectSpanMethod"
+      size="mini"
+    >
+      <el-table-column width="60" label="STT">
+        <template slot-scope="scope">
+          {{ scope.$index + 1 }}
+        </template>
+      </el-table-column>
+      <el-table-column label="Tiêu chí" width="280">
+        <template slot-scope="scope">
+          {{ scope.row.CriteriaName }}
+        </template>
+      </el-table-column>
+      <el-table-column label="Định mức" prop="Quota" width="100">
+      </el-table-column>
+      <el-table-column label="Kết quả đạt" width="100">
+        <template slot-scope="scope">
+          {{
+            scope.row.Quantity.toString().replace(
+              /(\d)(?=(\d{3})+(?!\d))/g,
+              "$1,"
+            )
+          }}
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="Người đánh giá"
+        prop="EmployeeNameRate"
+        width="180"
+      >
+      </el-table-column>
+      <el-table-column width="120px" label="Đánh giá" align="center">
+        <el-table-column label="Tự động" align="center">
+          <template slot-scope="scope">
+            <div class="dat-cell" label="Tự động">
+              <el-tag
+                :type="scope.row.RateAuto | toRateAutoColor"
+                style="width:100px"
+                effect="plain"
+                >{{ scope.row.RateAuto | toRateAutoText }}</el-tag
+              >
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="Thủ công" align="center">
+          <template slot-scope="scope">
+            <div class="dat-cell" label="Thủ công">
+              <el-tag
+                :type="scope.row.Rate | toRateColor"
+                style="width:100px"
+                effect="plain"
+                >{{ scope.row.Rate | toRateText }}</el-tag
+              >
+            </div>
+          </template>
+        </el-table-column>
+      </el-table-column>
+      <el-table-column label="Nhận xét" prop="Comment" min-width="150">
+      </el-table-column>
+    </el-table>
+  </div>
+</template>
+
+<script>
+import Cookies from "js-cookie";
+import { GetCriteriaLineByHeader } from "@/api/NSCriteriaEmployee";
+export default {
+  props: ["card"],
+  filters: {
+    toRateText(val) {
+      if (val > 2) {
+        return "ĐẠT";
+      } else {
+        return "KHÔNG ĐẠT";
+      }
+    },
+    toRateColor(val) {
+      if (val > 2) {
+        return "success";
+      } else {
+        return "danger";
+      }
+    },
+    toRateAutoText(val) {
+      if (val == 1) {
+        return "ĐẠT";
+      } else {
+        return "KHÔNG ĐẠT";
+      }
+    },
+    toRateAutoColor(val) {
+      if (val == 1) {
+        return "success";
+      } else {
+        return "danger";
+      }
+    }
+  },
+  data() {
+    return {
+      CriteriaLineLst: [],
+      currentPage: 1,
+      pageSize: 10,
+      total: 0,
+      UserName: Cookies.get("idEmployee"),
+      Token: Cookies.get("token")
+    };
+  },
+  methods: {
+    fetchData() {
+      const req = {
+        DocumentID: this.card.DocumentID
+      };
+      GetCriteriaLineByHeader(req).then(res => {
+        if (res.RespCode == 0) {
+          this.CriteriaLineLst = res.CriteriaLineLst;
+        } else {
+          this.$message({
+            message: res.RespText,
+            type: "warning"
+          });
+        }
+      });
+    },
+    objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+      //   console.log(row);
+      //console.log(columnIndex);
+      //   if (row.CriteriaID == row.CriteriaID) {
+      //     return {
+      //       rowspan: 2,
+      //       colspan: 1
+      //     };
+      //   } else {
+      //     return {
+      //       rowspan: 0,
+      //       colspan: 0
+      //     };
+      //   }
+      //   if (columnIndex === 0) {
+      //     console.log(column);
+      // 	// console.log(rowIndex);
+      //     if (rowIndex % 2 === 0) {
+      //       return {
+      //         rowspan: 2,
+      //         colspan: 1
+      //       };
+      //     } else {
+      //       return {
+      //         rowspan: 0,
+      //         colspan: 0
+      //       };
+      //     }
+      //   }
+    }
+  },
+  watch: {
+    card() {
+      this.fetchData();
+    }
+  },
+  created() {
+    this.fetchData();
+  }
+};
+</script>

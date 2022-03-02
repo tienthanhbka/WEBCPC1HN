@@ -1,0 +1,200 @@
+@media all and (max-width: 768px) {
+  .el-mobile-table > div > table,
+  .el-mobile-table > div > table > thead,
+  .el-mobile-table > div > table > tbody,
+  .el-mobile-table > div > table > tbody > tr > th,
+  .el-mobile-table > div > table > tbody > tr > td,
+  .el-mobile-table > div > table > tbody > tr {
+    display: block;
+  }
+  .el-mobile-table > div > table {
+    width: 100% !important;
+  }
+  .el-mobile-table > div > table > thead {
+    border: none;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+  }
+  .el-mobile-table > div > table > tbody > tr {
+    border-bottom: 3px solid #ddd;
+    display: flex;
+    flex-flow: column;
+  }
+  .el-mobile-table > div > table > tbody > tr .cell {
+    /* line-height: unset; */
+    text-align: right;
+  }
+  .el-mobile-table > div > table > tbody > tr > td {
+    border-bottom: 1px solid #ddd;
+    display: block;
+
+    text-align: right;
+  }
+  .el-mobile-table > div > table > tbody > tr > td * {
+    display: inline-block;
+    /* float: right; */
+  }
+
+  .el-mobile-table .el-table__expand-column {
+    order: 1;
+  }
+  .el-mobile-table > div > table > tbody > tr > td .cell {
+    width: 100%;
+  }
+  .el-mobile-table > div > table > tbody > tr > td .dat-cell {
+    width: 100%;
+  }
+  .el-mobile-table > div > table > tbody > tr > td .dat-cell::before {
+    /*
+    * aria-label has no advantage, it won't be read inside a table
+    content: attr(aria-label);
+    */
+
+    content: attr(label);
+    float: left;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+}
+
+.el-table .cell {
+  box-sizing: border-box;
+  white-space: normal;
+  word-break: keep-all !important;
+  line-height: 23px;
+}
+.el-table th > .cell {
+  font-size: 10pt;
+}
+.small2-modal {
+  width: 450px !important;
+  max-width: 98%;
+  margin-top: 5px !important;
+}
+.small-modal {
+  width: 580px !important;
+  max-width: 98%;
+  margin-top: 5px !important;
+}
+.default-modal {
+  width: 680px !important;
+  max-width: 98%;
+  margin-top: 5px !important;
+}
+.medium-modal {
+  width: 960px !important;
+  max-width: 98%;
+  margin-top: 5px !important;
+}
+.fullscreen-modal {
+  width: 90% !important;
+  max-width: 98%;
+  margin-top: 5px !important;
+}
+.el-message {
+  min-width: 320px !important;
+  max-width: 100% !important;
+}
+.group-header {
+  font-weight: 700;
+  font-size: 24px;
+  color: #636e72;
+  padding: 8px;
+}
+.a-desc img {
+  max-width: 100%;
+}
+h2 {
+  color: #130f40;
+}
+.blank-table {
+  margin-top: 15px;
+  color: #a4b0be;
+  height: 100px;
+  font-size: 22px;
+  text-align: center;
+  line-height: 100px;
+  border: 2px dashed #a4b0be;
+}
+
+.el-button-group > a:not(:first-child):not(:last-child) {
+  border-radius: 0;
+}
+
+.el-button-group > a:not(:last-child) {
+  margin-right: -1px;
+}
+
+.el-button-group > a {
+  float: left;
+  position: relative;
+  display: inline-block;
+}
+
+.el-row[height-sync] {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.el-row[height-sync] .el-col {
+  /* width: 100%; */
+  display: flex;
+  /* flex-direction: column; */
+}
+
+.a-link {
+  color: #0984e3;
+}
+.selectIDGroup .el-input__inner {
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid #dcdfe6;
+}
+.selectIDGroup .el-textarea__inner {
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid #dcdfe6;
+}
+.item-date-picker .el-input__inner {
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid #02bc77;
+  background-color: rgb(244 244 244);
+}
+.item-date-picker {
+  margin-right: 5px;
+}
+.selectIDGroup.is-disabled .el-input__inner {
+  background-color: #fff !important;
+  border-bottom: 1px dotted #dcdfe6;
+  color: #606266 !important;
+}
+.selectIDGroup .el-input.is-disabled .el-input__inner {
+  background-color: #fff !important;
+  border-bottom: 1px dotted #dcdfe6;
+  color: #606266 !important;
+}
+.el-textarea.is-disabled .el-textarea__inner {
+  background-color: #fff !important;
+  border-bottom: 1px dotted #dcdfe6;
+  color: #606266 !important;
+}
+.border-form {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+}
+.upload-demo {
+  display: flex;
+}
+.t-tooltip {
+  border-color: #02bc77 !important;
+}

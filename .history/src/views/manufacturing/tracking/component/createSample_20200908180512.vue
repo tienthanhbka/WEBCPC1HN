@@ -1,0 +1,661 @@
+<template>
+  <div>
+    <el-form
+      ref="form"
+      label-position="top"
+      size="small"
+      :model="Sample"
+      :rules="rules"
+      label-width="120px"
+    >
+      <el-row :gutter="50">
+        <el-col :xs="24" :sm="6" :lg="6">
+          <div style="padding: 10px;">
+            <el-upload
+              action=""
+              ref="uploadFile"
+              :http-request="uploadFirebase"
+              list-type="picture-card"
+              :auto-upload="false"
+              :on-change="toggleUpload"
+              :class="{ hideUpload: !clusterImg }"
+            >
+              <i slot="default" class="el-icon-plus"></i>
+              <div slot="file" slot-scope="{ file }">
+                <img
+                  class="el-upload-list__item-thumbnail"
+                  :src="file.url"
+                  alt=""
+                />
+                <span class="el-upload-list__item-actions">
+                  <span
+                    class="el-upload-list__item-preview"
+                    @click="handlePictureCardPreview(file)"
+                  >
+                    <i class="el-icon-zoom-in"></i>
+                  </span>
+                  <span
+                    v-if="!disabled"
+                    class="el-upload-list__item-delete"
+                    @click="handleRemove(file)"
+                  >
+                    <i class="el-icon-delete"></i>
+                  </span>
+                </span>
+              </div>
+            </el-upload>
+          </div>
+        </el-col>
+        <el-col :xs="24" :sm="18" :lg="18">
+          <el-form-item label="Mã mẫu" prop="SampleName">
+            <el-input
+              v-model="Sample.SampleName"
+              class="selectIDGroup"
+              placeholder="Nhập tên mẫu..."
+              style="width:100%"
+              type="textarea"
+              autosize
+            >
+            </el-input>
+          </el-form-item>
+          <el-form-item label="Sản phẩm" prop="ProductName">
+            <el-autocomplete
+              class="selectIDGroup"
+              style="width:100%"
+              v-model="Sample.ProductName"
+              :fetch-suggestions="querySearch2"
+              placeholder="Chọn sản phẩm..."
+              @select="handleSelect"
+            >
+              <i
+                class="el-icon-search el-input__icon"
+                slot="suffix"
+                @click="handleIconClick2"
+              >
+              </i>
+              <template slot-scope="{ item }">
+                <div class="value">{{ item.Product }}</div>
+                <span class="link">{{ item.ProductionOrderIDBFO }}</span>
+              </template>
+            </el-autocomplete>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row :gutter="20">
+        <el-col :xs="24" :sm="12" :lg="12">
+          <el-form-item label="Ngày sản xuất" prop="ProductDate">
+            <el-date-picker
+              v-model="Sample.ProductDate"
+              class="selectIDGroup"
+              style="width:100%;"
+              type="date"
+              placeholder="chọn ngày sản xuất..."
+              @change="change"
+            >
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :xs="24" :sm="12" :lg="12">
+          <el-form-item label="Lô sản xuất" prop="Batch">
+            <el-input
+              v-model="Sample.Batch"
+              class="selectIDGroup"
+              placeholder="Nhập lô sản xuất..."
+              style="width:100%"
+              type="textarea"
+              autosize
+            >
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :xs="24" :sm="12" :lg="12">
+          <el-form-item label="Phân loại" prop="TypeSample">
+            <el-select
+              class="selectIDGroup"
+              v-model="Sample.TypeSample"
+              placeholder="Chọn phân loại..."
+              style="width:100%"
+            >
+              <el-option
+                v-for="item in TypeLst"
+                :key="item.value"
+                :label="item.label"
+                :value="item.label"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :xs="24" :sm="12" :lg="12">
+          <el-form-item label="Điều kiện bảo quản" prop="Condition">
+            <el-select
+              class="selectIDGroup"
+              v-model="Sample.Condition"
+              placeholder="Chọn điều kiện bảo quản..."
+              style="width:100%"
+            >
+              <el-option
+                v-for="item in ConditionLst"
+                :key="item.value"
+                :label="item.label"
+                :value="item.label"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :xs="24" :sm="12" :lg="12">
+          <el-form-item label="Thời gian theo dõi" prop="Time">
+            <el-select
+              class="selectIDGroup"
+              v-model="Sample.Time"
+              placeholder="Chọn thời gian..."
+              style="width:100%"
+            >
+              <el-option
+                v-for="item in TimeLst"
+                :key="item.value"
+                :label="item.label"
+                :value="item.label"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :xs="24" :sm="12" :lg="12">
+          <el-form-item label="Trạng thái ban đầu" prop="Original">
+            <el-input
+              v-model="Sample.Original"
+              class="selectIDGroup"
+              style="width:100%"
+              placeholder="Nhập trạng thái..."
+            >
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="24">
+          <el-form-item label="Ghi chú" prop="Note">
+            <el-input
+              v-model="Sample.Note"
+              class="selectIDGroup"
+              style="width:100%"
+              placeholder="Nhập ghi chú..."
+              type="textarea"
+              autosize
+            >
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <div style="padding:5px;text-align:right">
+        <el-form-item size="large">
+          <el-button type="danger" @click="cancelup" icon="el-icon-circle-close"
+            >Hủy</el-button
+          >
+          <el-button
+            v-if="sample == null"
+            icon="fas fa-plus"
+            style="background-color:#02bc77;color:white;"
+            @click="addSample('form')"
+          >
+            Tạo mới</el-button
+          >
+          <el-button
+            v-else
+            icon="el-icon-edit"
+            style="background-color:#02bc77;color:white;"
+            @click="addSample('form')"
+          >
+            Chỉnh sửa</el-button
+          >
+        </el-form-item>
+      </div>
+    </el-form>
+    <el-dialog :visible.sync="dialogVisible" append-to-body>
+      <img width="100%" :src="dialogImageUrl" alt="" />
+    </el-dialog>
+  </div>
+</template>
+<script>
+import Cookies from "js-cookie";
+import { db, storage } from "./firebase";
+import { GetProductionOrder } from "@/api/productionOrder";
+import { getStartDate, getEndDate } from "@/api/index";
+export default {
+  props: ["sample"],
+  components: {},
+  computed: {},
+  data() {
+    return {
+      disabled: false,
+      showUpload: true,
+      clusterImg: true,
+      dialogVisible: false,
+      dialogImageUrl: "",
+      fileLst: [],
+      ActiveElement: [],
+      rules: {
+        SampleName: [
+          {
+            required: true,
+            message: "Hãy nhập tên mẫu",
+            trigger: "change"
+          }
+        ],
+        ProductName: [
+          {
+            required: true,
+            message: "Hãy nhập tên sản phẩm",
+            trigger: "change"
+          }
+        ],
+        Batch: [
+          {
+            required: true,
+            message: "Hãy nhập lô sản xuất",
+            trigger: "change"
+          }
+        ],
+        ProductDate: [
+          {
+            required: true,
+            message: "Hãy chọn hoạt chất",
+            trigger: "change"
+          }
+        ],
+        Condition: [
+          {
+            required: true,
+            message: "Hãy nhập điều kiện bảo quản",
+            trigger: "change"
+          }
+        ],
+        Original: [
+          {
+            required: true,
+            message: "Hãy nhập trạng thái",
+            trigger: "change"
+          }
+        ],
+        Time: [
+          {
+            required: true,
+            message: "Hãy chọn thời gian theo dõi",
+            trigger: "change"
+          }
+        ],
+        TypeSample: [
+          {
+            required: true,
+            message: "Hãy chọn loại mẫu",
+            trigger: "change"
+          }
+        ]
+      },
+      TimeLst: [
+        {
+          value: "1",
+          label: "3 ngày"
+        },
+        {
+          value: "2",
+          label: "5 ngày"
+        },
+        {
+          value: "3",
+          label: "7 ngày"
+        },
+        {
+          value: "4",
+          label: "2 tuần"
+        },
+        {
+          value: "5",
+          label: "3 tuần"
+        },
+        {
+          value: "6",
+          label: "4 tuần"
+        },
+        {
+          value: "7",
+          label: "2 tháng"
+        },
+        {
+          value: "8",
+          label: "3 tháng"
+        },
+        {
+          value: "9",
+          label: "6 tháng"
+        }
+      ],
+      TypeLst: [
+        {
+          value: "1",
+          label: "Lưu thường"
+        },
+        {
+          value: "2",
+          label: "Lão hóa"
+        },
+        {
+          value: "3",
+          label: "Tủ lạnh"
+        },
+        {
+          value: "4",
+          label: "Bảng mã theo BB"
+        }
+      ],
+      ConditionLst: [
+        {
+          value: "1",
+          label: "Dưới 30 °C"
+        },
+        {
+          value: "2",
+          label: "Dưới 25 °C"
+        },
+        {
+          value: "3",
+          label: "Dưới 15 °C"
+        },
+        {
+          value: "4",
+          label: "Dưới 8 °C"
+        },
+        {
+          value: "5",
+          label: "Bảo quản lạnh"
+        },
+        {
+          value: "6",
+          label: "Bảo quản mát"
+        }
+      ],
+      Sample: {
+        SampleID: "",
+        SampleName: "",
+        ProductName: "",
+        ProductID: "",
+        Batch: "",
+        ProductOrder: "",
+        ProductDate: "",
+        Condition: "",
+        Original: "",
+        Time: "",
+        TypeSample: "",
+        Creator: "",
+        TimeCreate: "",
+        Status: "",
+        SampleImg: "",
+        Note: ""
+      },
+      EmployeeTypeLst: [],
+      file: "",
+      Image: [],
+      Token: Cookies.get("token"),
+      UserName: Cookies.get("idEmployee"),
+      ProductionOrderLst: [],
+      DateStart: getStartDate(),
+      DateEnd: getEndDate()
+    };
+  },
+  methods: {
+    querySearch2(queryString, cb) {
+      var links = this.ProductionOrderLst;
+      var results = queryString
+        ? links.filter(this.createFilter2(queryString))
+        : links;
+      cb(results);
+    },
+    handleSelect(item) {
+      this.Sample.ProductName = item.Product;
+      this.Sample.ProductID = item.ProductID;
+      this.Sample.Batch = item.ProductionBatch;
+      this.Sample.ProductDate = item.DateStart;
+      this.Sample.ProductOrder = item.ProductionOrderIDBFO;
+    },
+    handleIconClick2(ev) {},
+    createFilter2(queryString) {
+      return link => {
+        link = JSON.parse(JSON.stringify(link));
+        return (
+          link.Product.toLowerCase().includes(queryString.toLowerCase()) ===
+          true
+        );
+      };
+    },
+    handleRemove(file) {
+      console.log(file);
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+    toggleUpload(file) {
+      console.log(file);
+      this.clusterImg = !this.clusterImg;
+    },
+    change(val) {
+      console.log(val);
+    },
+    uploadFirebase(file, fileList) {
+      if (this.Sample.SampleName) {
+        this.Image.push(file.file.name);
+        var uploadTask = storage
+          .ref()
+          .child(this.Sample.SampleName + "/imgsample")
+          .put(file.file);
+        uploadTask.on(
+          "state_changed",
+          function(snapshot) {
+            var progress =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log("Upload is " + progress + "% done");
+            // switch (snapshot.state) {
+            //   case storage.TaskState.PAUSED: // or 'paused'
+            //     console.log('Upload is paused');
+            //     break;
+            //   case storage.TaskState.RUNNING: // or 'running'
+            //     console.log('Upload is running');
+            //     break;
+            // }
+          },
+          function(error) {},
+          function() {
+            uploadTask.snapshot.ref
+              .getDownloadURL()
+              .then(function(downloadURL) {
+                console.log("File available at", downloadURL);
+              });
+          }
+        );
+        console.log(this.Image);
+      }
+    },
+    addSample(re) {
+      this.$refs[re].validate(valid => {
+        if (valid) {
+          if (!this.sample) {
+            this.$refs.uploadFile.submit();
+            console.log(this.Image);
+            if (this.Image) {
+              var _this = this;
+              _this.Image.forEach(element => {
+                _this.Sample.SampleImg += element + ";";
+              });
+            }
+            let date = new Date();
+            let v =
+              Math.random()
+                .toString(36)
+                .substring(2) + Date.now().toString(36);
+            db.ref("/SampleList/" + v.toString(16)).set(
+              {
+                SampleID: v,
+                SampleName: this.Sample.SampleName,
+                ProductName: this.Sample.ProductName,
+                ProductID: this.Sample.ProductID,
+                Batch: this.Sample.Batch,
+                TypeSample: this.Sample.TypeSample,
+                ProductOrder: this.Sample.ProductOrder,
+                Time: this.Sample.Time,
+                ProductDate: this.Sample.ProductDate.toLocaleString(),
+                Condition: this.Sample.Condition,
+                Original: this.Sample.Original,
+                Creator:
+                  "[" +
+                  Cookies.get("employeeCode") +
+                  "]" +
+                  "-" +
+                  Cookies.get("name"),
+                TimeCreate: date.toLocaleString(),
+                Status: 1,
+                SampleImg: this.Sample.SampleImg,
+                Note: this.Sample.Note
+              },
+              function(error) {
+                if (error) {
+                  console.log(error);
+                } else {
+                  console.log("tạo mẫu thành công");
+                }
+              }
+            );
+            this.$message({
+              message: "Tạo mẫu thành công",
+              type: "success"
+            });
+            this.$emit("SampleAdded");
+          } else {
+            let date = new Date();
+            db.ref("/SampleList/" + this.Sample.SampleID).update(
+              {
+                SampleID: this.Sample.SampleID,
+                SampleName: this.Sample.SampleName,
+                ProductName: this.Sample.ProductName,
+                ProductID: this.Sample.ProductID,
+                Batch: this.Sample.Batch,
+                TypeSample: this.Sample.TypeSample,
+                ProductOrder: this.Sample.ProductOrder,
+                Time: this.Sample.Time,
+                ProductDate: this.Sample.ProductDate.toLocaleString(),
+                Condition: this.Sample.Condition,
+                Original: this.Sample.Original,
+                Creator: this.Sample.Creator,
+                Updater: Cookies.get("idEmployee"),
+                TimeUpdate: date.toLocaleString(),
+                Status: 2,
+                Note: this.Sample.Note
+              },
+              function(error) {
+                if (error) {
+                  console.log(error);
+                } else {
+                  console.log("tạo mẫu thành công");
+                }
+              }
+            );
+            this.$message({
+              message: "Chỉnh sửa thành công",
+              type: "success"
+            });
+            this.$emit("SampleUpdated");
+          }
+        } else {
+          return false;
+        }
+      });
+    },
+    initForm() {
+      if (this.sample) {
+        (this.Sample.SampleID = this.sample.SampleID),
+          (this.Sample.ProductID = this.sample.ProductID),
+          (this.Sample.ProductDate = this.sample.ProductDate),
+          (this.Sample.Batch = this.sample.Batch),
+          (this.Sample.SampleName = this.sample.SampleName),
+          (this.Sample.Time = this.sample.Time),
+          (this.Sample.TypeSample = this.sample.TypeSample),
+          (this.Sample.ProductOrder = this.sample.ProductOrder),
+          (this.Sample.ProductName = this.sample.ProductName),
+          (this.Sample.Creator = this.sample.Creator),
+          (this.Sample.TimeCreate = this.sample.TimeCreate),
+          (this.Sample.Note = this.sample.Note),
+          (this.Sample.Condition = this.sample.Condition),
+          (this.Sample.Original = this.sample.Original),
+          (this.Sample.SampleImg = this.sample.SampleImg);
+      } else {
+        this.Sample = {
+          SampleID: "",
+          SampleName: "",
+          ProductName: "",
+          ProductID: "",
+          Batch: "",
+          Time: "",
+          TypeSample: "",
+          ProductDate: "",
+          ProductOrder: "",
+          Condition: "",
+          Original: "",
+          Creator: "",
+          TimeCreate: "",
+          Status: "",
+          SampleImg: "",
+          Note: ""
+        };
+      }
+    },
+    cancelup() {
+      this.$emit("cancel");
+    }
+  },
+  mounted() {},
+  watch: {
+    sample() {
+      this.initForm();
+    }
+  },
+  created() {
+    console.log(this.sample);
+    this.initForm();
+    var req = {
+      token: this.Token,
+      DateStart: this.DateStart,
+      DateEnd: this.DateEnd,
+      Search: ""
+    };
+    GetProductionOrder(req).then(res => {
+      if (res.RespCode == 0) {
+        this.ProductionOrderLst = res.ProductionOrderLst;
+      }
+    });
+  }
+};
+</script>
+<style>
+.el-dialog__body {
+  padding: 0px 10px;
+}
+@media screen and (max-width: 600px) {
+  .el-dialog {
+    -webkit-transform: none;
+    transform: none;
+    left: 0;
+    position: relative;
+    margin: 0 auto;
+    width: 95%;
+  }
+}
+.hideUpload > div {
+  display: none;
+}
+</style>

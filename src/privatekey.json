@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "cpchn-283608",
+  "private_key_id": "f29082e557442ca6e66dba4685d0ce7904d6a648",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQC2DQUdhtspRFfj\nB2hELGQpjlzgplWFw167HBS2xMUacOcZA2K3MJxkSMmjD/Wl4EzEwN4Zckcg0tB7\nvS2DdQl3JP/j9I1WTM7UX/dpO4tY22BGG5VAKPz5O2hUt48ZigxwrsuUrhgZ3V99\nRbCXqebp0f1pXEMo8kecExrhnhNujvRamuggK2fLlLNVGdOy129slxm1LR14eW79\n2D6vfOO5zJyPaukbjAYQ3RdzFBKVeak2eeYaerDxk80fKD8c0H30Tynwis4dVgc2\nXebDKB+agyLXLGhMRlULR6zOE4zxXpzRWJT3BxRpRa1WHKB+jzn+PPvWSIi1PNqM\nPvEsbNHfAgMBAAECggEADYYdFarxd/jUQJDJzZqwnCevvZ6NpuCzFlpJLaSjccnm\nWQTX3fz1+TsxA3SJjpeBjHI5bZGAOC+A/lg429WjbN7qRYBiyYDuMneolQAv41t0\npPCin0AMPuWLZBO4xTBsqShLBlICh1VbJR66tiGQflkzppKMiKuq5yzCJ/WKwwEq\nH7RD2TAYNK1w2HdizydFKPjh1aoocCMlWsV0JxvfHU3ySXDaBb1CSsgMISHOfdJK\no3sLQbFFNbSKfrOeFRW1oZ5pEBg1TEjWyRNoBbbO14NEz9DYN8Amyoj1Bc3EGH19\nN6qMfYicIHCAxbKIZM4PiqSNXzLD4Fdzq1k8RkjpDQKBgQD+/HHOLRW2YUKopJ8e\nnuudnS/QQ/8iYlVNmoBk6f7gcKoEChQQMwQ/RpjrItXTq/pG1ih6U+P71oeB2Dqn\nxMs4KHIUXqSJQxAFoEOSs5AIACsYXGUa1emKwoPbG4BtVEyMAXFkYE7YZ5lHbElB\n1zx8j9O95x2mMp33lS0H3JmRSwKBgQC2xlVLaAGBvA2NIE+gnvj5oQXp2Ag/RWHq\ncXjFhhNxGIuZXjyOybO1OavzQGSLwVynxXpe4WeSbbH462ATWZvpT97w/4wEGN3B\nwVDgxDmz8P6ov/FyL8Ad/IhsdjG+xMQnNEvTRqgpcTHr25y7NUXxsCKEYdf74Dow\nj81WNcK5PQKBgHFXLxMRUURnSSUDP8NxqpO9ygIOJ3tWMEq1cXrp1CRZkAkJnc9x\njeK+c7yZGGjlWfNgwE9XuNA5lLQvtCrcu+Qzfjn1s7dbuuR1T3QHIu+be4xxjXN3\nQD8wpUGgoN54CSp2fbu7X3Cr5CMuTAXbMYTAvcL8114Hw9XIVmLXON+vAoGAFpcE\ny8EbDpHTivHHZa7ATvob5P8SZd+JbpR/vMoJdRz3hAklqvA7CdcK7ZGz26IWdZXu\nvfNV/b8ZFA7jXQDiSD/a6iZrg8YfAmeGO4GFMDxE/U5b5SUJtasUoXMqSs2/AKly\nBbbh6d1XsjL+eBTphCmk2n/NVhAsoPvlARa77nECgYBpEzRnYThu1ZTCT0BnpLaT\nJ+QWy0S2lDT6zBndNNUPdLm0nZG7FfpGs6pxpjcuflzhtX3eQ9RaKNw5SG0zcPzQ\nhG79jFZKQT3O3UTZ0Wf9kk5PRtTlK9dy7PmFyijRnnLs5swa70+mk/Rz1wSs8J8/\nOvrJjJtPVBtjmUNaOz+fXA==\n-----END PRIVATE KEY-----\n",
+  "client_email": "roleplay@cpchn-283608.iam.gserviceaccount.com",
+  "client_id": "115008239632844038091",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/roleplay%40cpchn-283608.iam.gserviceaccount.com"
+}
