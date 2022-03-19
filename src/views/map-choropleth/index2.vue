@@ -2,129 +2,35 @@
   <div v-loading="loading">
     <header-modal
       v-model="value"
+      :items="itemLst"
+      @viewChart="isShowBoxRight = !isShowBoxRight"
       :levelLst="levelLst"
       @changeSetting="changeSetting"
-      @viewChart="isShowBoxRight = !isShowBoxRight"
     />
 
     <!-- <el-container class="box-container"> -->
-    <el-row>
-      <el-col :xs="24" :sm="24" :lg="isShowBoxRight ? 17 : 24">
-        <l-map
-          :zoom="zoom"
-          :center="center"
-          @update:zoom="zoomend"
-          class="map-container"
-        >
-          <!-- <l-tile-layer :url="url" :attribution="attribution" /> -->
-          <l-wms-tile-layer
-            key="Weather Data"
-            base-url="https://osm.datagalaxy.one/gwc/wms?tiled=true"
-            layers="osm:osm"
-            :visible="true"
-            name="Weather Data"
-            attribution="wmsLayer.attribution"
-            :transparent="true"
-            format="image/png8"
-            layer-type="base"
-          >
-          </l-wms-tile-layer>
-          <l-geo-json
-            v-if="show"
-            :geojson="geojson"
-            :options="options"
-            :options-style="styleFunction"
-          />
-          <l-circle-marker
-            :lat-lng="[10.95785464, 105.1138759]"
-            :radius="1"
-            :fill="false"
-            :stroke="false"
-            text="Xã Khánh An"
-            color="#000000"
-          />
-          <!-- <l-control position="topright">
-              <el-select
-                size="small"
-                style="width:100%"
-                v-model="select"
-                placeholder="Chọn hình thức"
-              >
-                <el-option
-                  v-for="item in typeLst"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.label"
-                >
-                </el-option>
-              </el-select>
-            </l-control> -->
-          <l-control position="bottomleft">
-            <div class="control-bottom-left">
-              <div class="level" v-for="(item, index) in levelLst" :key="index">
-                <div
-                  class="color"
-                  :style="'background-color:' + item.color"
-                ></div>
-                <el-tooltip effect="light" :content="item.des">
-                  <div class="text">{{ item.label }}</div></el-tooltip
-                >
-              </div>
-            </div>
-          </l-control>
-          <!-- <l-marker :lat-lng="marker" /> -->
-          <v-marker-cluster
-            ref="cluster"
-            :averageCenter="true"
-            :ignoreHidden="true"
-          >
-            <restaurant
-              v-for="marker in places"
-              :key="marker.id"
-              :marker="marker"
-            >
-            </restaurant>
-          </v-marker-cluster>
-        </l-map>
-      </el-col>
-      <transition name="el-zoom-in-center">
-        <el-col :xs="24" :sm="24" :lg="7" v-show="isShowBoxRight">
-          <!-- <el-aside width="400px" class="box-right"> -->
-          <div class="box-right">
-            <chart :value="value" :data="dataChart" />
-            <content-modal :data="dataUnitLst" />
-          </div>
-
-          <!-- </el-aside> -->
-        </el-col>
-      </transition>
-    </el-row>
+    <div class="blank-table">
+      Tính năng đang được cập nhật! Vui lòng thử lại sau
+    </div>
     <!-- </el-container> -->
   </div>
 </template>
 
 <script>
-import Chart from "./component/chart-modal";
-import ContentModal from "./component/content-modal";
-import HeaderModal from "./component/header-modal";
-import { pointCommunes } from "./data/CommitteesCommunes";
-import { pointDistricts } from "./data/CommitteesDistrict";
-import { pointProvinces } from "./data/CommitteesProvince";
+import Chart from "./component2/chart-modal";
+import ContentModal from "./component2/content-modal";
+import HeaderModal from "./component2/header-modal";
 import ClusterIcon from "./component2/cluser-icon";
 import Restaurant from "./component2/restaurant";
 import Vue2LeafletMarkerCluster from "vue2-leaflet-markercluster";
-import "./component2/leaflet.css";
-import "./component2/MarkerCluster.css";
-import "./component2/MarkerCluster.Default.css";
+import { GetItemFast } from "@/api/product";
+import { GetPlaceByCity } from "@/api/KDPlace";
 import { latLng } from "leaflet";
-//import { GetPlaceByCity } from "@/api/KDPlace";
-
 import {
   GetPlaceCover,
   GetProductCover,
   GetCallCover,
-  GetPlaceCoverUnit,
-  GetPlaceByCityCover
+  GetPlaceCoverUnit
 } from "@/api/cover";
 import {
   LMap,
@@ -136,6 +42,9 @@ import {
   LWMSTileLayer,
   LCircleMarker
 } from "vue2-leaflet";
+import "./component2/leaflet.css";
+import "./component2/MarkerCluster.css";
+import "./component2/MarkerCluster.Default.css";
 export default {
   name: "Example",
   components: {
@@ -157,27 +66,27 @@ export default {
   data() {
     return {
       loading: false,
+      isShowBoxRight: false,
       show: true,
       enableTooltip: true,
-      isShowBoxRight: true,
       zoom: 10,
       center: [16.0769838, 108.2347863],
-      dataKH: [],
+      dataProduct: [],
       dataUnitLst: [],
       dataChart: [],
+      itemLst: [],
       places: [],
       geojson: null,
       fillColor: "#e4ce7f",
       value: {
-        type: "Đánh giá độ phủ khách hàng",
+        type: "Đánh giá độ phủ Laforin Daily - Hộp 1 lọ 500ml",
         city: "Thành phố Hà Nội",
         district: "",
-        typeKH: "",
-        code: "geomap_ward"
+        product: "",
+        month: new Date()
       },
-      url:
-        "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
-      attribution: "",
+      url: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+      attribution: '&copy; <a href="https://cpc1hn.com.vn/">CPC1HN</a>',
       marker: latLng(21.0819, 105.6363),
       select: "",
       levelLst: [
@@ -227,21 +136,40 @@ export default {
           label: "Độ phủ sản phẩm"
         }
       ]
+      // clusterOptions: {
+      //   spiderfyDistanceMultiplier: 3,
+      //   iconCreateFunction: cluster => {
+      //     console.log("a");
+
+      //     console.log(cluster);
+      //     let clusterUsers = cluster
+      //       .getAllChildMarkers()
+      //       .map(marker => console.log(marker));
+      //     let clusterIconEl = new EnhancedClusterIcon({
+      //       propsData: { clusterUsers }
+      //     }).$mount().$el;
+      //     return divIcon({
+      //       html: clusterIconEl.outerHTML,
+      //       className: "cluster",
+      //       iconSize: null
+      //     });
+      //   }
+      // }
     };
   },
   methods: {
     getColor(d) {
       let color = "";
-      this.dataKH.forEach(element => {
+      this.dataProduct.forEach(element => {
         if (element.CommuneCode == d) {
           color =
-            element.CountPlace >= this.levelLst[3].count
+            element.Amount >= this.levelLst[3].count
               ? this.levelLst[3].color
-              : element.CountPlace >= this.levelLst[2].count
+              : element.Amount >= this.levelLst[2].count
               ? this.levelLst[2].color
-              : element.CountPlace >= this.levelLst[1].count
+              : element.Amount >= this.levelLst[1].count
               ? this.levelLst[1].color
-              : element.CountPlace >= this.levelLst[0].count
+              : element.Amount >= this.levelLst[0].count
               ? this.levelLst[0].color
               : this.levelLst[4].color;
         }
@@ -254,35 +182,41 @@ export default {
       const req = {
         City: this.value.city,
         District: this.value.district,
-        Type: this.value.typeKH
+        ProductID: this.value.product,
+        Month: this.value.month
+          ? Date.parse(this.value.month).toString("MM")
+          : "",
+        Year: this.value.month
+          ? Date.parse(this.value.month).toString("yyyy")
+          : ""
       };
-      GetPlaceCover(req).then(res => {
+      GetProductCover(req).then(res => {
         if (res.RespCode == 0) {
-          this.dataKH = res.Data;
+          this.dataProduct = res.Data;
           let num1 = 0;
           let num2 = 0;
           let num3 = 0;
           let num4 = 0;
           let num0 = 0;
           let data = [];
-          this.dataKH.forEach(i => {
+          this.dataProduct.forEach(i => {
             if (
-              i.CountPlace >= this.levelLst[0].count &&
-              i.CountPlace < this.levelLst[1].count
+              i.Amount >= this.levelLst[0].count &&
+              i.Amount < this.levelLst[1].count
             )
               num1++;
             else if (
-              i.CountPlace >= this.levelLst[1].count &&
-              i.CountPlace < this.levelLst[2].count
+              i.Amount >= this.levelLst[1].count &&
+              i.Amount < this.levelLst[2].count
             )
               num2++;
             else if (
-              i.CountPlace >= this.levelLst[2].count &&
-              i.CountPlace < this.levelLst[3].count
+              i.Amount >= this.levelLst[2].count &&
+              i.Amount < this.levelLst[3].count
             )
               num3++;
-            else if (i.CountPlace >= this.levelLst[3].count) num4++;
-            else if (i.CountPlace < this.levelLst[0].count) num0++;
+            else if (i.Amount >= this.levelLst[3].count) num4++;
+            else if (i.Amount < this.levelLst[0].count) num0++;
           });
 
           data.push(
@@ -290,12 +224,11 @@ export default {
             { value: num2, name: "Cấp 2" },
             { value: num3, name: "Cấp 3" },
             { value: num4, name: "Cấp 4" },
-            { value: num0, name: "Chưa rõ" }
+            { value: num0, name: "Chưa có" }
           );
           this.dataChart = data;
           this.fetchGeoJson(this.value.code);
           this.fetchDataUnit();
-          this.fetchPlace();
         }
       });
     },
@@ -304,9 +237,16 @@ export default {
         City: this.value.city,
         District: this.value.district
       };
-      GetPlaceCoverUnit(req).then(res => {
+      // GetProductCoverUnit(req).then(res => {
+      //   if (res.RespCode == 0) {
+      //     this.dataUnitLst = res.Data;
+      //   }
+      // });
+    },
+    fetchProduct() {
+      GetItemFast().then(res => {
         if (res.RespCode == 0) {
-          this.dataUnitLst = res.Data;
+          this.itemLst = res.ItemLst;
         }
       });
     },
@@ -334,25 +274,25 @@ export default {
         if (this.value.code.length == 3) this.zoom = 10;
         if (this.value.code.length == 5) this.zoom = 12;
       }
-    },
-    changeSetting(val) {
-      this.levelLst = val;
-      this.fetchData();
+
+      this.loading = false;
     },
     fetchPlace() {
       const req = {
-        City: this.value.city,
-        District: this.value.district,
-        Type: this.value.typeKH
+        CityName: this.value.city,
+        Search: "",
+        PType: "",
+        NumberRow: null,
+        PageNumber: null
       };
-      GetPlaceByCityCover(req).then(res => {
+      GetPlaceByCity(req).then(res => {
         if (res.RespCode == 0) {
           let arr = [];
-          res.Data.forEach(e => {
+          res.PlaceLst.forEach(e => {
             let obj = {
               name: e.PlaceName,
-              id: e.PlaceID,
-              coordinates: [e.Latitude, e.Longtitude],
+              id: e.PlaceId,
+              coordinates: [e.Latitude, e.Longitude],
               grade: "",
               imageUrl: ""
             };
@@ -385,19 +325,20 @@ export default {
               obj.imageUrl = "/icon-map/phong_kham.png";
             } else if (
               e.Type == "Trung tâm y tế" ||
+              e.Type == "Trạm y tế" ||
               e.Type == "Sở y tế" ||
               e.Type == "Bảo hiểm xã hội Tỉnh/TP"
             ) {
               obj.imageUrl = "/icon-map/tt_y_te.png";
-            } else if (e.Type == "Trạm y tế") {
-              obj.imageUrl = "/icon-map/tram_y_te.png";
             }
             arr.push(obj);
           });
           this.places = arr;
-          this.loading = false;
         }
       });
+    },
+    changeSetting(val) {
+      this.fetchData();
     }
   },
   computed: {
@@ -456,24 +397,28 @@ export default {
     },
     "value.city"(newVal, oldVal) {
       this.value.city = newVal;
+      this.fetchPlace();
       this.fetchData();
       this.fetchDataUnit();
     },
-    "value.typeKH"(newVal, oldVal) {
-      this.value.typeKH = newVal;
+    "value.product"(newVal, oldVal) {
+      this.value.product = newVal;
       this.fetchData();
-      this.fetchDataUnit();
     },
-    "value.code"(newVal, oldVal) {
-      this.value.code = newVal;
+    "value.month"(newVal, oldVal) {
+      this.value.month = newVal;
+      this.fetchData();
     }
   },
   created() {
     this.fetchData();
+    this.fetchProduct();
+    this.fetchPlace();
   }
 };
 </script>
 <style lang="scss" scoped>
+@import "~leaflet.markercluster/dist/MarkerCluster.css";
 .map-container {
   min-height: calc(100vh - 90px);
   .control-bottom-left {

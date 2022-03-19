@@ -141,6 +141,11 @@
             [{{ scope.row.PlaceID }}] {{ scope.row.PlaceName }}
           </template>
         </el-table-column>
+        <el-table-column label="Tỉnh" min-width="150">
+          <template slot-scope="scope">
+            {{ scope.row.City }}
+          </template>
+        </el-table-column>
         <el-table-column label="Loại" width="180">
           <template slot-scope="scope">
             {{ scope.row.TypeNote }}
@@ -311,6 +316,7 @@ export default {
       this.downloading = true;
       const tHeader = [
         "Khách hàng",
+        "Tỉnh thành",
         "Mã",
         "Loại",
         "Lời nhắc",
@@ -324,6 +330,7 @@ export default {
       ];
       const filterHeader = [
         "PlaceName",
+        "City",
         "PlaceID",
         "TypeNote",
         "Note",

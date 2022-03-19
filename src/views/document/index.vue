@@ -209,6 +209,14 @@
                       tiết</el-button
                     ></el-dropdown-item
                   >
+                  <el-dropdown-item v-if="scope.row.ReviewDes">
+                    <el-button
+                      style="width: 100%;color: #58ACFA;"
+                      size="mini"
+                      @click="view(scope.row, '9')"
+                      ><i class="el-icon-tickets"></i>Mẹo sản phẩm</el-button
+                    ></el-dropdown-item
+                  >
                   <el-dropdown-item v-if="scope.row.Link">
                     <el-button
                       style="width: 100%;color: #58ACFA;"

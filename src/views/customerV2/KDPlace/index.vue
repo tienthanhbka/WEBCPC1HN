@@ -6,7 +6,7 @@
           <el-button
             @click="createPlace"
             icon="far fa-address-book"
-            class="pan-btn blue-btn"
+            type="primary"
             >&#32;Tạo mới tổ chức
           </el-button>
           <el-input
@@ -23,9 +23,14 @@
             {{ QuanityDell }}/{{ SumDell }}
           </span>
           <el-button
-            @click="deleteAllPlace"
-            icon="el-icon-delete"
-            class="pan-btn red-btn"
+            v-if="otc == 29"
+            @click="exportExcel"
+            :loading="downloading"
+            icon="fas fa-file-excel"
+            type="success"
+            >&#32;Xuất Excel
+          </el-button>
+          <el-button @click="deleteAllPlace" icon="el-icon-delete" type="danger"
             >&#32;Xóa nhiều
           </el-button>
         </div>
@@ -225,7 +230,7 @@ import CreatePlace from "@/views/customerV2/component/createPlace";
 import PlaceSys from "@/views/customerV2/component/createPlaceSys";
 import DelPlace from "@/views/customerV2/component/deletePlace";
 import Customer from "@/views/customerV2/KDCustomer/index";
-import { GetPlaceByUId, DelPlaceByPId } from "@/api/KDPlace";
+import { GetPlaceByUId, DelPlaceByPId, GetPlaceByAdmin } from "@/api/KDPlace";
 
 import Cookies from "js-cookie";
 export default {
@@ -242,6 +247,7 @@ export default {
       emLst: [],
       token: Cookies.get("token"),
       UserName: Cookies.get("idEmployee"),
+      otc: Cookies.get("otc"),
       isLoading: false,
       btnLoading: false,
       tableData: [],
@@ -252,6 +258,7 @@ export default {
       dialogFormSys: false,
       dialogFormUpload: false,
       dialogFormCustomer: false,
+      downloading: false,
       rowData: "",
       row: "",
       file: "",
@@ -371,6 +378,63 @@ export default {
       this.rowData = row;
       this.dialogFormCustomer = true;
       this.dialogTitle = "Danh sách KHCN: " + row.PlaceName;
+    },
+    exportExcel() {
+      this.downloading = true;
+      GetPlaceByAdmin().then(res => {
+        if (res.RespCode == 0) {
+          const tHeader = [
+            "Mã KH",
+            "Tên KH",
+            "Loại",
+            "Tỉnh/ Thành phố",
+            "Quận/ Huyện",
+            "Xã/ Phường/ Thị Trấn",
+            "Địa chỉ",
+            "Miền",
+            "Kinh độ",
+            "Vĩ độ",
+            "Thời gian tạo"
+          ];
+          const filterHeader = [
+            "PlaceID",
+            "PlaceName",
+            "Type",
+            "AddrLv1",
+            "AddrLv2",
+            "AddrLv3",
+            "Address",
+            "Area",
+            "Latitude",
+            "Longtitude",
+            "Time"
+          ];
+
+          import("@/vendor/Export2Excel").then(excel => {
+            excel.export_json_to_excel({
+              header: tHeader,
+              data: this.formatJson(filterHeader, res.Data),
+              filename:
+                "Danh sách khách hàng chuẩn hóa " +
+                Date.parse(new Date()).toString("dd/MM/yyyy"),
+              autoWidth: true,
+              bookType: "xlsx"
+            });
+            this.downloading = false;
+          });
+        }
+      });
+    },
+    formatJson(filterVal, jsonData) {
+      return jsonData.map(v =>
+        filterVal.map(j => {
+          if (j === "Status") {
+            return this.$options.filters.missionStatusText(v[j]);
+          } else {
+            return v[j];
+          }
+        })
+      );
     }
   },
   created() {

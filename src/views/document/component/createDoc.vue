@@ -180,6 +180,10 @@
         <div slot="label">Thông tin chi tiết</div>
         <tiny-mce v-model="form.ProductDes"></tiny-mce>
       </el-form-item>
+      <el-form-item v-if="form.ProductType == 1">
+        <div slot="label">Mẹo sản phẩm</div>
+        <tiny-mce v-model="form.ReviewDes"></tiny-mce>
+      </el-form-item>
       <el-form-item label="Sản phẩm" v-if="form.ProductType == 1">
         <el-select
           @change="changePro"
@@ -286,6 +290,7 @@ export default {
         Image: "",
         Catalogue: "",
         ProductDes: "",
+        ReviewDes: "",
         ProductLst: []
       },
       lstType: [
@@ -550,6 +555,7 @@ export default {
         this.form.Link = this.row.Link;
         this.form.Catalogue = this.row.Catalogue;
         this.form.ProductDes = this.row.ProductDes;
+        this.form.ReviewDes = this.row.ReviewDes;
         this.form.ProductLst = this.row.ProductLst ? this.row.ProductLst : [];
         this.officeLst = this.row.Office ? this.row.Office.split(";;") : [];
       } else {
@@ -565,6 +571,7 @@ export default {
         this.form.Image = "";
         this.form.Catalogue = "";
         this.form.ProductDes = "";
+        this.form.ReviewDes = "";
         this.form.ProductLst = [];
 
         this.officeLst = [];

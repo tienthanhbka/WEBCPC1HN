@@ -418,31 +418,32 @@ export default {
           DocumentID: this.row.RowID
         };
         GetDetailHandOver(req).then(res => {
-          (this.form.RowID = res.HandOverInfo.RowID),
-            (this.form.IDGroup = res.HandOverInfo.IDGroup),
-            (this.form.DateStart = res.HandOverInfo.DateStart),
-            (this.form.DateEnd = res.HandOverInfo.DateEnd),
-            (this.form.Reason = res.HandOverInfo.Reason),
-            (this.form.Email = res.HandOverInfo.Email
-              ? res.HandOverInfo.Email.split(";")
-              : []),
-            (this.form.HandOverLineLst = res.HandOverInfo.HandOverLineLst),
-            (this.lines = this.form.HandOverLineLst.map(item => {
-              return {
-                TypeHandOver: item.TypeHandOver,
-                currentComponent: "type" + item.TypeHandOver,
-                HandOver: item.HandOver,
-                Unit: item.Unit,
-                Number: item.Number,
-                CurrentStatus: item.CurrentStatus,
-                LinkFile: item.LinkFile,
-                Address: item.Address,
-                Phone: item.Phone,
-                StepNext: item.StepNext,
-                Note: item.Note,
-                EmployeeIDNext: item.EmployeeIDNext
-              };
-            }));
+          this.form.RowID = res.HandOverInfo.RowID;
+          this.form.IDGroup = res.HandOverInfo.IDGroup;
+          this.form.DateStart = res.HandOverInfo.DateStart;
+          this.form.DateEnd = res.HandOverInfo.DateEnd;
+          this.form.Reason = res.HandOverInfo.Reason;
+          this.form.Email = res.HandOverInfo.Email
+            ? res.HandOverInfo.Email.split(";")
+            : [];
+          this.form.HandOverLineLst = res.HandOverInfo.HandOverLineLst;
+          this.lines = this.form.HandOverLineLst.map(item => {
+            return {
+              TypeHandOver: item.TypeHandOver,
+              currentComponent: "type" + item.TypeHandOver,
+              HandOver: item.HandOver,
+              Unit: item.Unit,
+              Number: item.Number,
+              CurrentStatus: item.CurrentStatus,
+              LinkFile: item.LinkFile,
+              Address: item.Address,
+              Phone: item.Phone,
+              StepNext: item.StepNext,
+              Note: item.Note,
+              EmployeeIDNext: item.EmployeeIDNext
+            };
+          });
+          if (this.lines.length == 0) this.addLine();
         });
       } else {
         this.clear();

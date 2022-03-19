@@ -90,7 +90,7 @@
       <el-form-item label="Lời nhắc" prop="Note">
         <contenteditable
           tag="p"
-          :contenteditable="mode < 2 ? isDisable : !isDisable"
+          :contenteditable="mode <= 2 ? isDisable : !isDisable"
           v-model="form.Note"
           class="t-hover"
           t-placeholder="Nhập ghi chú..."

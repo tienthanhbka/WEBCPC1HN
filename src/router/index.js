@@ -545,6 +545,12 @@ export const constantRoutes = [
             name: "productLocation",
             component: () => import("@/views/invoice/product-location/index"),
             meta: { title: "Độ phủ", icon: "fas fa-chart-area" }
+          },
+          {
+            path: "/business/brand-sale",
+            name: "Đơn hàng thưởng",
+            component: () => import("@/views/invoice/brand-sale/index"),
+            meta: { title: "Đơn hàng thưởng", icon: "fas fa-gifts" }
           }
         ]
       },
@@ -1103,13 +1109,13 @@ export const constantRoutes = [
       {
         path: "product",
         name: "Sản phẩm",
-        component: () => import("@/views/map-choropleth/index"),
+        component: () => import("@/views/map-choropleth/index2"),
         meta: { title: "Sản phẩm", icon: "fas fa-pills" }
       },
       {
         path: "call",
         name: "Cung tuyến",
-        component: () => import("@/views/map-choropleth/index"),
+        component: () => import("@/views/map-choropleth/index2"),
         meta: { title: "Cung tuyến", icon: "fas fa-project-diagram" }
       }
     ]
@@ -2754,6 +2760,13 @@ export const constantRoutes = [
         hidden:true,
         component: () => import("@/views/appview/vote/index"),
         meta: { title: "Bình chọn", icon: "fas fa-users" }
+      },
+      {
+        path: "/appview/brand-sale/:username/:token",
+        name: "Đơn hàng nhãn",
+        hidden:true,
+        component: () => import("@/views/appview/brand-sale/index"),
+        meta: { title: "Đơn hàng nhãn", icon: "fas fa-users" }
       }
     ]
   },

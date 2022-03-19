@@ -36,3 +36,17 @@ export function GetSaleHeaderByCustomer(data) {
       data: data
     })
   }
+  export function GetBranchSaleByEmInDay(data) {
+    return requestT({
+      url: 'Sales/GetBranchSaleByEmInDay',
+      method: 'post',
+      data: data
+    })
+  }
+  export function GetBranchSaleByAdmin(data) {
+    return requestT({
+      url: 'Sales/GetBranchSaleByAdmin',
+      method: 'post',
+      data: data
+    })
+  }

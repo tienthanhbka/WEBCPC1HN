@@ -29,7 +29,7 @@
     "core-js": "^2.6.12",
     "datejs": "^1.0.0-rc3",
     "echarts": "^4.9.0",
-    "element-ui": "^2.14.1",
+    "element-ui": "^2.15.7",
     "file-saver": "^2.0.5",
     "firebase": "^6.6.2",
     "googleapis": "^51.0.0",
@@ -47,6 +47,7 @@
     "register-service-worker": "^1.7.1",
     "vue": "^2.6.10",
     "vue-analytics": "^5.22.1",
+    "vue-choropleth": "^0.3.1",
     "vue-cleave-component": "^2.1.3",
     "vue-contenteditable": "^1.0.2",
     "vue-core-video-player": "^0.1.12",
@@ -58,10 +59,11 @@
     "vue-router": "3.0.6",
     "vue-splitpane": "^1.0.6",
     "vue2-google-maps": "^0.10.7",
+    "vue2-leaflet": "^2.7.1",
+    "vue2-leaflet-fullscreen": "^1.0.1",
+    "vue2-leaflet-markercluster": "^3.1.0",
     "vuex": "3.1.0",
-    "xlsx": "^0.14.5",
-    "vue-choropleth": "^0.3.1",
-    "vue2-leaflet": "^2.7.1"
+    "xlsx": "^0.14.5"
   },
   "devDependencies": {
     "@babel/core": "7.0.0",

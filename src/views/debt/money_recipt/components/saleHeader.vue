@@ -5,10 +5,7 @@
       content="Thêm hóa đơn trong phiếu"
       placement="top"
     >
-      <el-button
-        @click="openModal"
-        style="position:absolute;left:0; color: red;
-    padding: 16px 18px;"
+      <el-button @click="openModal" style=" color: red;padding: 16px 18px;"
         ><i class="fas fa-plus"></i
       ></el-button>
     </el-tooltip>

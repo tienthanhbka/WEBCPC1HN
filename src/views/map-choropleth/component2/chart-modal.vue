@@ -49,7 +49,11 @@ export default {
           trigger: "item",
           formatter: "{a} <br/>{b} : {c} ({d}%)"
         },
-
+        legend: {
+          orient: "vertical",
+          left: "left",
+          data: ["Cấp 1", "Cấp 2", "Cấp 3", "Cấp 4", "Chưa có"]
+        },
         series: [
           {
             name: this.value.type,

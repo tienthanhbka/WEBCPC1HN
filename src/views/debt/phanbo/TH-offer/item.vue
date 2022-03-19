@@ -5,11 +5,7 @@
       content="Thêm sản phẩm"
       placement="top"
     >
-      <el-button
-        style="position:absolute;left:0; color: #16a085;
-    padding: 16px 18px;"
-        @click="openModal"
-      >
+      <el-button style="color: #16a085;padding: 16px 18px;" @click="openModal">
         <i class="fas fa-plus"></i>
       </el-button>
     </el-tooltip>

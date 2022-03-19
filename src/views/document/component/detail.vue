@@ -92,7 +92,17 @@
           link
         }}</el-link>
       </el-tab-pane>
-      <el-tab-pane label="Phản hồi" name="9">
+      <el-tab-pane label="Mẹo sản phẩm" name="9">
+        <div v-if="reviewDes" class="product-content">
+          <el-card shadow="always">
+            <div class="content-edit" v-html="reviewDes"></div>
+          </el-card>
+        </div>
+        <div class="blank-table" v-else>
+          Không có dữ liệu
+        </div>
+      </el-tab-pane>
+      <el-tab-pane label="Phản hồi" name="10">
         <div class="blank-table">
           Không có dữ liệu
         </div>
@@ -119,7 +129,8 @@ export default {
       video: "",
       catalogue: "",
       link: "",
-      productDes: ""
+      productDes: "",
+      reviewDes: ""
     };
   },
   methods: {
@@ -133,6 +144,7 @@ export default {
         this.slide = "";
         this.link = "";
         this.productDes = "";
+        this.reviewDes = "";
         const imgs = this.row.Image ? this.row.Image.split(";") : [];
         if (imgs.length > 0) {
           this.imgLst = imgs.map(
@@ -175,6 +187,7 @@ export default {
         this.video = this.row.Video ? this.row.Video : "";
         this.link = this.row.Link ? this.row.Link : "";
         this.productDes = this.row.ProductDes ? this.row.ProductDes : "";
+        this.reviewDes = this.row.ReviewDes ? this.row.ReviewDes : "";
       }
     }
   },

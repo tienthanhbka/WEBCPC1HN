@@ -106,10 +106,10 @@ export default {
   props: {},
   filters: {
     toTypeData(val) {
-      if (val === 1) {
+      if (val === 2) {
         return "Đơn hàng";
       }
-      if (val === 2) {
+      if (val === 1) {
         return "Call";
       }
     }

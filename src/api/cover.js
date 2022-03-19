@@ -27,3 +27,10 @@ export function GetPlaceCover(data) {
       data:data
     })
   }
+  export function GetPlaceByCityCover(data) {
+    return requestT({
+      url: 'Cover/GetPlaceByCityCover',
+      method: 'post',
+      data:data
+    })
+  }

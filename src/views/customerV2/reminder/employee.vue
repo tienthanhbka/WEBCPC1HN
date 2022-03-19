@@ -60,6 +60,11 @@
             {{ scope.row.GroupID }}
           </template>
         </el-table-column>
+        <el-table-column label="Tỉnh" min-width="150">
+          <template slot-scope="scope">
+            {{ scope.row.City }}
+          </template>
+        </el-table-column>
         <el-table-column label="Khách hàng" min-width="200">
           <template slot-scope="scope">
             [{{ scope.row.PlaceID }}] {{ scope.row.PlaceName }}

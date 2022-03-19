@@ -1,5 +1,6 @@
 import requestApp from '@/utils/requestApp'
 import request from '@/utils/requestApp'
+import requestT from '@/utils/requestT'
 export function GetPlaceByPId(data) {
   return requestApp({
     url: 'Place/GetPlaceByPId',
@@ -74,6 +75,13 @@ export function GetPlaceByUId(data) {
   export function GetPlaceByMId(data) {
     return requestApp({
       url: 'Place/GetPlaceByMId',
+      method: 'post',
+      data: data
+    })
+  }
+  export function GetPlaceByAdmin(data) {
+    return requestT({
+      url: 'Customer/GetPlaceByAdmin',
       method: 'post',
       data: data
     })

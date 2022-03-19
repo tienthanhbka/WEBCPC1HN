@@ -1,70 +1,76 @@
 <template>
   <div class="header-box">
-    <div class="box-left inline-block">
-      <div class="inline-block">
-        <el-select
-          filterable
-          clearable
-          v-model="value.city"
-          placeholder="Tỉnh thành"
-          @change="changeCity"
-          size="small"
+    <div class="inline-block">
+      <el-select
+        filterable
+        clearable
+        v-model="value.city"
+        placeholder="Tỉnh thành"
+        @change="changeCity"
+        size="small"
+      >
+        <el-option
+          v-for="item in cityLst"
+          :key="item.city"
+          :label="item.city"
+          :value="item"
         >
-          <el-option
-            v-for="item in cityLst"
-            :key="item.city"
-            :label="item.city"
-            :value="item"
-          >
-          </el-option>
-        </el-select>
-      </div>
-      <div class="inline-block">
-        <el-select
-          v-model="value.district"
-          filterable
-          clearable
-          @change="changeDistrict"
-          placeholder="Quận huyện"
-          size="small"
-        >
-          <el-option
-            v-for="item in districtLst"
-            :key="item.District"
-            :label="item.District"
-            :value="item"
-          >
-          </el-option>
-        </el-select>
-      </div>
-      <div class="inline-block">
-        <el-popover placement="bottom" trigger="click">
-          <el-select
-            v-model="value.typeKH"
-            placeholder="Chọn loại khách hàng"
-            filterable
-            clearable
-            size="small"
-          >
-            <el-option
-              v-for="item in typeKHLst"
-              :key="item.value"
-              :label="item.label"
-              :value="item.label"
-            >
-            </el-option>
-          </el-select>
-          <el-button
-            type="success"
-            slot="reference"
-            icon="fas fa-filter"
-            size="small"
-          ></el-button>
-        </el-popover>
-      </div>
+        </el-option>
+      </el-select>
     </div>
-
-    <div class=" box-right inline-block">
+    <div class="inline-block">
+      <el-select
+        v-model="value.district"
+        filterable
+        clearable
+        @change="changeDistrict"
+        placeholder="Quận huyện"
+        size="small"
+      >
+        <el-option
+          v-for="item in districtLst"
+          :key="item.District"
+          :label="item.District"
+          :value="item"
+        >
+        </el-option>
+      </el-select>
+    </div>
+    <div class=" box-right ">
+      <!-- <div class="inline-block">
+        <el-select
+          v-model="value.product"
+          placeholder="Chọn sản phẩm"
+          filterable
+          clearable
+          size="small"
+        >
+          <el-option
+            v-for="item in items"
+            :key="item.ProductID"
+            :label="item.ProductName"
+            :value="item.ProductID"
+          >
+            <span style="float: left">{{ item.ProductName }}</span>
+            <span style="float: right; color: #8492a6; font-size: 10px">{{
+              item.ProductID
+            }}</span>
+          </el-option>
+        </el-select>
+      </div>
+      <div class="inline-block">
+        <el-date-picker
+          size="small"
+          v-model="value.month"
+          type="month"
+          value-format="MM-yyyy"
+          placeholder="Chọn tháng"
+          value="2019-07"
+        >
+        </el-date-picker>
+      </div> -->
+      <!-- </div>
+    <div class=" inline-block box-right"> -->
       <div class="inline-block">
         <el-button
           type="success"
@@ -81,6 +87,7 @@
           size="small"
         ></el-button>
       </div>
+      <div style="clear:both"></div>
     </div>
     <div style="clear:both"></div>
     <el-drawer title="Cài đặt" :visible.sync="showDrawer" direction="rtl">
@@ -91,10 +98,9 @@
 
 <script>
 import { GetCity, GetDistrictByCity } from "@/api/default";
-import Setting from "../component2/map-setting";
-
+import Setting from "./map-setting";
 export default {
-  props: ["value", "levelLst"],
+  props: ["value", "items", "levelLst"],
   components: { Setting },
   watch: {
     value() {
@@ -125,7 +131,7 @@ export default {
       typeKHLst: [
         {
           value: "1",
-          label: "Quầy thuốc, nhà thuốc"
+          label: "Trạm y tế"
         },
         {
           value: "2",
@@ -133,20 +139,51 @@ export default {
         },
         {
           value: "3",
-          label: "Cửa hàng/ Shop/ Tạp hóa"
+          label: "Bệnh viện tư nhân"
         },
         {
           value: "4",
-          label: "Phòng khám chuyên khoa/ đa khoa"
+          label: "Chi nhánh"
         },
-
         {
           value: "5",
-          label: "Trạm y tế"
+          label: "Công ty"
         },
         {
           value: "6",
+          label: "Phòng khám chuyên khoa"
+        },
+        {
+          value: "7",
+          label: "Phòng khám đa khoa"
+        },
+        {
+          value: "8",
+          label: "Sở y tế"
+        },
+        {
+          value: "9",
           label: "Trung tâm y tế"
+        },
+        {
+          value: "10",
+          label: "Bảo hiểm xa hội Tỉnh/TP"
+        },
+        {
+          value: "11",
+          label: "Nhà xe"
+        },
+        {
+          value: "12",
+          label: "Quầy thuốc/Nhà thuốc"
+        },
+        {
+          value: "13",
+          label: "Tạp Hóa"
+        },
+        {
+          value: "14",
+          label: "Siêu Thị"
         }
       ]
     };
@@ -215,13 +252,12 @@ export default {
     rgba(255, 255, 255, 0.25) 0px 1px 0px inset;
   .box-right {
     float: right;
-    padding: 5px;
   }
   .box-left {
-    padding: 5px;
   }
 }
 .inline-block {
   display: inline-block;
+  padding: 5px;
 }
 </style>
