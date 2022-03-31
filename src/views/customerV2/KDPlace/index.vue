@@ -1,28 +1,30 @@
 <template>
-  <div>
-    <el-row :gutter="20" style="margin-bottom:10px">
-      <el-col :xs="24" :sm="24" :lg="24">
-        <div style="float:left">
+  <div class="place-container">
+    <div class="place-header">
+      <div class="inline-block">
+        <el-button
+          size="small"
+          @click="createPlace"
+          icon="el-icon-circle-plus-outline"
+          type="primary"
+          >&#32;Tạo mới tổ chức
+        </el-button>
+      </div>
+      <div class="inline-block">
+        <el-input
+          size="small"
+          style="width:auto;"
+          placeholder="Tìm kiếm theo tổ chức..."
+          v-model="TextSearch"
+          prefix-icon="el-icon-search"
+        >
+        </el-input>
+      </div>
+
+      <div style="float:right" class="inline-block">
+        <div class="inline-block">
           <el-button
-            @click="createPlace"
-            icon="far fa-address-book"
-            type="primary"
-            >&#32;Tạo mới tổ chức
-          </el-button>
-          <el-input
-            style="width:auto;"
-            placeholder="Tìm kiếm theo tổ chức..."
-            v-model="TextSearch"
-            prefix-icon="el-icon-search"
-          >
-          </el-input>
-        </div>
-        <div style="float:right">
-          <span style="color:#02bc77" v-if="btnLoading">
-            Xóa thành công: <i class="el-icon-loading" v-show="btnLoading"></i>
-            {{ QuanityDell }}/{{ SumDell }}
-          </span>
-          <el-button
+            size="small"
             v-if="otc == 29"
             @click="exportExcel"
             :loading="downloading"
@@ -30,28 +32,23 @@
             type="success"
             >&#32;Xuất Excel
           </el-button>
-          <el-button @click="deleteAllPlace" icon="el-icon-delete" type="danger"
+        </div>
+        <div class="inline-block">
+          <el-button
+            size="small"
+            @click="deleteAllPlace"
+            icon="el-icon-delete"
+            type="danger"
             >&#32;Xóa nhiều
           </el-button>
         </div>
-        <create-place
-          modalId="new-place-modal"
-          :place="rowData"
-          @placeUpdated="updateOK"
-          @placeAdded="addOK"
-        ></create-place>
-      </el-col>
-    </el-row>
+      </div>
+      <div class="clear-both"></div>
+    </div>
     <el-table
       class="el-mobile-table"
-      :data="
-        tableData.filter(
-          data =>
-            !TextSearch ||
-            data.PlaceName.toLowerCase().includes(TextSearch.toLowerCase()) ||
-            data.PlaceId.toLowerCase().includes(TextSearch.toLowerCase())
-        )
-      "
+      size="small"
+      :data="tableData"
       v-loading="isLoading"
       border
       highlight-current-row
@@ -62,7 +59,7 @@
       <el-table-column align="center" min-width="120px" label="STT">
         <template slot-scope="scope">
           <div class="dat-cell" label="STT">
-            {{ scope.$index + 1 }}
+            {{ scope.$index + 1 + (currentPage - 1) * pageSize }}
             <el-tooltip content="Chỉnh sửa">
               <el-button @click="editPlace(scope.row)" type="text"
                 ><i class="fas fa-edit"></i></el-button
@@ -159,7 +156,7 @@
           </div>
         </template>
       </el-table-column> -->
-      <el-table-column
+      <!-- <el-table-column
         min-width="100px"
         label="Thời gian tạo"
         sortable
@@ -170,7 +167,7 @@
             <span>{{ scope.row.Time | toDate }}</span>
           </div>
         </template>
-      </el-table-column>
+      </el-table-column> -->
       <el-table-column min-width="80px" label="Ghi chú">
         <template slot-scope="scope">
           <div class="dat-cell" label="Ghi chú">
@@ -202,6 +199,18 @@
         </template>
       </el-table-column> -->
     </el-table>
+    <el-pagination
+      class="pagination"
+      :total="tableDataPlace.length"
+      :small="true"
+      :page-size.sync="pageSize"
+      :current-page.sync="currentPage"
+      @current-change="fetchTable"
+      background
+      :pager-count="5"
+      layout="total,-> , prev, pager, next, sizes"
+    ></el-pagination>
+
     <el-dialog :visible.sync="dialogFormDel" title="Xóa tổ chức">
       <del-place :place="row" @delOK="delOK" @PcancelOK="PcancelOK"></del-place>
       <span slot="footer" class="dialog-footer"> </span>
@@ -214,13 +223,29 @@
       <place-sys @AddSysOK="addSysOK" @deletecancelOK="cancelOK"></place-sys>
       <span slot="footer" class="dialog-footer"> </span>
     </el-dialog>
-    <el-dialog :visible.sync="dialogFormUpload" title="Hồ sơ KH">
+    <el-dialog
+      :visible.sync="dialogFormUpload"
+      title="Hồ sơ KH"
+      custom-class="default-modal"
+    >
       <upload-file :place="file" @cancelUp="cancelUp"> </upload-file>
     </el-dialog>
-    <el-dialog :visible.sync="dialogFormCustomer" custom-class="medium2-modal">
+    <el-dialog :visible.sync="dialogFormCustomer" custom-class="medium-modal">
       <span slot="title" class="title-dialog">{{ dialogTitle }} </span>
 
       <customer :place="rowData"></customer>
+    </el-dialog>
+    <el-dialog :visible.sync="dialogFormCreate" custom-class="default-modal">
+      <h3 class="title-dialog" slot="title">
+        <i class="fas fa-marker"></i>
+        <span>{{ titleDialog }}</span>
+      </h3>
+      <create-place
+        :place="rowData"
+        @placeUpdated="updateOK"
+        @placeAdded="addOK"
+        @closeOK="closeOK"
+      ></create-place>
     </el-dialog>
   </div>
 </template>
@@ -252,25 +277,31 @@ export default {
       btnLoading: false,
       tableData: [],
       PlaceDelLst: [],
+      tableDataPlace: [],
       SumDell: 0,
       dialogFormDel: false,
       dialogFormCreatePlace: false,
       dialogFormSys: false,
       dialogFormUpload: false,
       dialogFormCustomer: false,
+      dialogFormCreate: false,
       downloading: false,
       rowData: "",
       row: "",
       file: "",
       TextSearch: "",
       dialogTitle: "",
-      QuanityDell: 0
+      QuanityDell: 0,
+      titleDialog: "",
+      pageSize: 20,
+      currentPage: 1
     };
   },
 
   methods: {
     createPlace() {
-      VoerroModal.show("new-place-modal");
+      this.dialogFormCreate = true;
+      this.titleDialog = "Tạo mới thông tin tổ chức";
       this.rowData = null;
     },
     upFile(row) {
@@ -281,14 +312,42 @@ export default {
       this.dialogFormUpload = false;
     },
     updateOK() {
+      this.dialogFormCreate = false;
+
       this.fetchData();
     },
     addOK() {
+      this.dialogFormCreate = false;
       this.fetchData();
     },
+    closeOK() {
+      this.dialogFormCreate = false;
+    },
     delPlace(row) {
-      this.row = row;
-      this.dialogFormDel = true;
+      this.$confirm("Xóa KHTC " + row.PlaceName + ". Tiếp tục?", "Xác nhận", {
+        confirmButtonText: "Xác nhận",
+        cancelButtonText: "Hủy",
+        type: "error"
+      })
+        .then(() => {
+          const req = {
+            Token: this.token,
+            UserName: this.UserName,
+            PlaceId: row.PlaceId
+          };
+          DelProductEm(req).then(res => {
+            if (res.RespCode == 0) {
+              this.$notify({
+                title: "Thành công",
+                message: "Xóa KHTC thành công",
+                type: "success",
+                position: "top-left"
+              });
+              this.fetchData();
+            }
+          });
+        })
+        .catch(() => {});
     },
     deleteAllPlace() {
       let count = 0;
@@ -335,7 +394,8 @@ export default {
       this.fetchData();
     },
     editPlace(data) {
-      VoerroModal.show("new-place-modal");
+      this.dialogFormCreate = true;
+      this.titleDialog = "Cập nhật thông tin tổ chức";
       this.rowData = data;
     },
     createPlaceSys() {
@@ -360,9 +420,25 @@ export default {
       GetPlaceByUId(req).then(res => {
         if (res.RespCode == 0) {
           this.isLoading = false;
-          this.tableData = res.PlaceLst;
+          this.tableDataPlace = res.PlaceLst;
+          this.fetchTable();
         }
       });
+    },
+    fetchTable() {
+      this.tableData = this.tableDataPlace
+        .filter(
+          data =>
+            !this.TextSearch ||
+            data.PlaceName.toLowerCase().includes(
+              this.TextSearch.toLowerCase()
+            ) ||
+            data.PlaceId.toLowerCase().includes(this.TextSearch.toLowerCase())
+        )
+        .slice(
+          (this.currentPage - 1) * this.pageSize,
+          this.currentPage * this.pageSize
+        );
     },
     uploadFile(row) {
       this.row = row;
@@ -440,41 +516,15 @@ export default {
   created() {
     this.fetchData();
   },
-  watch: {}
+  watch: {
+    TextSearch() {
+      this.fetchTable();
+    }
+  }
 };
 </script>
 <style scoped>
-.inline-block {
-  display: inline-block;
-}
-.el-table__expanded-cell[class*="cell"] {
-  padding: 15px 5px;
-}
-.el-tabs--border-card > .el-tabs__content {
-  padding: 5px;
-}
-.modal-class {
-  max-width: 960px;
-  width: 98%;
-}
-</style>
-<style>
-.title-dialog {
-  font-weight: 700;
-  font-size: 10pt;
-  color: #64c9cf;
-}
-.employee-dialog {
-  font-weight: 700;
-  font-size: 10pt;
-  color: #d6b317;
-}
-.medium2-modal {
-  width: 1140px !important;
-  max-width: 98%;
-  margin-top: 5px !important;
-}
-.medium2-modal .el-dialog__body {
+.place-header {
   padding: 10px;
 }
 </style>

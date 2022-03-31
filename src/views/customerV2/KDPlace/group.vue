@@ -120,15 +120,4 @@ export default {
   }
 };
 </script>
-<style scoped>
-.el-table__expanded-cell[class*="cell"] {
-  padding: 15px 5px;
-}
-.el-tabs--border-card > .el-tabs__content {
-  padding: 5px;
-}
-.modal-class {
-  max-width: 960px;
-  width: 98%;
-}
-</style>
+<style scoped></style>

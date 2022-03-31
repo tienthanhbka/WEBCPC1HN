@@ -22,8 +22,8 @@
   </div>
 </template>
 <script>
-import { DelCustomerByCId } from "@/api/KDCustomer"
-import Cookies from "js-cookie"
+import { DelCustomerByCId } from "@/api/KDCustomer";
+import Cookies from "js-cookie";
 export default {
   props: ["customer"],
   created() {},
@@ -58,18 +58,4 @@ export default {
   }
 };
 </script>
-<style>
-@media screen and (max-width: 600px) {
-  .el-dialog {
-    -webkit-transform: none;
-    transform: none;
-    left: 0;
-    position: relative;
-    margin: 0 auto;
-    width: 95%;
-  }
-}
-.el-dialog__body {
-  padding: 0px 20px;
-}
-</style>
+<style></style>

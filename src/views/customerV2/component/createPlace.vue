@@ -1,274 +1,268 @@
 <template>
   <div>
-    <modal id="new-place-modal" ref="new-place-modal" v-cloak>
-      <template slot="title"
-        ><i class="fas fa-address-book"></i>
-        &#32;&#32;Tạo mới KH tổ chức
-      </template>
-      <div slot="body">
-        <el-form
-          ref="form"
-          label-position="top"
-          size="small"
-          :model="form"
-          :rules="rules"
-          label-width="120px"
-        >
-          <el-row>
-            <el-col :span="24">
-              <el-form-item label="Tên KH tổ chức" prop="PlaceName">
-                <el-input
-                  class="selectIDGroup"
-                  v-model="form.PlaceName"
-                  style="width:100%"
-                  placeholder="Nhập tên KH tổ chức..."
-                  type="textarea"
-                  autosize
-                >
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :xs="24" :sm="12" :lg="12">
-              <el-form-item label="Loại" prop="Type">
-                <el-select
-                  v-model="form.Type"
-                  placeholder="Chọn loại KH tổ chức..."
-                  class="selectIDGroup"
-                  style="width:100%"
-                >
-                  <el-option
-                    v-for="item in TypeLst"
-                    :key="item.label"
-                    :label="item.label"
-                    :value="item.label"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="Người đại diện" prop="Delegate">
-                <el-input
-                  class="selectIDGroup"
-                  v-model="form.Delegate"
-                  style="width:100%"
-                  placeholder="Nhập Người đại diện..."
-                >
-                </el-input>
-              </el-form-item>
-            </el-col>
-
-            <el-col :xs="24" :sm="12" :lg="12">
-              <el-form-item label="Mã số thuế">
-                <el-input
-                  class="selectIDGroup"
-                  v-model="form.TaxCode"
-                  style="width:100%"
-                  placeholder="Nhập mã số thuế..."
-                >
-                </el-input>
-              </el-form-item>
-
-              <el-form-item label="Số điện thoại">
-                <el-input
-                  class="selectIDGroup"
-                  v-model="form.Contact"
-                  style="width:100%"
-                  placeholder="Nhập SĐT người đại diện..."
-                >
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :xs="24" :sm="12" :lg="12">
-              <el-form-item label="Thời hạn thanh toán">
-                <el-select
-                  v-model="form.TypePay"
-                  placeholder="Chọn thời hạn thanh toán..."
-                  class="selectIDGroup"
-                  style="width:100%"
-                >
-                  <el-option
-                    v-for="item in TypePay"
-                    :key="item.label"
-                    :label="item.label"
-                    :value="item.label"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="24" :sm="12" :lg="12">
-              <el-form-item label="Ghi chú" prop="Note">
-                <el-input
-                  class="selectIDGroup"
-                  v-model="form.Note"
-                  style="width:100%"
-                  placeholder="Nhập ghi chú..."
-                  type="textarea"
-                  autosize
-                >
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :xs="24" :sm="12" :lg="12">
-              <el-form-item label="Tỉnh" prop="AddrLv1">
-                <el-autocomplete
-                  class="selectIDGroup"
-                  style="width:100%"
-                  v-model="form.AddrLv1"
-                  :fetch-suggestions="querySearch"
-                  placeholder="Chọn tỉnh/thành phố..."
-                  @select="handleSelect"
-                >
-                  <template slot-scope="{ item }">
-                    <div class="value">{{ item.city }}</div>
-                  </template>
-                </el-autocomplete>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="24" :sm="12" :lg="12">
-              <el-form-item label="Quận/huyện" prop="AddrLv2">
-                <el-select
-                  v-model="form.AddrLv2"
-                  placeholder="Chọn Quận/huyện..."
-                  class="selectIDGroup"
-                  style="width:100%"
-                  @change="getCommuneNow"
-                >
-                  <el-option
-                    v-for="item in DistrictLst"
-                    :key="item.District"
-                    :label="item.District"
-                    :value="item.District"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-          <el-row :gutter="20">
-            <el-col :xs="24" :sm="12" :lg="12">
-              <el-form-item label="Phường/xã" prop="AddrLv3">
-                <el-select
-                  v-model="form.AddrLv3"
-                  placeholder="Chọn Phường/xã..."
-                  class="selectIDGroup"
-                  style="width:100%"
-                >
-                  <el-option
-                    v-for="item in CommuneLst"
-                    :key="item.Commune"
-                    :label="item.Commune"
-                    :value="item.Commune"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="24" :sm="12" :lg="12">
-              <el-form-item label="Vùng" prop="Area">
-                <el-select
-                  v-model="form.Area"
-                  placeholder="Chọn vùng..."
-                  class="selectIDGroup"
-                  style="width:100%"
-                >
-                  <el-option
-                    v-for="item in AreaLst"
-                    :key="item.label"
-                    :label="item.label"
-                    :value="item.label"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-          </el-row>
-
-          <el-row :gutter="20">
-            <el-col :span="24">
-              <el-button type="success" plain size="mini" @click="ShowMap"
-                ><i class="fas fa-map-marked"></i> vị trí</el-button
+    <el-form
+      ref="form"
+      label-position="top"
+      size="small"
+      :model="form"
+      :rules="rules"
+      label-width="120px"
+    >
+      <el-row>
+        <el-col :span="24">
+          <el-form-item label="Tên KH tổ chức" prop="PlaceName">
+            <el-input
+              class="selectIDGroup"
+              v-model="form.PlaceName"
+              style="width:100%"
+              placeholder="Nhập tên KH tổ chức..."
+              type="textarea"
+              autosize
+            >
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :xs="24" :sm="12" :lg="12">
+          <el-form-item label="Loại" prop="Type">
+            <el-select
+              v-model="form.Type"
+              placeholder="Chọn loại KH tổ chức..."
+              class="selectIDGroup"
+              style="width:100%"
+            >
+              <el-option
+                v-for="item in TypeLst"
+                :key="item.label"
+                :label="item.label"
+                :value="item.label"
               >
-            </el-col>
-            <el-col :xs="24" :sm="8" :lg="8">
-              <el-form-item label="Kinh độ" prop="Longitude">
-                <el-input
-                  class="selectIDGroup"
-                  v-model="form.Longitude"
-                  style="width:100%"
-                  placeholder="Kinh độ..."
-                  disable
-                >
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="24" :sm="8" :lg="8">
-              <el-form-item label="Vĩ độ" prop="Latitude">
-                <el-input
-                  class="selectIDGroup"
-                  v-model="form.Latitude"
-                  style="width:100%"
-                  placeholder="Vĩ độ..."
-                  disable
-                >
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="24" :sm="8" :lg="8">
-              <el-form-item label="Phạm vi" prop="Range">
-                <el-input
-                  class="selectIDGroup"
-                  v-model="form.Range"
-                  style="width:100%"
-                  placeholder="Phạm vi..."
-                  disable
-                >
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="24">
-              <el-form-item label="Địa chỉ">
-                <el-input
-                  class="selectIDGroup"
-                  v-model="form.Address"
-                  style="width:100%"
-                  placeholder="Hãy chọn vị trí..."
-                  disable
-                  type="textarea"
-                  autosize
-                >
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-row>
-        </el-form>
-      </div>
-      <div
-        slot="footer"
-        style="margin:10px;margin-left:auto;margin-right:20px;text-align:center"
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="Người đại diện" prop="Delegate">
+            <el-input
+              class="selectIDGroup"
+              v-model="form.Delegate"
+              style="width:100%"
+              placeholder="Nhập Người đại diện..."
+            >
+            </el-input>
+          </el-form-item>
+        </el-col>
+
+        <el-col :xs="24" :sm="12" :lg="12">
+          <el-form-item label="Mã số thuế">
+            <el-input
+              class="selectIDGroup"
+              v-model="form.TaxCode"
+              style="width:100%"
+              placeholder="Nhập mã số thuế..."
+            >
+            </el-input>
+          </el-form-item>
+
+          <el-form-item label="Số điện thoại">
+            <el-input
+              class="selectIDGroup"
+              v-model="form.Contact"
+              style="width:100%"
+              placeholder="Nhập SĐT người đại diện..."
+            >
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :xs="24" :sm="12" :lg="12">
+          <el-form-item label="Thời hạn thanh toán">
+            <el-select
+              v-model="form.TypePay"
+              placeholder="Chọn thời hạn thanh toán..."
+              class="selectIDGroup"
+              style="width:100%"
+            >
+              <el-option
+                v-for="item in TypePay"
+                :key="item.label"
+                :label="item.label"
+                :value="item.label"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :xs="24" :sm="12" :lg="12">
+          <el-form-item label="Ghi chú" prop="Note">
+            <el-input
+              class="selectIDGroup"
+              v-model="form.Note"
+              style="width:100%"
+              placeholder="Nhập ghi chú..."
+              type="textarea"
+              autosize
+            >
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :xs="24" :sm="12" :lg="12">
+          <el-form-item label="Tỉnh" prop="AddrLv1">
+            <el-autocomplete
+              class="selectIDGroup"
+              style="width:100%"
+              v-model="form.AddrLv1"
+              :fetch-suggestions="querySearch"
+              placeholder="Chọn tỉnh/thành phố..."
+              @select="handleSelect"
+            >
+              <template slot-scope="{ item }">
+                <div class="value">{{ item.city }}</div>
+              </template>
+            </el-autocomplete>
+          </el-form-item>
+        </el-col>
+        <el-col :xs="24" :sm="12" :lg="12">
+          <el-form-item label="Quận/huyện" prop="AddrLv2">
+            <el-select
+              v-model="form.AddrLv2"
+              placeholder="Chọn Quận/huyện..."
+              class="selectIDGroup"
+              style="width:100%"
+              @change="getCommuneNow"
+            >
+              <el-option
+                v-for="item in DistrictLst"
+                :key="item.District"
+                :label="item.District"
+                :value="item.District"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row :gutter="20">
+        <el-col :xs="24" :sm="12" :lg="12">
+          <el-form-item label="Phường/xã" prop="AddrLv3">
+            <el-select
+              v-model="form.AddrLv3"
+              placeholder="Chọn Phường/xã..."
+              class="selectIDGroup"
+              style="width:100%"
+            >
+              <el-option
+                v-for="item in CommuneLst"
+                :key="item.Commune"
+                :label="item.Commune"
+                :value="item.Commune"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :xs="24" :sm="12" :lg="12">
+          <el-form-item label="Vùng" prop="Area">
+            <el-select
+              v-model="form.Area"
+              placeholder="Chọn vùng..."
+              class="selectIDGroup"
+              style="width:100%"
+            >
+              <el-option
+                v-for="item in AreaLst"
+                :key="item.label"
+                :label="item.label"
+                :value="item.label"
+              >
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+      </el-row>
+
+      <el-row :gutter="20">
+        <el-col :span="24">
+          <el-button type="success" plain size="mini" @click="ShowMap"
+            ><i class="fas fa-map-marked"></i> vị trí</el-button
+          >
+        </el-col>
+        <el-col :xs="24" :sm="8" :lg="8">
+          <el-form-item label="Kinh độ" prop="Longitude">
+            <el-input
+              class="selectIDGroup"
+              v-model="form.Longitude"
+              style="width:100%"
+              placeholder="Kinh độ..."
+              disable
+            >
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :xs="24" :sm="8" :lg="8">
+          <el-form-item label="Vĩ độ" prop="Latitude">
+            <el-input
+              class="selectIDGroup"
+              v-model="form.Latitude"
+              style="width:100%"
+              placeholder="Vĩ độ..."
+              disable
+            >
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :xs="24" :sm="8" :lg="8">
+          <el-form-item label="Phạm vi" prop="Range">
+            <el-input
+              class="selectIDGroup"
+              v-model="form.Range"
+              style="width:100%"
+              placeholder="Phạm vi..."
+              disable
+            >
+            </el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="24">
+          <el-form-item label="Địa chỉ">
+            <el-input
+              class="selectIDGroup"
+              v-model="form.Address"
+              style="width:100%"
+              placeholder="Hãy chọn vị trí..."
+              disable
+              type="textarea"
+              autosize
+            >
+            </el-input>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+    <div
+      slot="footer"
+      style="margin:10px;margin-left:auto;margin-right:20px;text-align:center"
+    >
+      <el-button size="small" type="info" @click="closeModal">Hủy</el-button>
+      <el-button
+        v-if="this.place == null"
+        icon="el-icon-check"
+        size="small"
+        type="primary"
+        @click="addPlace('form')"
+        >Xác nhận</el-button
       >
-        <el-button class="pan-btn grey-btn" @click="closeModal">Hủy</el-button>
-        <el-button
-          v-if="this.place == null"
-          icon="el-icon-check"
-          class="pan-btn blue-btn"
-          @click="addPlace('form')"
-          >Xác nhận</el-button
-        >
-        <el-button
-          v-if="this.place != null"
-          icon="el-icon-edit"
-          class="pan-btn yellow-btn"
-          @click="addPlace('form')"
-          >Chỉnh sửa</el-button
-        >
-      </div>
-    </modal>
+      <el-button
+        v-if="this.place != null"
+        size="small"
+        type="warning"
+        icon="el-icon-edit"
+        @click="addPlace('form')"
+        >Chỉnh sửa</el-button
+      >
+    </div>
     <el-dialog
       custom-class="medium-modal"
       title="Chọn trên bản đồ"
@@ -597,7 +591,7 @@ export default {
       });
     },
     closeModal() {
-      VoerroModal.hide("new-place-modal");
+      this.$emit("closeOK");
     },
     changeEvaluate(value) {},
     fetchData() {},
@@ -681,18 +675,4 @@ export default {
   }
 };
 </script>
-<style>
-.selectIDGroup .el-input__inner {
-  border: 0 !important;
-  border-radius: 0 !important;
-  border-bottom: 1px solid #dcdfe6 !important;
-}
-.selectIDGroup .el-textarea__inner {
-  border: 0;
-  border-radius: 0;
-  border-bottom: 1px solid #dcdfe6;
-}
-.modal-box {
-  width: 50%;
-}
-</style>
+<style></style>

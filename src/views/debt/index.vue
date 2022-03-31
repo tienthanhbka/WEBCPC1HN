@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="debt-conainer">
     <el-row v-if="isGroupPage" :gutter="10">
       <el-col :xs="24" :sm="12" :lg="12">
         <el-select
@@ -122,3 +122,8 @@ export default {
   }
 };
 </script>
+<style lang="scss" scoped>
+.debt-conainer {
+  background-color: #fff;
+}
+</style>

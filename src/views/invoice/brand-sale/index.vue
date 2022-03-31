@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="brand-sale">
     <div class="inline-block">
       <el-input
         size="small"
@@ -231,6 +231,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.brand-sale {
+  background-color: #fff;
+}
 .inline-block {
   display: inline-block;
   padding: 5px 5px 5px 0;

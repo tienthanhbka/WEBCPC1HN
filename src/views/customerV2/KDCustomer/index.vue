@@ -2,16 +2,6 @@
   <div>
     <el-row :gutter="20" style="margin-bottom:10px">
       <el-col :xs="24" :sm="24" :lg="24">
-        <!-- <div class="inline-block">
-          <h3
-            style="    margin: 0;
-    padding: 20px;
-    font-size: 13pt;
-    color: #64c9cf;"
-          >
-            {{ place.PlaceName }}
-          </h3>
-        </div> -->
         <div class="inline-block" style="float: right;padding:10px">
           <el-button
             @click="createCustomer"
@@ -22,13 +12,6 @@
             Thêm mới
           </el-button>
         </div>
-        <create
-          modalId="new-customer-modal"
-          :customer="rowData"
-          :place="place"
-          @customerUpdated="updateOK"
-          @customerAdded="addOK"
-        ></create>
       </el-col>
     </el-row>
     <el-table
@@ -43,7 +26,7 @@
       <el-table-column align="center" width="110px" label="STT">
         <template slot-scope="scope">
           <div class="dat-cell" label="STT">
-            {{ scope.$index + 1 }}
+            {{ scope.$index + 1 + (currentPage - 1) * pageSize }}
             <el-tooltip content="Chỉnh sửa">
               <el-button
                 @click="editCustomer(scope.row)"
@@ -77,41 +60,35 @@
           </div>
         </template>
       </el-table-column> -->
-      <el-table-column width="180px" label="Tên khách hàng">
+      <el-table-column width="150px" label="Tên khách hàng">
         <template slot-scope="scope">
           <div class="dat-cell" label="Tên khách hàng">
             {{ scope.row.CustomerName }}
           </div>
         </template>
       </el-table-column>
-      <el-table-column width="140px" label="Số điện thoại">
+      <el-table-column width="120px" label="Số điện thoại">
         <template slot-scope="scope">
           <div class="dat-cell" label="Số điện thoại">
             {{ scope.row.Phone }}
           </div>
         </template>
       </el-table-column>
-      <el-table-column width="220px" label="Chức vụ">
+      <el-table-column width="120px" label="Chức vụ">
         <template slot-scope="scope">
           <div class="dat-cell" label="Chức vụ">
             {{ scope.row.Position }}
           </div>
         </template>
       </el-table-column>
-      <el-table-column width="220px" label="Chuyên môn">
+      <el-table-column width="120px" label="Chuyên môn">
         <template slot-scope="scope">
           <div class="dat-cell" label="Chuyên môn">
             {{ scope.row.Job }}
           </div>
         </template>
       </el-table-column>
-      <el-table-column width="220px" label="Email">
-        <template slot-scope="scope">
-          <div class="dat-cell" label="Email">
-            {{ scope.row.Email }}
-          </div>
-        </template>
-      </el-table-column>
+
       <el-table-column min-width="200px" label="Địa chỉ">
         <template slot-scope="scope">
           <div class="dat-cell" label="Địa chỉ">
@@ -128,25 +105,45 @@
         </template>
       </el-table-column> -->
     </el-table>
+    <el-pagination
+      class="pagination"
+      :total="tableDataCustomer.length"
+      :small="true"
+      :page-size.sync="pageSize"
+      :current-page.sync="currentPage"
+      @current-change="fetchTable"
+      background
+      :pager-count="5"
+      layout="total,-> , prev, pager, next, sizes"
+    ></el-pagination>
+
     <el-dialog
-      :visible.sync="dialogFormDel"
-      title="Xóa khách hàng"
-      center
+      :visible.sync="dialogFormCreate"
+      custom-class="default-modal"
       append-to-body
     >
-      <del-customer
-        :customer="row"
-        @deletecancelOK="delcancelOK"
-        @delOK="delOK"
-      ></del-customer>
-      <span slot="footer" class="dialog-footer"> </span>
+      <h3 class="title-dialog" slot="title">
+        <i class="fas fa-marker"></i>
+        <span>{{ titleDialog }}</span>
+      </h3>
+      <create
+        :customer="rowData"
+        :place="place"
+        @customerUpdated="updateOK"
+        @customerAdded="addOK"
+        @closeOK="closeOK"
+      ></create>
     </el-dialog>
   </div>
 </template>
 <script>
 import Create from "@/views/customerV2/component/createCustomer";
 import DelCustomer from "@/views/customerV2/component/deleteCustomer";
-import { TGetCustomerByPId, CreateCustomer } from "@/api/KDCustomer";
+import {
+  TGetCustomerByPId,
+  CreateCustomer,
+  DelCustomerByCId
+} from "@/api/KDCustomer";
 import { GetPlaceByPId } from "@/api/KDPlace";
 
 import Cookies from "js-cookie";
@@ -162,6 +159,7 @@ export default {
     return {
       groupLst: [],
       emLst: [],
+      tableDataCustomer: [],
       token: Cookies.get("token"),
       UserName: Cookies.get("idEmployee"),
       isLoading: false,
@@ -170,35 +168,63 @@ export default {
       dialogFormCreatePlace: false,
       dialogFormSys: false,
       rowData: "",
-      row: ""
+      row: "",
+      pageSize: 10,
+      currentPage: 1,
+      dialogFormCreate: false,
+      titleDialog: ""
       //place: ""
     };
   },
 
   methods: {
     createCustomer() {
-      VoerroModal.show("new-customer-modal");
+      this.dialogFormCreate = true;
+      this.titleDialog = "Tạo mới thông tin khách hàng cá nhân";
       this.rowData = null;
     },
     updateOK() {
+      this.dialogFormCreate = false;
       this.fetchData();
     },
     addOK() {
+      this.dialogFormCreate = false;
       this.fetchData();
     },
     delCustomer(row) {
-      this.row = row;
-      this.dialogFormDel = true;
-    },
-    delOK() {
-      this.dialogFormDel = false;
-      this.fetchData();
+      this.$confirm(
+        "Xóa khách hàng " + row.CustomerName + ". Tiếp tục?",
+        "Xác nhận",
+        {
+          confirmButtonText: "Xác nhận",
+          cancelButtonText: "Hủy",
+          type: "error"
+        }
+      )
+        .then(() => {
+          const req = {
+            Token: this.token,
+            UserName: this.UserName,
+            CustomerId: row.CustomerId
+          };
+          DelCustomerByCId(req).then(res => {
+            if (res.RespCode == 0) {
+              this.$message({
+                message: "Xóa khách hàng thành công",
+                type: "success"
+              });
+              this.fetchData();
+            }
+          });
+        })
+        .catch(() => {});
     },
     delcancelOK() {
       this.dialogFormDel = false;
     },
     editCustomer(data) {
-      VoerroModal.show("new-customer-modal");
+      this.dialogFormCreate = true;
+      this.titleDialog = "Cập nhật thông tin khách hàng cá nhân";
       this.rowData = data;
     },
 
@@ -247,11 +273,18 @@ export default {
           });
           cus = cusEm.concat(cusNotEm);
           //console.log(cus);
-          this.tableData = cus;
+          this.tableDataCustomer = cus;
+          this.fetchTable();
         }
       });
 
       this.isLoading = false;
+    },
+    fetchTable() {
+      this.tableData = this.tableDataCustomer.slice(
+        (this.currentPage - 1) * this.pageSize,
+        this.currentPage * this.pageSize
+      );
     },
     getCustomer(val) {
       //console.log(val);
@@ -265,12 +298,10 @@ export default {
           this.fetchData();
         }
       });
+    },
+    closeOK() {
+      this.dialogFormCreate = false;
     }
-    // fetchPlace() {
-    //   GetPlaceByPId({ PlaceId: this.place.PlaceId }).then(res => {
-    //     this.place = res.PlaceInfo;
-    //   });
-    // }
   },
   created() {
     this.fetchData();
@@ -283,18 +314,4 @@ export default {
   }
 };
 </script>
-<style scoped>
-.inline-block {
-  display: inline-block;
-}
-.el-table__expanded-cell[class*="cell"] {
-  padding: 15px 5px;
-}
-.el-tabs--border-card > .el-tabs__content {
-  padding: 5px;
-}
-.modal-class {
-  max-width: 960px;
-  width: 98%;
-}
-</style>
+<style scoped></style>

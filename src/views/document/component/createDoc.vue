@@ -181,7 +181,7 @@
         <tiny-mce v-model="form.ProductDes"></tiny-mce>
       </el-form-item>
       <el-form-item v-if="form.ProductType == 1">
-        <div slot="label">Mẹo sản phẩm</div>
+        <div slot="label">Câu hỏi tình huống</div>
         <tiny-mce v-model="form.ReviewDes"></tiny-mce>
       </el-form-item>
       <el-form-item label="Sản phẩm" v-if="form.ProductType == 1">

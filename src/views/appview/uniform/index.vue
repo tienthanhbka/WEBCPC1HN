@@ -31,7 +31,7 @@
             <img
               width="50"
               height="50"
-              src="https://image.flaticon.com/icons/png/512/262/262226.png"
+              src="https://cdn-icons-png.flaticon.com/512/262/262226.png"
               alt="img"
             />
           </div>

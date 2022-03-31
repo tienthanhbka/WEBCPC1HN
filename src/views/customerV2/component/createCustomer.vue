@@ -1,21 +1,14 @@
 <template>
   <div>
-    <modal id="new-customer-modal" ref="new-customer-modal" v-cloak>
-      <template slot="title"
-        ><i class="fas fa-user-plus"></i>
-        &#32;&#32;Tạo mới khách hàng cá nhân
-      </template>
-      <div slot="body">
-        <el-row :gutter="20" style="height:455px">
-          <el-form
-            ref="form"
-            label-position="top"
-            size="small"
-            :model="form"
-            :rules="rules"
-            label-width="120px"
-          >
-            <!-- <el-col :xs="24" :sm="24" :lg="24">
+    <el-form
+      ref="form"
+      label-position="top"
+      size="small"
+      :model="form"
+      :rules="rules"
+      label-width="120px"
+    >
+      <!-- <el-col :xs="24" :sm="24" :lg="24">
               <el-form-item label="Họ và tên" prop="CustomerName">
                 <el-input
                   class="selectIDGroup"
@@ -28,165 +21,164 @@
                 </el-input>
               </el-form-item>
             </el-col> -->
-            <el-col :xs="24" :sm="12" :lg="12">
-              <el-form-item label="Họ và tên" prop="CustomerName">
-                <el-input
-                  class="selectIDGroup"
-                  v-model="form.CustomerName"
-                  style="width:100%"
-                  placeholder="Nhập Họ và tên..."
-                  type="textarea"
-                  autosize
-                >
-                </el-input>
-              </el-form-item>
-              <el-form-item label="Loại khách hàng" prop="TypeCus">
-                <el-select
-                  v-model="form.TypeCus"
-                  placeholder="Chọn Loại khách hàng..."
-                  class="selectIDGroup"
-                  style="width:100%"
-                >
-                  <el-option
-                    v-for="item in PositionLst"
-                    :key="item.label"
-                    :label="item.label"
-                    :value="item.label"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="Chuyên môn" prop="Job">
-                <el-autocomplete
-                  class="selectIDGroup"
-                  style="width:100%"
-                  v-model="form.Job"
-                  :fetch-suggestions="querySearch"
-                  placeholder="Chọn chuyên môn..."
-                  @select="handleSelect"
-                >
-                  <template slot-scope="{ item }">
-                    <div class="value">{{ item.label }}</div>
-                  </template>
-                </el-autocomplete>
-              </el-form-item>
-              <el-form-item label="Trình độ" prop="Degree">
-                <el-select
-                  v-model="form.Degree"
-                  placeholder="Chọn trình độ..."
-                  class="selectIDGroup"
-                  style="width:100%"
-                >
-                  <el-option
-                    v-for="item in DegreeLst"
-                    :key="item.label"
-                    :label="item.label"
-                    :value="item.label"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="Chức vụ" prop="Position">
-                <el-select
-                  v-model="form.Position"
-                  placeholder="Chọn chức vụ..."
-                  class="selectIDGroup"
-                  style="width:100%"
-                >
-                  <el-option
-                    v-for="item in PositionLst"
-                    :key="item.label"
-                    :label="item.label"
-                    :value="item.label"
-                  >
-                  </el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="24" :sm="12" :lg="12">
-              <el-form-item label="Địa chỉ" prop="Address">
-                <el-input
-                  class="selectIDGroup"
-                  v-model="form.Address"
-                  style="width:100%"
-                  placeholder="Nhập địa chỉ..."
-                >
-                </el-input>
-              </el-form-item>
-              <el-form-item label="Số điện thoại">
-                <el-input
-                  class="selectIDGroup"
-                  v-model="form.Phone"
-                  style="width:100%"
-                  placeholder="Nhập số điện thoại..."
-                >
-                </el-input>
-              </el-form-item>
-              <el-form-item label="Email">
-                <el-input
-                  class="selectIDGroup"
-                  v-model="form.Email"
-                  style="width:100%"
-                  placeholder="Nhập email..."
-                >
-                </el-input>
-              </el-form-item>
-              <el-form-item label="Ngân hàng">
-                <el-input
-                  class="selectIDGroup"
-                  v-model="form.BankName"
-                  style="width:100%"
-                  placeholder="Nhập tên ngân hàng..."
-                >
-                </el-input>
-              </el-form-item>
-              <el-form-item label="STK">
-                <el-input
-                  class="selectIDGroup"
-                  v-model="form.BankCode"
-                  style="width:100%"
-                  placeholder="Nhập STK..."
-                >
-                </el-input>
-              </el-form-item>
-            </el-col>
-            <el-col :span="24">
-              <el-form-item label="Ghi chú">
-                <el-input
-                  class="selectIDGroup"
-                  v-model="form.Note"
-                  style="width:100%"
-                  placeholder="Nhập ghi chú..."
-                  type="textarea"
-                  autosize
-                >
-                </el-input>
-              </el-form-item>
-            </el-col>
-          </el-form>
-        </el-row>
-      </div>
-      <div
-        slot="footer"
-        style="margin:10px;margin-left:auto;margin-right:20px;text-align:center"
+      <el-col :xs="24" :sm="12" :lg="12">
+        <el-form-item label="Họ và tên" prop="CustomerName">
+          <el-input
+            class="selectIDGroup"
+            v-model="form.CustomerName"
+            style="width:100%"
+            placeholder="Nhập Họ và tên..."
+            type="textarea"
+            autosize
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item label="Loại khách hàng" prop="TypeCus">
+          <el-select
+            v-model="form.TypeCus"
+            placeholder="Chọn Loại khách hàng..."
+            class="selectIDGroup"
+            style="width:100%"
+          >
+            <el-option
+              v-for="item in PositionLst"
+              :key="item.label"
+              :label="item.label"
+              :value="item.label"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Chuyên môn" prop="Job">
+          <el-autocomplete
+            class="selectIDGroup"
+            style="width:100%"
+            v-model="form.Job"
+            :fetch-suggestions="querySearch"
+            placeholder="Chọn chuyên môn..."
+            @select="handleSelect"
+          >
+            <template slot-scope="{ item }">
+              <div class="value">{{ item.label }}</div>
+            </template>
+          </el-autocomplete>
+        </el-form-item>
+        <el-form-item label="Trình độ" prop="Degree">
+          <el-select
+            v-model="form.Degree"
+            placeholder="Chọn trình độ..."
+            class="selectIDGroup"
+            style="width:100%"
+          >
+            <el-option
+              v-for="item in DegreeLst"
+              :key="item.label"
+              :label="item.label"
+              :value="item.label"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="Chức vụ" prop="Position">
+          <el-select
+            v-model="form.Position"
+            placeholder="Chọn chức vụ..."
+            class="selectIDGroup"
+            style="width:100%"
+          >
+            <el-option
+              v-for="item in PositionLst"
+              :key="item.label"
+              :label="item.label"
+              :value="item.label"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :xs="24" :sm="12" :lg="12">
+        <el-form-item label="Địa chỉ" prop="Address">
+          <el-input
+            class="selectIDGroup"
+            v-model="form.Address"
+            style="width:100%"
+            placeholder="Nhập địa chỉ..."
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item label="Số điện thoại">
+          <el-input
+            class="selectIDGroup"
+            v-model="form.Phone"
+            style="width:100%"
+            placeholder="Nhập số điện thoại..."
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item label="Email">
+          <el-input
+            class="selectIDGroup"
+            v-model="form.Email"
+            style="width:100%"
+            placeholder="Nhập email..."
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item label="Ngân hàng">
+          <el-input
+            class="selectIDGroup"
+            v-model="form.BankName"
+            style="width:100%"
+            placeholder="Nhập tên ngân hàng..."
+          >
+          </el-input>
+        </el-form-item>
+        <el-form-item label="STK">
+          <el-input
+            class="selectIDGroup"
+            v-model="form.BankCode"
+            style="width:100%"
+            placeholder="Nhập STK..."
+          >
+          </el-input>
+        </el-form-item>
+      </el-col>
+      <el-col :span="24">
+        <el-form-item label="Ghi chú">
+          <el-input
+            class="selectIDGroup"
+            v-model="form.Note"
+            style="width:100%"
+            placeholder="Nhập ghi chú..."
+            type="textarea"
+            autosize
+          >
+          </el-input>
+        </el-form-item>
+      </el-col>
+    </el-form>
+    <div
+      slot="footer"
+      style="margin:10px;margin-left:auto;margin-right:20px;text-align:center"
+    >
+      <el-button size="small" type="info" @click="closeModal">Hủy</el-button>
+      <el-button
+        size="small"
+        v-if="this.customer == null"
+        icon="el-icon-check"
+        type="primary"
+        @click="addCustomer('form')"
+        >Xác nhận</el-button
       >
-        <el-button class="pan-btn grey-btn" @click="closeModal">Hủy</el-button>
-        <el-button
-          v-if="this.customer == null"
-          icon="el-icon-check"
-          class="pan-btn blue-btn"
-          @click="addCustomer('form')"
-          >Xác nhận</el-button
-        >
-        <el-button
-          v-if="this.customer != null"
-          icon="el-icon-edit"
-          class="pan-btn yellow-btn"
-          @click="addCustomer('form')"
-          >Chỉnh sửa</el-button
-        >
-      </div>
-    </modal>
+      <el-button
+        size="small"
+        v-if="this.customer != null"
+        icon="el-icon-edit"
+        type="warning"
+        @click="addCustomer('form')"
+        >Chỉnh sửa</el-button
+      >
+    </div>
   </div>
 </template>
 <script>
@@ -631,7 +623,7 @@ export default {
       });
     },
     closeModal() {
-      VoerroModal.hide("new-customer-modal");
+      this.$emit("closeOK");
     },
     initForm() {
       if (this.customer) {
@@ -676,18 +668,4 @@ export default {
   }
 };
 </script>
-<style>
-.selectIDGroup .el-input__inner {
-  border: 0 !important;
-  border-radius: 0 !important;
-  border-bottom: 1px solid #dcdfe6 !important;
-}
-.selectIDGroup .el-textarea__inner {
-  border: 0;
-  border-radius: 0;
-  border-bottom: 1px solid #dcdfe6;
-}
-.modal-box {
-  width: 50%;
-}
-</style>
+<style></style>

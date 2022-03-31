@@ -1,5 +1,5 @@
 import request from '@/utils/post'
-
+import requestT from '@/utils/requestT'
 export function getBranch(data) {
   return request({
     url: 'Groups/GetBranch',
@@ -89,6 +89,13 @@ export function GetGroupEmployee(data) {
 export function GetAllEmployeesByIdGroup(data) {
   return request({
     url: 'Groups/GetAllEmployeesByIdGroup',
+    method: 'post',
+    data: data
+  })
+}
+export function GetDetailEmployeeGroup(data) {
+  return requestT({
+    url: 'Group/GetDetailEmployeeGroup',
     method: 'post',
     data: data
   })

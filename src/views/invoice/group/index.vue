@@ -1,8 +1,13 @@
 <template>
-  <div class="orderhcm-container">
-    <div class="orderhcm-header">
+  <div class="invoice-group">
+    <div class="group-header">
       <div class="inline-block">
-        <el-select v-model="groups" clearable placeholder="Chọn nhóm">
+        <el-select
+          size="small"
+          v-model="groups"
+          clearable
+          placeholder="Chọn nhóm"
+        >
           <el-option
             v-for="item in groupList"
             :key="item.idGroup"
@@ -13,30 +18,10 @@
         </el-select>
       </div>
       <!-- <el-button class="inline-block" type="primary" :loading="listLoading" @click="fetchData()">Cập nhật</el-button> -->
-      <div class="inline-block">
-        <span class="demonstration">Từ</span>
-        <el-date-picker
-          v-model="startDate"
-          type="date"
-          placeholder="Ngày bắt đầu"
-          format="dd/MM/yyyy"
-          value-format="yyyy-MM-dd"
-        >
-        </el-date-picker>
-      </div>
-      <div class="inline-block">
-        <span class="demonstration">Đến</span>
-        <el-date-picker
-          v-model="endDate"
-          type="date"
-          placeholder="Ngày kết thúc"
-          format="dd/MM/yyyy"
-          value-format="yyyy-MM-dd"
-        >
-        </el-date-picker>
-      </div>
+
       <div class="inline-block">
         <el-input
+          size="small"
           placeholder="Search"
           v-model="TextSearch"
           class="input-with-select"
@@ -54,7 +39,12 @@
         </el-input>
       </div>
       <div class="inline-block" style="float:right">
-        <el-button type="success" v-loading="downloading" @click="exportExcel">
+        <el-button
+          size="small"
+          type="success"
+          v-loading="downloading"
+          @click="exportExcel"
+        >
           <i class="fas fa-file-excel"></i> Xuất Excel</el-button
         >
       </div>
@@ -63,6 +53,7 @@
       <el-table
         v-loading="listLoading"
         :data="invoiceList"
+        size="small"
         element-loading-text="Loading"
         @expand-change="expandRow"
         border
@@ -74,6 +65,9 @@
             <el-table
               :data="props.row.lines"
               v-model="rowNow"
+              size="mini"
+              border
+              fit
               style="width: 100%"
               v-loading="props.row.isLoading"
               element-loading-text="Loading"
@@ -81,9 +75,9 @@
               <el-table-column
                 prop="Description"
                 label="Sản phẩm"
-                width="180"
+                min-width="220"
               ></el-table-column>
-              <el-table-column prop="Quantity" label="Số lượng" width="180">
+              <el-table-column prop="Quantity" label="Số lượng" width="130">
                 <template slot-scope="scope">
                   <span>{{ scope.row.Quantity | quantity }}</span>
                 </template>
@@ -91,19 +85,19 @@
               <el-table-column
                 prop="unitMeasure"
                 label="Đơn vị"
-                width="180"
+                width="130"
               ></el-table-column>
-              <el-table-column prop="unitPrice" label="Giá" width="180">
+              <el-table-column prop="unitPrice" label="Giá" width="150">
                 <template slot-scope="scope">
                   <span>{{ scope.row.unitPrice | toVND }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="amount" label="Tổng giá" width="180">
+              <el-table-column prop="amount" label="Tổng giá" width="150">
                 <template slot-scope="scope">
                   <span>{{ scope.row.amount | toVND }}</span>
                 </template>
               </el-table-column>
-              <el-table-column prop="amoutVAT" label="Tổng giá VAT" width="180">
+              <el-table-column prop="amoutVAT" label="Tổng giá VAT" width="150">
                 <template slot-scope="scope">
                   <span>{{ scope.row.amoutVAT | toVND }}</span>
                 </template>
@@ -111,14 +105,27 @@
               <el-table-column
                 prop="Gift"
                 label="Quà"
-                width="180"
+                width="150"
               ></el-table-column>
             </el-table>
           </template>
         </el-table-column>
-        <el-table-column label="Nhân viên" align="center" width="100">
+        <el-table-column align="center" width="60px" label="STT">
+          <template slot-scope="scope">
+            <div class="dat-cell" label="STT">
+              {{ scope.$index + 1 + (currentPage - 1) * page_row }}
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column label="Nhân viên" width="180">
           <template slot-scope="scope">
             <span>{{ scope.row.nameEmployee }}</span>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="Ngày đặt" align="center" width="100">
+          <template slot-scope="scope">
+            <span>{{ scope.row.OrderDate | toDate }}</span>
           </template>
         </el-table-column>
         <el-table-column label="Hạn" align="center" width="100">
@@ -126,55 +133,46 @@
             <span>{{ scope.row.ExpriationDate | toDate }}</span>
           </template>
         </el-table-column>
-
-        <el-table-column label="Đơn vị" align="center" min-width="100">
-          <template slot-scope="scope">
-            <span>{{ scope.row.BillAddress }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="Loại" align="center" min-width="100">
+        <el-table-column label="Loại" align="center" width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.templateCode }}</span>
           </template>
         </el-table-column>
+        <el-table-column label="Khách hàng" min-width="130">
+          <template slot-scope="scope">
+            <span>{{ scope.row.BillAddress }}</span>
+          </template>
+        </el-table-column>
 
-        <el-table-column label="Người nhận" align="center" min-width="100">
+        <el-table-column label="Người nhận" width="160">
           <template slot-scope="scope">
             <span>{{ scope.row.BillToName }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="Số điện thoại" align="center" min-width="100">
+        <el-table-column label="SĐT" width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.contact }}</span>
           </template>
         </el-table-column>
 
-        <!-- <el-table-column label="Trạng thái" align="center" min-width="50">
-                <template slot-scope="scope">
-                    <el-tag :type="scope.row.Status | invoiceStatusColor ">
-                        {{ scope.row.Status|invoiceStatusText }}
-                    </el-tag>
-                </template>
-            </el-table-column> -->
-        <el-table-column label="Ghi chú" align="center" min-width="50">
+        <el-table-column label="Ghi chú" width="180">
           <template slot-scope="scope">
             <span>{{ scope.row.note }}</span>
           </template>
         </el-table-column>
       </el-table>
 
-      <div :class="{ hidden: hidden }" class="pagination-container">
-        <el-pagination
-          class="pagination"
-          background
-          layout="total,-> , prev, pager, next, sizes"
-          :total="total"
-          :current-page="currentPage"
-          :page-size.sync="pageSize"
-          @current-change="handleCurrentChange"
-          @size-change="handleSizeChange"
-        />
-      </div>
+      <el-pagination
+        class="pagination"
+        size="mini"
+        background
+        layout="total,-> , prev, pager, next, sizes"
+        :total="total"
+        :current-page="currentPage"
+        :page-size.sync="pageSize"
+        @current-change="handleCurrentChange"
+        @size-change="handleSizeChange"
+      />
     </div>
   </div>
 </template>
@@ -183,7 +181,6 @@
 import { getInvoice, getInvoiceGroup } from "@/api/invoice";
 import { getInvoiceLine } from "@/api/getInvoiceLine";
 import Cookies from "js-cookie";
-import { getStartDate, getEndDate } from "@/api/index";
 import { GetListGroupAdminByToken } from "@/api/groups";
 import { GetSalesGroup } from "@/api/saleHeader";
 export default {
@@ -197,36 +194,8 @@ export default {
     }
   },
   props: {
-    total: {
-      required: true,
-      type: Number
-    },
-    page: {
-      type: Number,
-      default: 1
-    },
-    limit: {
-      type: Number,
-      default: 20
-    },
-    pageSizes: {
-      type: Array,
-      default() {
-        return [10, 15, 20, 30, 50];
-      }
-    },
-    background: {
-      type: Boolean,
-      default: true
-    },
-    autoScroll: {
-      type: Boolean,
-      default: true
-    },
-    hidden: {
-      type: Boolean,
-      default: false
-    }
+    startDate: String,
+    endDate: String
   },
   data() {
     return {
@@ -234,7 +203,7 @@ export default {
       TextSearch: "",
       startDate: "",
       endDate: "",
-      currentPage: 0,
+      currentPage: 1,
       page_row: 10,
       total: 0,
       rowNow: "",
@@ -246,14 +215,7 @@ export default {
   },
   methods: {
     fetchData() {
-      if (this.groups == "") {
-        this.$notify({
-          title: "Có lỗi xảy ra",
-          message: "Bạn không phải là trưởng nhóm",
-          type: "warning",
-          position: "top-left"
-        });
-      } else {
+      if (this.groups != "") {
         var req = {
           startDate: this.startDate,
           endDate: this.endDate,
@@ -266,7 +228,7 @@ export default {
         this.listLoading = true;
         getInvoiceGroup(req).then(response => {
           this.invoiceList = response.Data;
-          this.total = response.TotalPage;
+          this.total = response.TotalPage * response.RowspPage;
           this.listLoading = false;
           this.currentPage = response.PageNumber;
           this.page_row = response.RowspPage;
@@ -401,22 +363,18 @@ export default {
     }
   },
   created() {
-    this.startDate = getStartDate();
-    this.endDate = getEndDate();
-
-    this.p = 1;
     this.fetchData();
     this.fetchGroup();
   },
 
   watch: {
-    startDate: function() {
+    startDate() {
       this.fetchData();
     },
-    endDate: function() {
+    endDate() {
       this.fetchData();
     },
-    groups: function() {
+    groups() {
       this.fetchData();
       //this.fetchEmployee();
     }
@@ -426,18 +384,9 @@ export default {
 
 <style lang="scss" scoped>
 $bg: rgba(49, 49, 49, 0.05);
-.orderhcm-container {
-  padding: 5px;
-  background-color: $bg;
-  min-height: 100vh;
-
-  .inline-block {
-    display: inline-block;
-    margin-bottom: 5px;
-  }
-
-  .table-pagination {
-    margin-top: 10px;
+.invoice-group {
+  .group-header {
+    padding: 5px 0;
   }
 }
 </style>

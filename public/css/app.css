@@ -317,3 +317,13 @@ h2 {
 .el-select-promo .el-input__inner {
   text-align: center;
 }
+.clear-both {
+  clear: both;
+  content: "";
+}
+.inline-block {
+  display: inline-block;
+}
+.t-table .el-table__empty-text {
+  color: red;
+}

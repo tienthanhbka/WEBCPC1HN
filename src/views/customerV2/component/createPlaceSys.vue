@@ -188,16 +188,4 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
-.my-mission-container {
-  padding: 5px;
-}
-.inline-block {
-  display: inline-block;
-  margin-bottom: 5px;
-  max-width: 100vh;
-}
-.el-pagination {
-  margin-top: 10px;
-}
-</style>
+<style lang="css" scoped></style>

@@ -52,10 +52,11 @@
     </div>
 
     <div slot="footer" style="padding:10px;text-align:right;">
-      <el-button class="pan-btn grey-btn" @click="closeModal">Hủy</el-button>
+      <el-button size="small" type="info" @click="closeModal">Hủy</el-button>
       <el-button
         icon="el-icon-edit"
-        class="pan-btn yellow-btn"
+        size="small"
+        type="primary"
         @click="submitUpload"
         >Cập nhật</el-button
       >
@@ -168,18 +169,4 @@ export default {
   }
 };
 </script>
-<style>
-.selectIDGroup .el-input__inner {
-  border: 0 !important;
-  border-radius: 0 !important;
-  border-bottom: 1px solid #dcdfe6 !important;
-}
-.selectIDGroup .el-textarea__inner {
-  border: 0;
-  border-radius: 0;
-  border-bottom: 1px solid #dcdfe6;
-}
-.modal-box {
-  width: 50%;
-}
-</style>
+<style></style>

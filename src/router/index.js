@@ -244,29 +244,29 @@ export const constantRoutes = [
       {
         path: "/khach-hang/to-chuc",
         name: "Khách hàng tổ chức",
-        component: () => import("@/views/customerV2/index"),
+        component: () => import("@/views/customerV2/KDPlace/index"),
         meta: { title: "KH tổ chức", icon: "fas fa-handshake" },
-        children: [
-          {
-            path: "/khach-hang/to-chuc/ca-nhan",
-            name: "Cá nhân",
-            component: () => import("@/views/customerV2/KDPlace/index"),
-            meta: { title: "Cá nhân", icon: "far fa-user" }
-          },
-          {
-            path: "/khach-hang/to-chuc/nhom",
-            name: "Nhóm",
-            component: () => import("@/views/customerV2/KDPlace/group"),
-            meta: { title: "Quản lý", icon: "fas fa-users" }
-          },
-          {
-            path: "/khach-hang/to-chuc/timeline/:id",
-            name: "TimeLine",
-            hidden:true,
-            component: () => import("@/views/customerV2/component/TimeLine"),
-            meta: { title: "TimeLine", icon: "fas fa-users" }
-          }
-        ]
+        // children: [
+        //   {
+        //     path: "/khach-hang/to-chuc/ca-nhan",
+        //     name: "Cá nhân",
+        //     component: () => import("@/views/customerV2/KDPlace/index"),
+        //     meta: { title: "Cá nhân", icon: "far fa-user" }
+        //   },
+        //   {
+        //     path: "/khach-hang/to-chuc/nhom",
+        //     name: "Nhóm",
+        //     component: () => import("@/views/customerV2/KDPlace/group"),
+        //     meta: { title: "Quản lý", icon: "fas fa-users" }
+        //   },
+        //   {
+        //     path: "/khach-hang/to-chuc/timeline/:id",
+        //     name: "TimeLine",
+        //     hidden:true,
+        //     component: () => import("@/views/customerV2/component/TimeLine"),
+        //     meta: { title: "TimeLine", icon: "fas fa-users" }
+        //   }
+        // ]
       },
       {
         path: "/khach-hang/cung-tuyen",
@@ -497,22 +497,34 @@ export const constantRoutes = [
         meta: { title: "Đơn hàng", icon: "fas fa-file-invoice-dollar" },
         children: [
           {
-            path: "/business/myInvoice/employee",
-            name: "myInvoice",
-            component: () => import("@/views/invoice/employee/index"),
-            meta: { title: "Cá nhân", icon: "far fa-user" }
+            path: "/business/myInvoice/set",
+            name: "InvoiceSet",
+            component: () => import("@/views/invoice/set/index"),
+            meta: { title: "ĐH Đặt", icon: "el-icon-bottom" }
           },
           {
-            path: "/business/myInvoice/groupInvoice",
-            name: "groupInvoice",
-            component: () => import("@/views/invoice/group/index"),
-            meta: { title: "Nhóm", icon: "fas fa-users" }
+            path: "/business/myInvoice/output",
+            name: "InvoiceOutput",
+            component: () => import("@/views/invoice/output/index"),
+            meta: { title: "ĐH Xuất", icon: "el-icon-right" }
           },
+          // {
+          //   path: "/business/myInvoice/employee",
+          //   name: "myInvoice",
+          //   component: () => import("@/views/invoice/employee/index"),
+          //   meta: { title: "Cá nhân", icon: "far fa-user" }
+          // },
+          // {
+          //   path: "/business/myInvoice/groupInvoice",
+          //   name: "groupInvoice",
+          //   component: () => import("@/views/invoice/group/index"),
+          //   meta: { title: "Nhóm", icon: "fas fa-users" }
+          // },
           {
             path: "/business/myInvoice/consignment",
-            name: "Phiếu gửi hàng",
+            name: "Gửi hàng",
             component: () => import("@/views/order/consignment/index"),
-            meta: { title: "Phiếu gửi hàng", icon: "fas fa-box-open" },
+            meta: { title: "Gửi hàng", icon: "fas fa-box-open" },
             children:[
               {
                 path: "employee",
@@ -528,31 +540,38 @@ export const constantRoutes = [
               },
             ]
           },
-          {
-            path: "/business/myInvoice/npp",
-            name: "npp",
-            component: () => import("@/views/invoice/npp/index"),
-            meta: { title: "NPP", icon: "fas fa-store" }
-          },
+          // {
+          //   path: "/business/myInvoice/npp",
+          //   name: "npp",
+          //   component: () => import("@/views/invoice/npp/index"),
+          //   meta: { title: "NPP", icon: "fas fa-store" }
+          // },
           {
             path: "/business/shipBox",
             name: "shipBox",
             component: () => import("@/views/invoice/shipBox/index"),
             meta: { title: "Giao hàng", icon: "fas fa-shipping-fast" }
           },
-          {
-            path: "/business/productLocation",
-            name: "productLocation",
-            component: () => import("@/views/invoice/product-location/index"),
-            meta: { title: "Độ phủ", icon: "fas fa-chart-area" }
-          },
+          // {
+          //   path: "/business/productLocation",
+          //   name: "productLocation",
+          //   component: () => import("@/views/invoice/product-location/index"),
+          //   meta: { title: "Độ phủ", icon: "fas fa-chart-area" }
+          // },
           {
             path: "/business/brand-sale",
-            name: "Đơn hàng thưởng",
+            name: "Thưởng đơn",
             component: () => import("@/views/invoice/brand-sale/index"),
-            meta: { title: "Đơn hàng thưởng", icon: "fas fa-gifts" }
+            meta: { title: "Thưởng đơn", icon: "fas fa-gifts" }
           }
         ]
+      },
+       {
+          path: '/kinh doanh/ket-qua',
+          name: 'Kết quả',
+          component: () =>
+              import ('@/views/business/result/index'),
+          meta: { title: 'Kết quả', icon: 'el-icon-s-data' }
       },
       {
         path: "/debt",
@@ -918,8 +937,8 @@ export const constantRoutes = [
         path: "/ke-hoach/dang-ki-lich-lam-viec",
 
         component: () => import("@/views/mission/mission/mission-np/index"),
-        name: "ĐK lịch làm việc",
-        meta: { title: "ĐK lịch làm việc", icon: "fas fa-notes-medical" },
+        name: "ĐK lịch",
+        meta: { title: "ĐK lịch", icon: "fas fa-notes-medical" },
         children: [
           {
             path: "/ke-hoach/dang-ki-lich-lam-viec/employee",
@@ -944,50 +963,50 @@ export const constantRoutes = [
           }
         ]
       },
-      {
-        path: "/ke-hoach/tang-ca",
-        component: () => import("@/views/mission/mission/mission-ot/index"),
-        name: "Tăng ca",
-        meta: { title: "Tăng ca", icon: "fas fa-stopwatch" },
-        children: [
-          {
-            path: "/ke-hoach/tang-ca/employee",
-            component: () =>
-              import("@/views/mission/mission/mission-ot/component/employee"),
-            name: "Cá nhân",
-            meta: { title: "Cá nhân", icon: "fas fa-user" }
-          },
-          {
-            path: "/ke-hoach/tang-ca/groups",
-            component: () =>
-              import("@/views/mission/mission/mission-ot/component/employee"),
-            name: "Nhóm",
-            meta: { title: "Nhóm", icon: "fas fa-users" }
-          }
-        ]
-      },
-      {
-        path: "/ke-hoach/dang-ki-ca",
-        component: () => import("@/views/mission/index"),
-        name: "ĐK ca",
-        meta: { title: "ĐK ca", icon: "fas fa-calendar-alt" },
-        children: [
-          {
-            path: "/ke-hoach/dang-ki-ca/employee",
-            component: () =>
-              import("@/views/mission/mission/mission-shift/employee"),
-            name: "Cá nhân",
-            meta: { title: "Cá nhân", icon: "fas fa-user" }
-          },
-          {
-            path: "/ke-hoach/dang-ki-ca/groups",
-            component: () =>
-              import("@/views/mission/mission/mission-shift/group"),
-            name: "Nhóm",
-            meta: { title: "Nhóm", icon: "fas fa-users" }
-          }
-        ]
-      },
+      // {
+      //   path: "/ke-hoach/tang-ca",
+      //   component: () => import("@/views/mission/mission/mission-ot/index"),
+      //   name: "Tăng ca",
+      //   meta: { title: "Tăng ca", icon: "fas fa-stopwatch" },
+      //   children: [
+      //     {
+      //       path: "/ke-hoach/tang-ca/employee",
+      //       component: () =>
+      //         import("@/views/mission/mission/mission-ot/component/employee"),
+      //       name: "Cá nhân",
+      //       meta: { title: "Cá nhân", icon: "fas fa-user" }
+      //     },
+      //     {
+      //       path: "/ke-hoach/tang-ca/groups",
+      //       component: () =>
+      //         import("@/views/mission/mission/mission-ot/component/employee"),
+      //       name: "Nhóm",
+      //       meta: { title: "Nhóm", icon: "fas fa-users" }
+      //     }
+      //   ]
+      // },
+      // {
+      //   path: "/ke-hoach/dang-ki-ca",
+      //   component: () => import("@/views/mission/index"),
+      //   name: "ĐK ca",
+      //   meta: { title: "ĐK ca", icon: "fas fa-calendar-alt" },
+      //   children: [
+      //     {
+      //       path: "/ke-hoach/dang-ki-ca/employee",
+      //       component: () =>
+      //         import("@/views/mission/mission/mission-shift/employee"),
+      //       name: "Cá nhân",
+      //       meta: { title: "Cá nhân", icon: "fas fa-user" }
+      //     },
+      //     {
+      //       path: "/ke-hoach/dang-ki-ca/groups",
+      //       component: () =>
+      //         import("@/views/mission/mission/mission-shift/group"),
+      //       name: "Nhóm",
+      //       meta: { title: "Nhóm", icon: "fas fa-users" }
+      //     }
+      //   ]
+      // },
       {
         path: "/mission-call/call/my-em/report",
         component: () => import("@/views/mission/call/employee-call/report"),
@@ -1084,13 +1103,13 @@ export const constantRoutes = [
           }
         ]
       },
-      {
-        path: "/mission-call/call/my-em/Decal",
-        component: () => import("@/views/mission/call/employee-call/checkDecal"),
-        name: "Decal",
-        meta: { title:"Decal", icon: "fas fa-images"},
+      // {
+      //   path: "/mission-call/call/my-em/Decal",
+      //   component: () => import("@/views/mission/call/employee-call/checkDecal"),
+      //   name: "Decal",
+      //   meta: { title:"Decal", icon: "fas fa-images"},
        
-      }
+      // }
     ],
     hidden: displaySX
   },
@@ -1126,107 +1145,107 @@ export const constantRoutes = [
     name: "Hành chính",
     meta: { title: "Hành chính", icon: "fas fa-paste", role: "ALL" },
     children: [
-      {
-        path: "/hanh-chinh/giay-to",
-        component: () => import("@/views/paper/index"),
-        name: "Giấy tờ",
-        meta: { title: "Giấy tờ", icon: "far fa-copy" },
-        children: [
-          {
-            path: "/hanh-chinh/giay-to/admin",
-            //component: () => import("@/views/paper/admin/index"),
-            component: () => import("@/views/paper/index"),
-            name: "Quản lý",
-            meta: { title: "Quản lý", icon: "fas fa-users-cog" },
-            children: [
-              {
-                path: "/hanh-chinh/giay-to/admin/dinh-nghia",
-                component: () => import("@/views/paper/admin/component/createPaper"),
-                name: "Định nghĩa",
-                meta: { title: "Định nghĩa", icon: "fas fa-feather-alt" }
-              },
-              {
-                path: "/hanh-chinh/giay-to/admin/danh-sach",
-                component: () => import("@/views/paper/admin/index"),
-                name: "Danh sách",
-                meta: { title: "Danh sách", icon: "fas fa-list" }
-              }
-            ]
-          },
-          {
-            path: "/hanh-chinh/giay-to/employee",
-            //component: () => import("@/views/paper/employee/index"),
-            component: () => import("@/views/paper/index"),
-            name: "Cá nhân",
-            meta: { title: "Cá nhân", icon: "far fa-user" },
-            children: [
-              {
-                path: "/hanh-chinh/giay-to/employee/dang-ki",
-                component: () => import("@/views/paper/employee/component/registration"),
-                name: "Đăng kí",
-                meta: { title: "Đăng kí", icon: "fas fa-file-medical" }
-              },
-              {
-                path: "/hanh-chinh/giay-to/employee/danh-sach",
-                component: () => import("@/views/paper/employee/index"),
-                name: "Danh sách",
-                meta: { title: "Danh sách", icon: "fas fa-list" }
-              }
-            ]
-          }
-        ]
-      },
-      {
-        path: "/hanh-chinh/bao-cao",
-        component: () => import("@/views/report/index"),
-        name: "Báo cáo",
-        meta: { title: "Báo cáo", icon: "far fa-file-word" },
-        children: [
-          {
-            path: "/hanh-chinh/bao-cao/dinh-nghia",
-            component: () => import("@/views/report/define/index"),
-            name: "Tạo báo cáo",
-            meta: { title: "Tạo báo cáo", icon: "fas fa-file-signature" }
-          },
-          {
-            path: "/hanh-chinh/bao-cao/soan-bao-cao/:id",
-            component: () =>
-              import("@/views/report/define/component/startReport"),
-            name: "Soạn báo cáo",
-            hidden: true,
-            meta: { title: "Soạn báo cáo", icon: "fas fa-car-side" }
-          },
+      // {
+      //   path: "/hanh-chinh/giay-to",
+      //   component: () => import("@/views/paper/index"),
+      //   name: "Giấy tờ",
+      //   meta: { title: "Giấy tờ", icon: "far fa-copy" },
+      //   children: [
+      //     {
+      //       path: "/hanh-chinh/giay-to/admin",
+      //       //component: () => import("@/views/paper/admin/index"),
+      //       component: () => import("@/views/paper/index"),
+      //       name: "Quản lý",
+      //       meta: { title: "Quản lý", icon: "fas fa-users-cog" },
+      //       children: [
+      //         {
+      //           path: "/hanh-chinh/giay-to/admin/dinh-nghia",
+      //           component: () => import("@/views/paper/admin/component/createPaper"),
+      //           name: "Định nghĩa",
+      //           meta: { title: "Định nghĩa", icon: "fas fa-feather-alt" }
+      //         },
+      //         {
+      //           path: "/hanh-chinh/giay-to/admin/danh-sach",
+      //           component: () => import("@/views/paper/admin/index"),
+      //           name: "Danh sách",
+      //           meta: { title: "Danh sách", icon: "fas fa-list" }
+      //         }
+      //       ]
+      //     },
+      //     {
+      //       path: "/hanh-chinh/giay-to/employee",
+      //       //component: () => import("@/views/paper/employee/index"),
+      //       component: () => import("@/views/paper/index"),
+      //       name: "Cá nhân",
+      //       meta: { title: "Cá nhân", icon: "far fa-user" },
+      //       children: [
+      //         {
+      //           path: "/hanh-chinh/giay-to/employee/dang-ki",
+      //           component: () => import("@/views/paper/employee/component/registration"),
+      //           name: "Đăng kí",
+      //           meta: { title: "Đăng kí", icon: "fas fa-file-medical" }
+      //         },
+      //         {
+      //           path: "/hanh-chinh/giay-to/employee/danh-sach",
+      //           component: () => import("@/views/paper/employee/index"),
+      //           name: "Danh sách",
+      //           meta: { title: "Danh sách", icon: "fas fa-list" }
+      //         }
+      //       ]
+      //     }
+      //   ]
+      // },
+      // {
+      //   path: "/hanh-chinh/bao-cao",
+      //   component: () => import("@/views/report/index"),
+      //   name: "Báo cáo",
+      //   meta: { title: "Báo cáo", icon: "far fa-file-word" },
+      //   children: [
+      //     {
+      //       path: "/hanh-chinh/bao-cao/dinh-nghia",
+      //       component: () => import("@/views/report/define/index"),
+      //       name: "Tạo báo cáo",
+      //       meta: { title: "Tạo báo cáo", icon: "fas fa-file-signature" }
+      //     },
+      //     {
+      //       path: "/hanh-chinh/bao-cao/soan-bao-cao/:id",
+      //       component: () =>
+      //         import("@/views/report/define/component/startReport"),
+      //       name: "Soạn báo cáo",
+      //       hidden: true,
+      //       meta: { title: "Soạn báo cáo", icon: "fas fa-car-side" }
+      //     },
 
-          {
-            path: "/hanh-chinh/bao-cao/xem-bao-cao/:id",
-            component: () =>
-              import("@/views/report/value/component/viewReport"),
-            name: "Xem báo cáo",
-            hidden: true,
-            meta: { title: "Xem báo cáo", icon: "fas fa-car-side" }
-          },
-          {
-            path: "/hanh-chinh/bao-cao/DS-bao-cao",
-            component: () => import("@/views/report/index"),
-            name: "Đọc báo cáo",
-            meta: { title: "Đọc báo cáo", icon: "fas fa-list-ol" },
-            children: [
-              {
-                path: "/hanh-chinh/bao-cao/DS-bao-cao/ca-nhan",
-                component: () => import("@/views/report/value/index"),
-                name: "Cá nhân",
-                meta: { title: "Cá nhân", icon: "fas fa-user" }
-              },
-              {
-                path: "/hanh-chinh/bao-cao/DS-bao-cao/quan-ly",
-                component: () => import("@/views/report/value/group"),
-                name: "Quản lý",
-                meta: { title: "Quản lý", icon: "fas fa-users" }
-              }
-            ]
-          }
-        ]
-      },
+      //     {
+      //       path: "/hanh-chinh/bao-cao/xem-bao-cao/:id",
+      //       component: () =>
+      //         import("@/views/report/value/component/viewReport"),
+      //       name: "Xem báo cáo",
+      //       hidden: true,
+      //       meta: { title: "Xem báo cáo", icon: "fas fa-car-side" }
+      //     },
+      //     {
+      //       path: "/hanh-chinh/bao-cao/DS-bao-cao",
+      //       component: () => import("@/views/report/index"),
+      //       name: "Đọc báo cáo",
+      //       meta: { title: "Đọc báo cáo", icon: "fas fa-list-ol" },
+      //       children: [
+      //         {
+      //           path: "/hanh-chinh/bao-cao/DS-bao-cao/ca-nhan",
+      //           component: () => import("@/views/report/value/index"),
+      //           name: "Cá nhân",
+      //           meta: { title: "Cá nhân", icon: "fas fa-user" }
+      //         },
+      //         {
+      //           path: "/hanh-chinh/bao-cao/DS-bao-cao/quan-ly",
+      //           component: () => import("@/views/report/value/group"),
+      //           name: "Quản lý",
+      //           meta: { title: "Quản lý", icon: "fas fa-users" }
+      //         }
+      //       ]
+      //     }
+      //   ]
+      // },
       {
         path: "/quy-dinh/",
         component: () => import("@/views/regulations/index"),
@@ -1323,50 +1342,50 @@ export const constantRoutes = [
           }
         ]
       },
-      {
-        path: "/vaccine",
-        component: () => import("@/views/vaccine/index"),
-        meta: { role: "ALL" },
-        name: "Tiêm vaccine",
-        meta: { title: "Tiêm vaccine", icon: "fas fa-syringe" },
-        children: [
-          {
-            path: "/danh-sach",
-            name: "Danh sách",
-            component: () => import("@/views/vaccine/list-info/index"),
-            meta: { title: "Danh sách", icon: "el-icon-document" }
-          },
-          {
-            path: "quet-qrcode",
-            name: "Quét QR",
-            component: () => import("@/views/vaccine/index"),
-            meta: {
-              title: "Quét QR",
-              icon: "fas fa-qrcode"
-            },
-            children: [
-              {
-                path: "/kiem-tra-suc-khoe",
-                name: "Kiểm tra sk",
-                component: () => import("@/views/vaccine/check-qr/checkin"),
-                meta: { title: "Kiểm tra sk", icon: "el-icon-first-aid-kit" }
-              },
-              {
-                path: "/xac-nhan-tiem",
-                name: "Xác nhận tiêm",
-                component: () => import("@/views/vaccine/check-qr/checkout"),
-                meta: { title: "Xác nhận tiêm", icon: "el-icon-s-check" }
-              }
-            ]
-          },
-          {
-            path: "/thong-ke",
-            name: "Thống kê",
-            component: () => import("@/views/vaccine/analysis/index"),
-            meta: { title: "Thống kê", icon: "fas fa-chart-bar" }
-          }
-        ]
-      }
+      // {
+      //   path: "/vaccine",
+      //   component: () => import("@/views/vaccine/index"),
+      //   meta: { role: "ALL" },
+      //   name: "Tiêm vaccine",
+      //   meta: { title: "Tiêm vaccine", icon: "fas fa-syringe" },
+      //   children: [
+      //     {
+      //       path: "/danh-sach",
+      //       name: "Danh sách",
+      //       component: () => import("@/views/vaccine/list-info/index"),
+      //       meta: { title: "Danh sách", icon: "el-icon-document" }
+      //     },
+      //     {
+      //       path: "quet-qrcode",
+      //       name: "Quét QR",
+      //       component: () => import("@/views/vaccine/index"),
+      //       meta: {
+      //         title: "Quét QR",
+      //         icon: "fas fa-qrcode"
+      //       },
+      //       children: [
+      //         {
+      //           path: "/kiem-tra-suc-khoe",
+      //           name: "Kiểm tra sk",
+      //           component: () => import("@/views/vaccine/check-qr/checkin"),
+      //           meta: { title: "Kiểm tra sk", icon: "el-icon-first-aid-kit" }
+      //         },
+      //         {
+      //           path: "/xac-nhan-tiem",
+      //           name: "Xác nhận tiêm",
+      //           component: () => import("@/views/vaccine/check-qr/checkout"),
+      //           meta: { title: "Xác nhận tiêm", icon: "el-icon-s-check" }
+      //         }
+      //       ]
+      //     },
+      //     {
+      //       path: "/thong-ke",
+      //       name: "Thống kê",
+      //       component: () => import("@/views/vaccine/analysis/index"),
+      //       meta: { title: "Thống kê", icon: "fas fa-chart-bar" }
+      //     }
+      //   ]
+      // }
     ],
     hidden: displaySX
   },
@@ -1485,64 +1504,64 @@ export const constantRoutes = [
           }
         ]
       },
-      {
-        path: "/dao-tao-phong-ban",
-        name: "Phòng ban",
-        component: () => import("@/views/departmentTraining/index"),
-        meta: {
-          title: "Phòng ban",
-          icon: "fas fa-chalkboard-teacher",
-          role: "ALL"
-        },
-        children: [
-          {
-            path: "/dao-tao-phong-ban/dt-tap-trung",
-            name: "Trainning",
-            component: () =>
-              import("@/views/departmentTraining/focusTraining/index"),
-            meta: { title: "Trainning", icon: "fas fa-chalkboard-teacher" },
-            children: [
-              {
-                path: "/dao-tao-phong-ban/dt-tap-trung/bao-cao",
-                component: () =>
-                  import("@/views/departmentTraining/focusTraining/report/index"),
-                name: "Kế hoạch",
-                meta: { title: "Kế hoạch", icon: "fas fa-file-upload" }
-              },
-              {
-                path: "/phong-ban/dao-tao/khao-sat",
-                component: () =>
-                  import("@/views/departmentTraining/focusTraining/report/index"),
-                name: "Đánh giá",
-                meta: { title: "Đánh giá", icon: "fas fa-poll-h" }
-              }
-            ]
-          },
-          {
-            path: "/dao-tao-phong-ban/kiem-tra-thuong-xuyen",
-            name: "Đánh giá chéo",
-            component: () =>
-              import("@/views/departmentTraining/checkRegulary/index"),
-            meta: { title: "Đánh giá chéo", icon: "fas fa-poll-h" },
-            children: [
-              {
-                path: "/dao-tao-phong-ban/kiem-tra-thuong-xuyen/bao-cao",
-                component: () =>
-                  import("@/views/departmentTraining/checkRegulary/report/index"),
-                name: "Báo cáo",
-                meta: { title: "Báo cáo", icon: "fas fa-file-upload" }
-              },
-              {
-                path: "/dao-tao-phong-ban/kiem-tra-thuong-xuyen/danh-gia",
-                component: () =>
-                  import("@/views/departmentTraining/checkRegulary/evaluate/index"),
-                name: "Đánh giá",
-                meta: { title: "Đánh giá", icon: "fas fa-check-double" }
-              }
-            ]
-          }
-        ]
-      },
+      // {
+      //   path: "/dao-tao-phong-ban",
+      //   name: "Phòng ban",
+      //   component: () => import("@/views/departmentTraining/index"),
+      //   meta: {
+      //     title: "Phòng ban",
+      //     icon: "fas fa-chalkboard-teacher",
+      //     role: "ALL"
+      //   },
+      //   children: [
+      //     {
+      //       path: "/dao-tao-phong-ban/dt-tap-trung",
+      //       name: "Trainning",
+      //       component: () =>
+      //         import("@/views/departmentTraining/focusTraining/index"),
+      //       meta: { title: "Trainning", icon: "fas fa-chalkboard-teacher" },
+      //       children: [
+      //         {
+      //           path: "/dao-tao-phong-ban/dt-tap-trung/bao-cao",
+      //           component: () =>
+      //             import("@/views/departmentTraining/focusTraining/report/index"),
+      //           name: "Kế hoạch",
+      //           meta: { title: "Kế hoạch", icon: "fas fa-file-upload" }
+      //         },
+      //         {
+      //           path: "/phong-ban/dao-tao/khao-sat",
+      //           component: () =>
+      //             import("@/views/departmentTraining/focusTraining/report/index"),
+      //           name: "Đánh giá",
+      //           meta: { title: "Đánh giá", icon: "fas fa-poll-h" }
+      //         }
+      //       ]
+      //     },
+      //     {
+      //       path: "/dao-tao-phong-ban/kiem-tra-thuong-xuyen",
+      //       name: "Đánh giá chéo",
+      //       component: () =>
+      //         import("@/views/departmentTraining/checkRegulary/index"),
+      //       meta: { title: "Đánh giá chéo", icon: "fas fa-poll-h" },
+      //       children: [
+      //         {
+      //           path: "/dao-tao-phong-ban/kiem-tra-thuong-xuyen/bao-cao",
+      //           component: () =>
+      //             import("@/views/departmentTraining/checkRegulary/report/index"),
+      //           name: "Báo cáo",
+      //           meta: { title: "Báo cáo", icon: "fas fa-file-upload" }
+      //         },
+      //         {
+      //           path: "/dao-tao-phong-ban/kiem-tra-thuong-xuyen/danh-gia",
+      //           component: () =>
+      //             import("@/views/departmentTraining/checkRegulary/evaluate/index"),
+      //           name: "Đánh giá",
+      //           meta: { title: "Đánh giá", icon: "fas fa-check-double" }
+      //         }
+      //       ]
+      //     }
+      //   ]
+      // },
       {
         path: "/ho-so",
         component: () => import("@/views/CV/index"),

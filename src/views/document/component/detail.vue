@@ -92,7 +92,7 @@
           link
         }}</el-link>
       </el-tab-pane>
-      <el-tab-pane label="Mẹo sản phẩm" name="9">
+      <el-tab-pane label="Câu hỏi tình huống" name="9">
         <div v-if="reviewDes" class="product-content">
           <el-card shadow="always">
             <div class="content-edit" v-html="reviewDes"></div>

@@ -214,7 +214,8 @@
                       style="width: 100%;color: #58ACFA;"
                       size="mini"
                       @click="view(scope.row, '9')"
-                      ><i class="el-icon-tickets"></i>Mẹo sản phẩm</el-button
+                      ><i class="el-icon-tickets"></i>Câu hỏi tình
+                      huống</el-button
                     ></el-dropdown-item
                   >
                   <el-dropdown-item v-if="scope.row.Link">

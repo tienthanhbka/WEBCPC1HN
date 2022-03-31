@@ -1,6 +1,5 @@
 import request from '@/utils/post'
 import requestT from '@/utils/requestT'
-// import axios from 'axios'
 export function getOrder(data) {
   return request({
     url: 'Order',
@@ -311,6 +310,20 @@ export function GetConsignmentByEm(data) {
 export function GetConsignmentByAdmin(data) {
   return requestT({
     url: 'Order/GetConsignmentByAdmin',
+    method: 'post',
+    data: data
+  })
+}
+export function GetSaleOutputHeader(data) {
+  return requestT({
+    url: 'Order/GetSaleOutputHeader',
+    method: 'post',
+    data: data
+  })
+}
+export function GetSaleOutputLine(data) {
+  return requestT({
+    url: 'Order/GetSaleOutputLine',
     method: 'post',
     data: data
   })
