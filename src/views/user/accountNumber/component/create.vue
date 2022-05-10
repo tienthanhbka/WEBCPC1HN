@@ -16,11 +16,21 @@
         ></el-input>
       </el-form-item>
       <el-form-item label="Ngân hàng" prop="date">
-        <el-input
+        <el-select
           class="selectIDGroup"
+          filterable
+          clearable
           v-model="form.Bank"
-          placeholder="Nhập tên ngân hàng..."
-        ></el-input>
+          placeholder="Chọn ngân hàng"
+          style="width:100%"
+        >
+          <el-option
+            v-for="item in banks"
+            :key="item.value"
+            :label="item.value"
+            :value="item.value"
+          ></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item label="Ghi chú" prop="date">
         <el-input class="selectIDGroup" v-model="form.Note"></el-input>
@@ -35,11 +45,12 @@
 </template>
 <script>
 import { CreateEmAccount } from "@/api/employeeAdmin";
-
+import { GetDefaultValue } from "@/api/default";
 export default {
   props: ["employee"],
   data() {
     return {
+      banks: [],
       form: {
         EmployeeID: "",
         AccountNumber: "",
@@ -67,11 +78,20 @@ export default {
       this.form.AccountNumber = null;
       this.form.Bank = null;
       this.form.Note = null;
+    },
+
+    fetchDefaultValue() {
+      GetDefaultValue({ Table: "BankName" }).then(res => {
+        if (res.RespCode == 0) {
+          this.banks = res.DefaultValueLst;
+        }
+      });
     }
   },
   created() {
     //this.getOffice()
     this.initForm();
+    this.fetchDefaultValue();
   }
 };
 </script>

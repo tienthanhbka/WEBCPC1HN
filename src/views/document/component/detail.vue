@@ -88,11 +88,35 @@
         ></iframe>
       </el-tab-pane>
       <el-tab-pane label="Link" v-if="link" name="8">
-        <el-link type="primary" :href="link" target="_blank">{{
-          link
-        }}</el-link>
+        <el-link type="primary" :href="link" target="_blank">Link</el-link>
+        <iframe
+          :src="link"
+          frameborder="0"
+          width="100%"
+          height="500px"
+          allowfullscreen="true"
+          mozallowfullscreen="true"
+          webkitallowfullscreen="true"
+        ></iframe> </el-tab-pane
+      ><el-tab-pane label="Sway" v-if="sway" name="9">
+        <iframe
+          width="100%"
+          height="500px"
+          :src="sway"
+          frameborder="0"
+          marginheight="0"
+          marginwidth="0"
+          max-width="100%"
+          sandbox="allow-forms allow-modals allow-orientation-lock allow-popups allow-same-origin allow-scripts"
+          scrolling="no"
+          style="border: none; max-width: 100%; max-height: 100vh"
+          allowfullscreen
+          mozallowfullscreen
+          msallowfullscreen
+          webkitallowfullscreen
+        ></iframe>
       </el-tab-pane>
-      <el-tab-pane label="Câu hỏi tình huống" name="9">
+      <el-tab-pane label="Câu hỏi tình huống" name="10">
         <div v-if="reviewDes" class="product-content">
           <el-card shadow="always">
             <div class="content-edit" v-html="reviewDes"></div>
@@ -102,7 +126,7 @@
           Không có dữ liệu
         </div>
       </el-tab-pane>
-      <el-tab-pane label="Phản hồi" name="10">
+      <el-tab-pane label="Phản hồi" name="11">
         <div class="blank-table">
           Không có dữ liệu
         </div>
@@ -130,7 +154,8 @@ export default {
       catalogue: "",
       link: "",
       productDes: "",
-      reviewDes: ""
+      reviewDes: "",
+      sway: ""
     };
   },
   methods: {
@@ -145,6 +170,7 @@ export default {
         this.link = "";
         this.productDes = "";
         this.reviewDes = "";
+        this.sway = "";
         const imgs = this.row.Image ? this.row.Image.split(";") : [];
         if (imgs.length > 0) {
           this.imgLst = imgs.map(
@@ -188,6 +214,7 @@ export default {
         this.link = this.row.Link ? this.row.Link : "";
         this.productDes = this.row.ProductDes ? this.row.ProductDes : "";
         this.reviewDes = this.row.ReviewDes ? this.row.ReviewDes : "";
+        this.sway = this.row.LinkSway ? this.row.LinkSway : "";
       }
     }
   },

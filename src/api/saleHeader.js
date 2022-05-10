@@ -50,3 +50,11 @@ export function GetSaleHeaderByCustomer(data) {
       data: data
     })
   }
+  export function GetSaleAnalysicByMonth(data) {
+    return requestT({
+      url: 'Sales/GetSaleAnalysicByMonth',
+      method: 'post',
+      data: data
+    })
+  } 
+

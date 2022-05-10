@@ -792,8 +792,8 @@
           <el-row :gutter="10">
             <el-col :xs="24" :lg="8">
               <el-form-item
-                label="Số tài khoản cá nhân:"
-                label-width="160px"
+                label="STK cá nhân:"
+                label-width="120px"
                 class="item-form-custom"
               >
                 <el-input
@@ -804,17 +804,31 @@
                 ></el-input>
               </el-form-item>
             </el-col>
-            <el-col :xs="24" :lg="16">
+            <el-col :xs="24" :lg="8">
               <el-form-item
-                label="Ghi chú ngân hàng, chi nhánh của TK cá nhân:"
-                label-width="320px"
+                label="Chủ tài khoản:"
+                label-width="130px"
+                class="item-form-custom"
+              >
+                <el-input
+                  :class="form.TK_Employee_Name ? '' : 'infoInvalidate'"
+                  class="selectIDGroup"
+                  v-model="form.TK_Employee_Name"
+                  placeholder="Chủ tài khoản..."
+                ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :xs="24" :lg="8">
+              <el-form-item
+                label="Ngân hàng:"
+                label-width="110px"
                 class="item-form-custom"
               >
                 <el-input
                   :class="form.TK_Employee_Note ? '' : 'infoInvalidate'"
                   class="selectIDGroup"
                   v-model="form.TK_Employee_Note"
-                  placeholder="ghi chú..."
+                  placeholder="Chọn ngân hàng..."
                 ></el-input>
               </el-form-item>
             </el-col>
@@ -1164,6 +1178,7 @@ export default {
         typeOption: "",
         TK_Employee: "",
         TK_Employee_Note: "",
+        TK_Employee_Name: "",
         TK_Company: "",
         TK_Company_Note: ""
       },
@@ -1806,6 +1821,7 @@ export default {
         this.form.typeOption = this.user[0].TypeOption;
         this.form.TK_Employee = this.user[0].TK_Employee;
         this.form.TK_Employee_Note = this.user[0].TK_Employee_Note;
+        this.form.TK_Employee_Name = this.user[0].TK_Employee_Name;
         this.form.TK_Company = this.user[0].TK_Company;
         this.form.TK_Company_Note = this.user[0].TK_Company_Note;
         if (this.form.Position != null) {

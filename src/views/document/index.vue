@@ -213,7 +213,7 @@
                     <el-button
                       style="width: 100%;color: #58ACFA;"
                       size="mini"
-                      @click="view(scope.row, '9')"
+                      @click="view(scope.row, '10')"
                       ><i class="el-icon-tickets"></i>Câu hỏi tình
                       huống</el-button
                     ></el-dropdown-item
@@ -224,6 +224,14 @@
                       size="mini"
                       @click="view(scope.row, '8')"
                       ><i class="el-icon-link"></i>Link</el-button
+                    ></el-dropdown-item
+                  >
+                  <el-dropdown-item v-if="scope.row.LinkSway">
+                    <el-button
+                      style="width: 100%;color: #58ACFA;"
+                      size="mini"
+                      @click="view(scope.row, '9')"
+                      ><i class="el-icon-link"></i>Sway</el-button
                     ></el-dropdown-item
                   >
                 </el-dropdown-menu>
@@ -371,6 +379,10 @@ export default {
         {
           label: "Catalogue",
           value: 5
+        },
+        {
+          label: "Sway",
+          value: 6
         }
       ]
     };

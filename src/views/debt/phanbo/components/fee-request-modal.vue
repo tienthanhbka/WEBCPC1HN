@@ -213,6 +213,10 @@ export default {
   },
   methods: {
     editFee() {
+      this.form.start = Date.parse(this.form.start).toString(
+        "yyyy-MM-dd HH:mm:ss"
+      );
+      this.form.end = Date.parse(this.form.end).toString("yyyy-MM-dd HH:mm:ss");
       EditFeeRequest({
         data: this.form
       }).then(res => {

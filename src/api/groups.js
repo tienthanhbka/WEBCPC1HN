@@ -100,4 +100,11 @@ export function GetDetailEmployeeGroup(data) {
     data: data
   })
 }
+export function AddEmployee(data) {
+  return requestT({
+    url: 'Group/AddEmployee',
+    method: 'post',
+    data: data
+  })
+}
 

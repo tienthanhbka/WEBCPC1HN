@@ -32,7 +32,7 @@
           >
         </div>
         <iframe
-          v-if="typeMode == 4"
+          v-if="typeMode == 4 || typeMode == 6"
           :src="fileName"
           title="description"
           width="100%"
@@ -98,6 +98,8 @@ export default {
             this.fileName = response.DocumentInfo.Video;
           } else if (this.typeMode == 5) {
             this.fileName = response.DocumentInfo.Catalogue;
+          } else if (this.typeMode == 6) {
+            this.fileName = response.DocumentInfo.LinkSway;
           }
         }
       });

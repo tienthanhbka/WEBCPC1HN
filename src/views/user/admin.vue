@@ -125,6 +125,7 @@
       class="el-mobile-table"
       v-loading="listLoading"
       :data="listEm"
+      size="small"
       element-loading-text="Loading"
       border
       highlight-current-row
@@ -508,7 +509,10 @@ import {
   GetListEmployeeDateStartByMonth,
   GetEmployeeRecord_HR,
   GetEmployeeStatusCount,
-  GetRecordHR
+  GetRecordHR,
+  GetCheckHDLD,
+  GetHDLDNew,
+  GetEmployeeVacation
 } from "@/api/employeeInfor";
 import AcceptInfor from "@/views/user/components/AcceptInfor";
 import CreateUser from "@/views/user/components/createUser";
@@ -626,6 +630,18 @@ export default {
         {
           label: "DS hồ sơ nhân sự",
           value: 13
+        },
+        {
+          label: "DS hết hạn HĐLD",
+          value: 14
+        },
+        {
+          label: "DS HĐLD mới set",
+          value: 15
+        },
+        {
+          label: "Danh sách nghỉ phép nhân sự",
+          value: 16
         }
       ],
       report: 1,
@@ -730,9 +746,19 @@ export default {
         case 13:
           this.Export13();
           break;
+        case 14:
+          this.Export14();
+          break;
+        case 15:
+          this.Export15();
+          break;
+        case 16:
+          this.Export16();
+          break;
       }
     },
     Export1() {
+      this.downloading = true;
       const tHeader = [
         "Mã NV",
         "Họ tên",
@@ -771,12 +797,15 @@ export default {
               bookType: "xlsx"
             });
           });
+          this.downloading = true;
         }
       );
     },
     Export2() {
       // var n = Date.parse(this.month).toString("MM-yyyy");
       // this.month = Date.parse(this.month).toString("yyyy-MM-dd");
+      this.downloading = true;
+
       const tHeader = [
         "Mã NV",
         "Họ tên",
@@ -811,12 +840,15 @@ export default {
             bookType: "xlsx"
           });
         });
+        this.downloading = true;
       });
     },
 
     Export3() {
       // var n = Date.parse(this.month).toString("MM-yyyy");
       // this.month = Date.parse(this.month).toString("yyyy-MM-dd");
+      this.downloading = true;
+
       const tHeader = [
         "Mã NV",
         "Họ tên",
@@ -853,10 +885,13 @@ export default {
             bookType: "xlsx"
           });
         });
+        this.downloading = true;
       });
     },
     Export4() {
       //var n = Date.parse(this.month).toString('MM-yyyy')
+      this.downloading = true;
+
       const tHeader = [
         "Mã NV",
         "Họ tên",
@@ -887,9 +922,12 @@ export default {
           });
         }
       );
+      this.downloading = true;
     },
     Export5() {
       //var n = Date.parse(this.month).toString('MM-yyyy')
+      this.downloading = true;
+
       const tHeader = [
         "Mã NV",
         "Họ tên",
@@ -919,10 +957,13 @@ export default {
             bookType: "xlsx"
           });
         });
+        this.downloading = true;
       });
     },
     Export6() {
       // var n = Date.parse(this.month).toString('MM-yyyy')
+      this.downloading = true;
+
       const tHeader = [
         "Mã NV",
         "Họ tên",
@@ -996,10 +1037,13 @@ export default {
             bookType: "xlsx"
           });
         });
+        this.downloading = true;
       });
     },
     Export7() {
       // var n = Date.parse(this.month).toString('MM-yyyy')
+      this.downloading = true;
+
       const tHeader = [
         "Mã NV",
         "Họ tên",
@@ -1036,10 +1080,13 @@ export default {
               bookType: "xlsx"
             });
           });
+          this.downloading = true;
         }
       );
     },
     Export8() {
+      this.downloading = true;
+
       var n = Date.parse(this.month).toString("MM-yyyy");
       this.month = Date.parse(this.month).toString("yyyy-MM-dd");
       const tHeader = [
@@ -1069,9 +1116,12 @@ export default {
             bookType: "xlsx"
           });
         });
+        this.downloading = true;
       });
     },
     Export9() {
+      this.downloading = true;
+
       var n = Date.parse(this.month).toString("MM-yyyy");
       this.month = Date.parse(this.month).toString("yyyy-MM-dd");
       const tHeader = [
@@ -1099,10 +1149,13 @@ export default {
             bookType: "xlsx"
           });
         });
+        this.downloading = true;
       });
     },
     Export10() {
       // var n = Date.parse(this.month).toString('MM-yyyy')
+      this.downloading = true;
+
       const tHeader = [
         "Mã NV",
         "Họ tên bố/mẹ",
@@ -1132,9 +1185,12 @@ export default {
             bookType: "xlsx"
           });
         });
+        this.downloading = true;
       });
     },
     Export11() {
+      this.downloading = true;
+
       const tHeader = [
         "Trạng thái",
         "Mã NV",
@@ -1234,10 +1290,12 @@ export default {
               bookType: "xlsx"
             });
           });
+          this.downloading = true;
         }
       );
     },
     Export12() {
+      this.downloading = true;
       // var n = Date.parse(this.month).toString('MM-yyyy')
       var n = Date.parse(this.month).toString("MM-yyyy");
       this.month = Date.parse(this.month).toString("yyyy-MM-dd");
@@ -1280,6 +1338,7 @@ export default {
             bookType: "xlsx"
           });
         });
+        this.downloading = true;
       });
     },
     Export13() {
@@ -1424,6 +1483,155 @@ export default {
           });
         });
         this.downloading = false;
+      });
+    },
+    Export14() {
+      // var n = Date.parse(this.month).toString("MM-yyyy");
+      // this.month = Date.parse(this.month).toString("yyyy-MM-dd");
+      this.downloading = true;
+      const tHeader = [
+        "Mã NV",
+        "Họ tên",
+        "Phòng ban",
+        "Chức danh",
+        "Loại hợp đồng",
+        "Ngày hết hạn",
+        "Link"
+      ];
+      const filterHeader = [
+        "EmployeeCode",
+        "EmployeeName",
+        "Office",
+        "Position",
+        "Type",
+        "DateEnd",
+        "Link"
+      ];
+      GetCheckHDLD({
+        DateStart: this.startDate,
+        DateEnd: this.endDate
+      }).then(response => {
+        if (response.RespCode == 0) {
+          var data = response.Data;
+          import("@/vendor/Export2Excel").then(excel => {
+            excel.export_json_to_excel({
+              header: tHeader,
+              data: this.formatJson(filterHeader, data),
+              filename:
+                "Danh sách HĐLD hết hạn trong khoảng từ " +
+                Date.parse(this.startDate).toString("dd-MM-yyyy") +
+                "đến " +
+                Date.parse(this.endDate).toString("dd-MM-yyyy"),
+              autoWidth: true,
+              bookType: "xlsx"
+            });
+          });
+          this.downloading = false;
+        }
+      });
+    },
+    Export15() {
+      // var n = Date.parse(this.month).toString("MM-yyyy");
+      // this.month = Date.parse(this.month).toString("yyyy-MM-dd");
+      this.downloading = true;
+      const tHeader = [
+        "Mã NV",
+        "Họ tên",
+        "Phòng ban",
+        "Chức danh",
+        "Loại hợp đồng",
+        "Ngày bắt đầu",
+        "Ngày kết thúc",
+        "Ngày kí"
+      ];
+      const filterHeader = [
+        "EmployeeCode",
+        "EmployeeName",
+        "Office",
+        "Position",
+        "Type",
+        "DateStart",
+        "DateEnd",
+        "DateSign"
+      ];
+      GetHDLDNew().then(response => {
+        if (response.RespCode == 0) {
+          var data = response.Data;
+          import("@/vendor/Export2Excel").then(excel => {
+            excel.export_json_to_excel({
+              header: tHeader,
+              data: this.formatJson(filterHeader, data),
+              filename: "Danh sách HĐLD mới set",
+              autoWidth: true,
+              bookType: "xlsx"
+            });
+          });
+          this.downloading = false;
+        }
+      });
+    },
+    Export16() {
+      // var n = Date.parse(this.month).toString("MM-yyyy");
+      // this.month = Date.parse(this.month).toString("yyyy-MM-dd");
+      this.downloading = true;
+      const tHeader = [
+        "Họ tên",
+        "Mã NV",
+        "Số điện thoại",
+        "Trạng thái hợp đồng",
+        "Ngày bắt đầu",
+        "Ngày kết thúc",
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7",
+        "T8",
+        "T9",
+        "T10",
+        "T11",
+        "T12",
+        "Phép tồn năm cũ",
+        "Phép tồn hiện tại"
+      ];
+      const filterHeader = [
+        "EmployeeName",
+        "EmployeeCode",
+        "EmployeeID",
+        "TypeContract",
+        "DateStart",
+        "DateEnd",
+        "T1",
+        "T2",
+        "T3",
+        "T4",
+        "T5",
+        "T6",
+        "T7",
+        "T8",
+        "T9",
+        "T10",
+        "T11",
+        "T12",
+        "VacationInventory",
+        "VacationNum"
+      ];
+      GetEmployeeVacation().then(response => {
+        if (response.RespCode == 0) {
+          var data = response.Data;
+          import("@/vendor/Export2Excel").then(excel => {
+            excel.export_json_to_excel({
+              header: tHeader,
+              data: this.formatJson(filterHeader, data),
+              filename: "Danh sách nghỉ phép nhân sự",
+              autoWidth: true,
+              bookType: "xlsx"
+            });
+          });
+          this.downloading = false;
+        }
       });
     },
     formatJson(filterVal, jsonData) {
@@ -1604,7 +1812,12 @@ export default {
         this.displayMonth = false;
       }
 
-      if (this.report == 2 || this.report == 3 || this.report == 13) {
+      if (
+        this.report == 2 ||
+        this.report == 3 ||
+        this.report == 13 ||
+        this.report == 14
+      ) {
         this.displayDStart = true;
         this.displayDEnd = true;
       } else {

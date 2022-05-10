@@ -20,6 +20,10 @@ const missionStatusMap = {
   4: {
     text: "Đã nộp ảnh",
     type: "success"
+  },
+  5: {
+    text: "Từ chối",
+    type: "success"
   }
 };
 const missionVacationStatus = {

@@ -244,7 +244,6 @@ export default {
       this.downloading = true;
       let DateStart = Date.parse(this.DateStart).toString("dd/MM/yyyy");
       let DateEnd = Date.parse(this.DateEnd).toString("dd/MM/yyyy");
-
       const tHeader = [
         "Nhân viên",
         "Điện thoại",
@@ -297,7 +296,7 @@ export default {
       return jsonData.map(v =>
         filterVal.map(j => {
           if (j === "Status") {
-            return this.$options.filters.missionStatusText(v[j]);
+            return this.$options.filters.missionVacationStatusText(v[j]);
           } else {
             return v[j];
           }

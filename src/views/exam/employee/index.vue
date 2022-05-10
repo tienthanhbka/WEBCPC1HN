@@ -1,29 +1,31 @@
 <template>
-  <div class="orderhcm-container">
-    <div class="orderhcm-header">
-      <div class="inline-block">
-        <span class="demonstration">Từ</span>
-        <el-date-picker
-          v-model="startDate"
-          type="date"
-          placeholder="Ngày bắt đầu"
-          format="dd/MM/yyyy"
-          value-format="yyyy-MM-dd"
-        >
-        </el-date-picker>
+  <div class="employee-exam">
+    <!-- <div class="exam-header">
+      <div class="right">
+        <div class="inline-block">
+          <el-date-picker
+            v-model="startDate"
+            type="date"
+            si
+            placeholder="Ngày bắt đầu"
+            format="dd/MM/yyyy"
+            value-format="yyyy-MM-dd"
+          >
+          </el-date-picker>
+        </div>
+        <div class="inline-block">
+          <el-date-picker
+            v-model="endDate"
+            type="date"
+            placeholder="Ngày kết thúc"
+            format="dd/MM/yyyy"
+            value-format="yyyy-MM-dd"
+          >
+          </el-date-picker>
+        </div>
       </div>
-      <div class="inline-block">
-        <span class="demonstration">Đến</span>
-        <el-date-picker
-          v-model="endDate"
-          type="date"
-          placeholder="Ngày kết thúc"
-          format="dd/MM/yyyy"
-          value-format="yyyy-MM-dd"
-        >
-        </el-date-picker>
-      </div>
-    </div>
+    </div> -->
+    <div class="clear-both"></div>
     <div class="orderhcm-content">
       <el-table
         v-loading="listLoading"
@@ -62,9 +64,9 @@
                 prop="question"
                 label="Câu hỏi"
                 style="color: bule"
-                width="250"
+                min-width="250"
               ></el-table-column>
-              <el-table-column label="Phương án lựa chọn">
+              <el-table-column label="Phương án lựa chọn" min-width="250">
                 <template slot-scope="scope">
                   <span v-if="scope.row.choiceAnswer">{{
                     scope.row.choiceAnswer | jsonParse
@@ -119,7 +121,6 @@ import { getExam } from "@/api/exam";
 import { examDetail } from "@/api/examDetail";
 import Cookies from "js-cookie";
 import { getStartDate, getEndDate } from "@/api/index";
-import { json } from "body-parser";
 
 export default {
   filters: {
@@ -248,19 +249,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$bg: rgba(49, 49, 49, 0.05);
-.orderhcm-container {
-  padding: 20px;
-  background-color: $bg;
-  min-height: 100vh;
-
-  .inline-block {
-    display: inline-block;
-    margin-bottom: 5px;
-  }
-
-  .table-pagination {
-    margin-top: 10px;
+.employee-exam {
+  padding: 10px;
+  .exam-header {
+    .right {
+      float: right;
+    }
   }
 }
 </style>

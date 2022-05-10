@@ -1,7 +1,12 @@
 <template>
-  <div class="orderhcm-container">
-    <div class="orderhcm-header">
-      <el-select v-model="groups" clearable placeholder="Chọn nhóm">
+  <div class="group-exam">
+    <div class="exam-header">
+      <el-select
+        size="small"
+        v-model="groups"
+        clearable
+        placeholder="Chọn nhóm"
+      >
         <el-option
           v-for="item in groupList"
           :key="item.idGroup"
@@ -11,7 +16,7 @@
         </el-option>
       </el-select>
 
-      <div class="inline-block">
+      <!-- <div class="inline-block">
         <span class="demonstration">Từ</span>
         <el-date-picker
           v-model="startDate"
@@ -32,7 +37,7 @@
           value-format="yyyy-MM-dd"
         >
         </el-date-picker>
-      </div>
+      </div> -->
     </div>
     <div class="orderhcm-content">
       <el-table
@@ -73,9 +78,9 @@
                 prop="question"
                 label="Câu hỏi"
                 style="color: bule"
-                width="250"
+                min-width="250"
               ></el-table-column>
-              <el-table-column label="Phương án lựa chọn">
+              <el-table-column label="Phương án lựa chọn" min-width="250">
                 <template slot-scope="scope">
                   <span>{{ scope.row.choiceAnswer | jsonParse }}</span>
                 </template>
@@ -90,6 +95,7 @@
               ></el-table-column>
               <el-table-column
                 prop="point"
+                align="center"
                 label="Điểm"
                 width="70"
               ></el-table-column>
@@ -106,7 +112,7 @@
             <span>{{ scope.$index + 1 }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="Tên nhân viên" align="center" min-width="100">
+        <el-table-column label="Tên nhân viên" min-width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.nameEmployee }}</span>
           </template>
@@ -181,11 +187,11 @@ export default {
         return (
           "A: " +
           value.A +
-          "; B: " +
+          " B: " +
           value.B +
-          "; C: " +
+          " C: " +
           value.C +
-          "; D: " +
+          " D: " +
           value.D
         );
       }
@@ -293,6 +299,7 @@ export default {
       };
       GetListGroupAdminByToken(req).then(response => {
         this.groupList = response.Data;
+        this.groups = this.groupList[0];
       });
     }
   },
@@ -328,33 +335,24 @@ export default {
     this.fetchGroup();
   },
   watch: {
-    groups: function() {
-      this.fetchData();
-    },
-    startDate: function() {
-      this.fetchData();
-    },
-    endDate: function() {
+    groups() {
       this.fetchData();
     }
+    // startDate() {
+    //   this.fetchData();
+    // },
+    // endDate() {
+    //   this.fetchData();
+    // }
   }
 };
 </script>
 
 <style lang="scss" scoped>
-$bg: rgba(49, 49, 49, 0.05);
-.orderhcm-container {
-  padding: 20px;
-  background-color: $bg;
-  min-height: 100vh;
-
-  .inline-block {
-    display: inline-block;
-    margin-bottom: 5px;
-  }
-
-  .table-pagination {
-    margin-top: 10px;
+.group-exam {
+  padding: 10px;
+  .exam-header {
+    padding-bottom: 5px;
   }
 }
 </style>

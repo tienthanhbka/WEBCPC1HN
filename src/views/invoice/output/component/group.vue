@@ -111,10 +111,17 @@
           </div>
         </template>
       </el-table-column>
-      <el-table-column width="100px" label="Chi tiết" align="center">
+      <el-table-column width="160px" label="Doanh số">
         <template slot-scope="scope">
-          <div class="dat-cell" label="Chi tiết">
-            <el-button type="text" @click="expand(scope.row)"
+          <div class="dat-cell" label="Doanh số">
+            {{ scope.row.AmountSale | toVND }}
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column width="100px" label="Báo cáo" align="center">
+        <template slot-scope="scope">
+          <div class="dat-cell" label="Báo cáo">
+            <el-button type="text" @click="viewDetailEm(scope.row)"
               >Chi tiết</el-button
             >
           </div>
@@ -178,6 +185,9 @@ export default {
           (this.currentPage - 1) * this.pageSize,
           this.currentPage * this.pageSize
         );
+    },
+    viewDetailEm(row) {
+      this.$emit("viewDetailEm", row);
     }
   },
   created() {

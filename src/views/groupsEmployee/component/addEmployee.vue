@@ -21,7 +21,7 @@
   </modal>
 </template>
 <script>
-import { addEmployeeGroup } from "@/api/groups";
+import { AddEmployee } from "@/api/groups";
 import Cookies from "js-cookie";
 export default {
   props: ["row", "groups"],
@@ -54,12 +54,12 @@ export default {
     },
     addEmployee() {
       var req = {
-        idEmployee: this.idEmployee,
-        idGroup: this.$props.groups
+        EmployeeID: this.idEmployee,
+        GroupID: this.$props.groups
       };
 
-      addEmployeeGroup(req).then(response => {
-        if (response.ResCode == 0) {
+      AddEmployee(req).then(response => {
+        if (response.RespCode == 0) {
           this.$notify({
             title: "Thành công",
             message: "Thêm nhân viên thành công",

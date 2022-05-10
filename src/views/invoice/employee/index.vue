@@ -1,6 +1,6 @@
 <template>
   <div class="invoice-employee">
-    <div class="employee-header">
+    <!-- <div class="employee-header">
       <div>
         <el-row>
           <el-col :span="12">
@@ -25,7 +25,7 @@
           </el-col>
         </el-row>
       </div>
-    </div>
+    </div> -->
 
     <div class="orderhcm-content">
       <el-table
@@ -44,9 +44,11 @@
               :data="props.row.lines"
               size="mini"
               v-model="rowNow"
-              style="width: 100%"
+              style="width: 100%;"
               v-loading="props.row.isLoading"
               element-loading-text="Loading"
+              border
+              highlight-current-row
             >
               <el-table-column
                 prop="Description"
@@ -93,16 +95,7 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="Ngày đặt" align="center" width="100">
-          <template slot-scope="scope">
-            <span>{{ scope.row.OrderDate | toDate }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="Hạn" align="center" width="100">
-          <template slot-scope="scope">
-            <span>{{ scope.row.ExpriationDate | toDate }}</span>
-          </template>
-        </el-table-column>
+
         <el-table-column label="Loại" align="center" width="100">
           <template slot-scope="scope">
             <span>{{ scope.row.templateCode }}</span>
@@ -124,10 +117,19 @@
             <span>{{ scope.row.contact }}</span>
           </template>
         </el-table-column>
-
-        <el-table-column label="Trạng thái" align="center" min-width="100">
+        <el-table-column label="Ngày đặt" align="center" width="100">
           <template slot-scope="scope">
-            <el-tag :type="scope.row.Status | invoiceStatusColor">
+            <span>{{ scope.row.OrderDate | toDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="Hạn" align="center" width="100">
+          <template slot-scope="scope">
+            <span>{{ scope.row.ExpriationDate | toDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="Trạng thái" align="center" width="130">
+          <template slot-scope="scope">
+            <el-tag :type="scope.row.Status | invoiceStatusColor" size="small">
               {{ scope.row.Status | invoiceStatusText }}
             </el-tag>
           </template>
@@ -159,7 +161,7 @@ import { getInvoice, getInvoiceMoney } from "@/api/invoice";
 import { getInvoiceLine } from "@/api/getInvoiceLine";
 import { Header } from "@/views/invoice/component/header";
 import Cookies from "js-cookie";
-
+import { getStartDate, getEndDate } from "@/api/index";
 export default {
   components: {
     Header
@@ -192,8 +194,8 @@ export default {
   methods: {
     fetchData() {
       var req = {
-        startDate: this.startDate,
-        endDate: this.endDate,
+        startDate: getStartDate(),
+        endDate: getEndDate(),
         id: Cookies.get("idEmployee"),
         token: Cookies.get("token"),
         page: this.currentPage,

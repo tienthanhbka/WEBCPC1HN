@@ -757,8 +757,8 @@
           <el-row :gutter="10">
             <el-col :xs="24" :lg="8">
               <el-form-item
-                label="Số tài khoản cá nhân:"
-                label-width="160px"
+                label="STK cá nhân:"
+                label-width="120px"
                 class="item-form-custom"
               >
                 <el-input
@@ -768,17 +768,40 @@
                 ></el-input>
               </el-form-item>
             </el-col>
-            <el-col :xs="24" :lg="16">
+            <el-col :xs="24" :lg="8">
               <el-form-item
-                label="Ghi chú ngân hàng, chi nhánh của TK cá nhân:"
-                label-width="320px"
+                label="Chủ tài khoản:"
+                label-width="130px"
                 class="item-form-custom"
               >
                 <el-input
                   class="selectIDGroup"
-                  v-model="form.TK_Employee_Note"
-                  placeholder="ghi chú..."
+                  v-model="form.TK_Employee_Name"
+                  placeholder="Tên chủ tài khoản..."
                 ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :xs="24" :lg="8">
+              <el-form-item
+                label="Ngân hàng:"
+                label-width="110px"
+                class="item-form-custom"
+              >
+                <el-select
+                  class="selectIDGroup"
+                  filterable
+                  clearable
+                  v-model="form.TK_Employee_Note"
+                  placeholder="Chọn ngân hàng"
+                  style="width:100%"
+                >
+                  <el-option
+                    v-for="item in banks"
+                    :key="item.value"
+                    :label="item.value"
+                    :value="item.value"
+                  ></el-option>
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
@@ -867,8 +890,10 @@ import {
   GetDH,
   GetSpecialized,
   GetDegree,
-  GetSpecializedFather
+  GetSpecializedFather,
+  GetDefaultValue
 } from "@/api/default";
+
 export default {
   props: ["user"],
   data() {
@@ -928,6 +953,7 @@ export default {
         Status: 0,
         TK_Employee: "",
         TK_Employee_Note: "",
+        TK_Employee_Name: "",
         TK_Company: "",
         TK_Company_Note: ""
       },
@@ -945,6 +971,7 @@ export default {
       Branch: [],
       Office: [],
       Position: [],
+      banks: [],
       Nationality: [
         {
           value: "Việt Nam"
@@ -1587,6 +1614,8 @@ export default {
         this.form.LinkFace = this.user[0].LinkFace;
         this.form.TK_Employee = this.user[0].TK_Employee;
         this.form.TK_Employee_Note = this.user[0].TK_Employee_Note;
+        this.form.TK_Employee_Name = this.user[0].TK_Employee_Name;
+
         this.form.TK_Company = this.user[0].TK_Company;
         this.form.TK_Company_Note = this.user[0].TK_Company_Note;
       } else {
@@ -1771,12 +1800,20 @@ export default {
     onFileChange(e) {
       const file = e.target.files[0];
       this.LinkAvatar = URL.createObjectURL(file);
+    },
+    fetchDefaultValue() {
+      GetDefaultValue({ Table: "BankName" }).then(res => {
+        if (res.RespCode == 0) {
+          this.banks = res.DefaultValueLst;
+        }
+      });
     }
   },
   created() {
     //console.log("ok")
     this.initForm();
     this.getBranch();
+    this.fetchDefaultValue();
     GetCity().then(res => {
       this.City = res.Data;
     });

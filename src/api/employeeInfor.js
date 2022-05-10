@@ -383,4 +383,25 @@ export function CreateEmployeeDecision(data) {
       data: data
     })
   }
+  export function GetCheckHDLD(data) {
+    return requestT({
+      url: 'Employee/GetCheckHDLD',
+      method: 'post',
+      data: data
+    })
+  }
+  export function GetHDLDNew(data) {
+    return requestT({
+      url: 'Employee/GetHDLDNew',
+      method: 'post',
+      data: data
+    })
+  }
+  export function GetEmployeeVacation	(data) {
+    return requestT({
+      url: 'Employee/GetEmployeeVacation',
+      method: 'post',
+      data: data
+    })
+  }
   

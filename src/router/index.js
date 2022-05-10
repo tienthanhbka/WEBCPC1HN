@@ -472,15 +472,15 @@ export const constantRoutes = [
         children:[
           {
             path: "employee",
-            name: "Nhân viên",
+            name: "Đề xuất",
             component: () => import("@/views/product/group/employee"),
-            meta: { title: "Nhân viên", icon: "" }
+            meta: { title: "Đề xuất", icon: "" }
           },
           {
             path: "admin",
-            name: "Admin",
+            name: "Duyệt",
             component: () => import("@/views/product/group/admin"),
-            meta: { title: "Admin", icon: "" }
+            meta: { title: "Duyệt", icon: "" }
           },
           {
             path: "employee/:id",
@@ -493,150 +493,172 @@ export const constantRoutes = [
       },
       {
         path: "/business/myInvoice",
-        component: () => import("@/views/business/index"),
+        component: () => import("@/views/invoice/set/index"),
         meta: { title: "Đơn hàng", icon: "fas fa-file-invoice-dollar" },
-        children: [
-          {
-            path: "/business/myInvoice/set",
-            name: "InvoiceSet",
-            component: () => import("@/views/invoice/set/index"),
-            meta: { title: "ĐH Đặt", icon: "el-icon-bottom" }
-          },
-          {
-            path: "/business/myInvoice/output",
-            name: "InvoiceOutput",
-            component: () => import("@/views/invoice/output/index"),
-            meta: { title: "ĐH Xuất", icon: "el-icon-right" }
-          },
-          // {
-          //   path: "/business/myInvoice/employee",
-          //   name: "myInvoice",
-          //   component: () => import("@/views/invoice/employee/index"),
-          //   meta: { title: "Cá nhân", icon: "far fa-user" }
-          // },
-          // {
-          //   path: "/business/myInvoice/groupInvoice",
-          //   name: "groupInvoice",
-          //   component: () => import("@/views/invoice/group/index"),
-          //   meta: { title: "Nhóm", icon: "fas fa-users" }
-          // },
-          {
-            path: "/business/myInvoice/consignment",
-            name: "Gửi hàng",
-            component: () => import("@/views/order/consignment/index"),
-            meta: { title: "Gửi hàng", icon: "fas fa-box-open" },
-            children:[
-              {
-                path: "employee",
-                name: "Cá nhân",
-                component: () => import("@/views/order/consignment/employee"),
-                meta: { title: "Cá nhân", icon: "" }
-              },
-              {
-                path: "group",
-                name: "groupInvoice",
-                component: () => import("@/views/order/consignment/group"),
-                meta: { title: "Nhóm", icon: "" }
-              },
-            ]
-          },
-          // {
-          //   path: "/business/myInvoice/npp",
-          //   name: "npp",
-          //   component: () => import("@/views/invoice/npp/index"),
-          //   meta: { title: "NPP", icon: "fas fa-store" }
-          // },
-          {
-            path: "/business/shipBox",
-            name: "shipBox",
-            component: () => import("@/views/invoice/shipBox/index"),
-            meta: { title: "Giao hàng", icon: "fas fa-shipping-fast" }
-          },
-          // {
-          //   path: "/business/productLocation",
-          //   name: "productLocation",
-          //   component: () => import("@/views/invoice/product-location/index"),
-          //   meta: { title: "Độ phủ", icon: "fas fa-chart-area" }
-          // },
-          {
-            path: "/business/brand-sale",
-            name: "Thưởng đơn",
-            component: () => import("@/views/invoice/brand-sale/index"),
-            meta: { title: "Thưởng đơn", icon: "fas fa-gifts" }
-          }
-        ]
-      },
+      //   children: [
+      //     {
+      //       path: "/business/myInvoice/set",
+      //       name: "InvoiceSet",
+      //       component: () => import("@/views/invoice/dashboard/index"),
+      //       meta: { title: "ĐH Đặt", icon: "el-icon-bottom" }
+      //     },
+      //     {
+      //       path: "/business/myInvoice/output",
+      //       name: "InvoiceOutput",
+      //       component: () => import("@/views/invoice/output/index"),
+      //       meta: { title: "ĐH Xuất", icon: "el-icon-right" }
+      //     },
+      //     // {
+      //     //   path: "/business/myInvoice/employee",
+      //     //   name: "myInvoice",
+      //     //   component: () => import("@/views/invoice/employee/index"),
+      //     //   meta: { title: "Cá nhân", icon: "far fa-user" }
+      //     // },
+      //     // {
+      //     //   path: "/business/myInvoice/groupInvoice",
+      //     //   name: "groupInvoice",
+      //     //   component: () => import("@/views/invoice/group/index"),
+      //     //   meta: { title: "Nhóm", icon: "fas fa-users" }
+      //     // },
+      //     {
+      //       path: "/business/myInvoice/consignment",
+      //       name: "Gửi hàng",
+      //       component: () => import("@/views/order/consignment/index"),
+      //       meta: { title: "Gửi hàng", icon: "fas fa-box-open" },
+      //       children:[
+      //         {
+      //           path: "employee",
+      //           name: "Cá nhân",
+      //           component: () => import("@/views/order/consignment/employee"),
+      //           meta: { title: "Cá nhân", icon: "" }
+      //         },
+      //         {
+      //           path: "group",
+      //           name: "groupInvoice",
+      //           component: () => import("@/views/order/consignment/group"),
+      //           meta: { title: "Nhóm", icon: "" }
+      //         },
+      //       ]
+      //     },
+      //     // {
+      //     //   path: "/business/myInvoice/npp",
+      //     //   name: "npp",
+      //     //   component: () => import("@/views/invoice/npp/index"),
+      //     //   meta: { title: "NPP", icon: "fas fa-store" }
+      //     // },
+      //     {
+      //       path: "/business/shipBox",
+      //       name: "shipBox",
+      //       component: () => import("@/views/invoice/shipBox/index"),
+      //       meta: { title: "Giao hàng", icon: "fas fa-shipping-fast" }
+      //     },
+      //     // {
+      //     //   path: "/business/productLocation",
+      //     //   name: "productLocation",
+      //     //   component: () => import("@/views/invoice/product-location/index"),
+      //     //   meta: { title: "Độ phủ", icon: "fas fa-chart-area" }
+      //     // },
+      //     {
+      //       path: "/business/brand-sale",
+      //       name: "Thưởng đơn",
+      //       component: () => import("@/views/invoice/brand-sale/index"),
+      //       meta: { title: "Thưởng đơn", icon: "fas fa-gifts" }
+      //     }
+      //   ]
+       },
        {
-          path: '/kinh doanh/ket-qua',
-          name: 'Kết quả',
-          component: () =>
-              import ('@/views/business/result/index'),
-          meta: { title: 'Kết quả', icon: 'el-icon-s-data' }
+        path: '/kinh-doanh/ket-qua',
+        name: 'Doanh số',
+        component: () =>
+            import ('@/views/invoice/dashboard/index'),
+        meta: { title: 'Doanh số', icon: 'el-icon-s-data' }
+    },
+    {
+      path: "/debt",
+      component: () => import("@/views/business/index"),
+      meta: {
+        title: "Công nợ",
+        icon: "fab fa-leanpub",
+        role: "KD"
       },
-      {
-        path: "/debt",
-        component: () => import("@/views/business/index"),
-        meta: {
-          title: "Công nợ",
-          icon: "fab fa-leanpub",
-          role: "KD"
-        },
 
-        children: [
-          {
-            path: "/debt/index",
-            name: "Cá nhân",
-            component: () => import("@/views/debt/index"),
-            meta: {
-              title: "Cá nhân",
-              icon: "fas fa-user"
-            }
-          },
-          {
-            path: "all",
-            name: "Nhóm",
-            component: () => import("@/views/debt/index"),
-            meta: {
-              title: "Nhóm",
-              icon: "fas fa-file-contract"
-            }
-          },
-          {
-            path: "/debt/phieu-gui-tien",
-
-            name: "Phiếu gửi tiền",
-            component: () => import("@/views/debt/money_recipt/index"),
-            meta: { title: "Phiếu gửi tiền", icon: "fas fa-laptop" }
-          },
-          {
-            path: "/debt/bao-lanh",
-
-            name: "Bảo lãnh",
-            component: () => import("@/views/debt/extention/index"),
-            meta: { title: "Bảo lãnh", icon: "el-icon-magic-stick" },
-            children: [
-              {
-                path: "employee",
-                name: "Cá nhân",
-                component: () => import("@/views/debt/extention/employee"),
-                meta: {
-                  title: "Cá nhân",
-                  icon: ""
-                }
-              },
-              {
-                path: "groups",
-                name: "Nhóm",
-                component: () => import("@/views/debt/extention/groups"),
-                meta: {
-                  title: "Nhóm",
-                  icon: ""
-                }
-              }
-            ]
+      children: [
+        {
+          path: "/debt/index",
+          name: "Cá nhân",
+          component: () => import("@/views/debt/index"),
+          meta: {
+            title: "Cá nhân",
+            icon: "fas fa-user"
           }
+        },
+        {
+          path: "all",
+          name: "Nhóm",
+          component: () => import("@/views/debt/index"),
+          meta: {
+            title: "Nhóm",
+            icon: "fas fa-file-contract"
+          }
+        },
+        {
+          path: "/debt/phieu-gui-tien",
+
+          name: "Phiếu gửi tiền",
+          component: () => import("@/views/debt/money_recipt/index"),
+          meta: { title: "Phiếu gửi tiền", icon: "fas fa-laptop" }
+        },
+        {
+          path: "/debt/bao-lanh",
+
+          name: "Bảo lãnh",
+          component: () => import("@/views/debt/extention/index"),
+          meta: { title: "Bảo lãnh", icon: "el-icon-magic-stick" },
+          children: [
+            {
+              path: "employee",
+              name: "Cá nhân",
+              component: () => import("@/views/debt/extention/employee"),
+              meta: {
+                title: "Cá nhân",
+                icon: ""
+              }
+            },
+            {
+              path: "groups",
+              name: "Nhóm",
+              component: () => import("@/views/debt/extention/groups"),
+              meta: {
+                title: "Nhóm",
+                icon: ""
+              }
+            }
+          ]
+        }
+      ]
+    },
+      {
+        path: "/business/myInvoice/consignment",
+        name: "Gửi hàng",
+        component: () => import("@/views/order/consignment/index"),
+        meta: { title: "Gửi hàng", icon: "fas fa-box-open" },
+        children:[
+          {
+            path: "employee",
+            name: "Cá nhân",
+            component: () => import("@/views/order/consignment/employee"),
+            meta: { title: "Cá nhân", icon: "" }
+          },
+          {
+            path: "group",
+            name: "groupInvoice",
+            component: () => import("@/views/order/consignment/group"),
+            meta: { title: "Nhóm", icon: "" }
+          },
         ]
       },
+       
+     
 
       {
         path: "/debt/phan-bo",
@@ -1342,50 +1364,50 @@ export const constantRoutes = [
           }
         ]
       },
-      // {
-      //   path: "/vaccine",
-      //   component: () => import("@/views/vaccine/index"),
-      //   meta: { role: "ALL" },
-      //   name: "Tiêm vaccine",
-      //   meta: { title: "Tiêm vaccine", icon: "fas fa-syringe" },
-      //   children: [
-      //     {
-      //       path: "/danh-sach",
-      //       name: "Danh sách",
-      //       component: () => import("@/views/vaccine/list-info/index"),
-      //       meta: { title: "Danh sách", icon: "el-icon-document" }
-      //     },
-      //     {
-      //       path: "quet-qrcode",
-      //       name: "Quét QR",
-      //       component: () => import("@/views/vaccine/index"),
-      //       meta: {
-      //         title: "Quét QR",
-      //         icon: "fas fa-qrcode"
-      //       },
-      //       children: [
-      //         {
-      //           path: "/kiem-tra-suc-khoe",
-      //           name: "Kiểm tra sk",
-      //           component: () => import("@/views/vaccine/check-qr/checkin"),
-      //           meta: { title: "Kiểm tra sk", icon: "el-icon-first-aid-kit" }
-      //         },
-      //         {
-      //           path: "/xac-nhan-tiem",
-      //           name: "Xác nhận tiêm",
-      //           component: () => import("@/views/vaccine/check-qr/checkout"),
-      //           meta: { title: "Xác nhận tiêm", icon: "el-icon-s-check" }
-      //         }
-      //       ]
-      //     },
-      //     {
-      //       path: "/thong-ke",
-      //       name: "Thống kê",
-      //       component: () => import("@/views/vaccine/analysis/index"),
-      //       meta: { title: "Thống kê", icon: "fas fa-chart-bar" }
-      //     }
-      //   ]
-      // }
+      {
+        path: "/vaccine",
+        component: () => import("@/views/vaccine/index"),
+        meta: { role: "ALL" },
+        name: "Tiêm vaccine",
+        meta: { title: "Tiêm vaccine", icon: "fas fa-syringe" },
+        children: [
+          {
+            path: "/danh-sach",
+            name: "Danh sách",
+            component: () => import("@/views/vaccine/list-info/index"),
+            meta: { title: "Danh sách", icon: "el-icon-document" }
+          },
+          {
+            path: "quet-qrcode",
+            name: "Quét QR",
+            component: () => import("@/views/vaccine/index"),
+            meta: {
+              title: "Quét QR",
+              icon: "fas fa-qrcode"
+            },
+            children: [
+              {
+                path: "/kiem-tra-suc-khoe",
+                name: "Kiểm tra sk",
+                component: () => import("@/views/vaccine/check-qr/checkin"),
+                meta: { title: "Kiểm tra sk", icon: "el-icon-first-aid-kit" }
+              },
+              {
+                path: "/xac-nhan-tiem",
+                name: "Xác nhận tiêm",
+                component: () => import("@/views/vaccine/check-qr/checkout"),
+                meta: { title: "Xác nhận tiêm", icon: "el-icon-s-check" }
+              }
+            ]
+          },
+          {
+            path: "/thong-ke",
+            name: "Thống kê",
+            component: () => import("@/views/vaccine/analysis/index"),
+            meta: { title: "Thống kê", icon: "fas fa-chart-bar" }
+          }
+        ]
+      }
     ],
     hidden: displaySX
   },

@@ -242,6 +242,12 @@
           placeholder="Nhập link youtube..."
         ></el-input>
       </el-form-item>
+      <el-form-item label="Sway">
+        <el-input
+          v-model="form.LinkSway"
+          placeholder="Nhập link sway..."
+        ></el-input>
+      </el-form-item>
       <el-form-item label="Link">
         <el-input placeholder="Nhập link..." v-model="form.Link"></el-input>
       </el-form-item>
@@ -291,6 +297,7 @@ export default {
         Catalogue: "",
         ProductDes: "",
         ReviewDes: "",
+        LinkSway: "",
         ProductLst: []
       },
       lstType: [
@@ -556,6 +563,7 @@ export default {
         this.form.Catalogue = this.row.Catalogue;
         this.form.ProductDes = this.row.ProductDes;
         this.form.ReviewDes = this.row.ReviewDes;
+        this.form.LinkSway = this.row.LinkSway;
         this.form.ProductLst = this.row.ProductLst ? this.row.ProductLst : [];
         this.officeLst = this.row.Office ? this.row.Office.split(";;") : [];
       } else {
@@ -572,6 +580,7 @@ export default {
         this.form.Catalogue = "";
         this.form.ProductDes = "";
         this.form.ReviewDes = "";
+        this.form.LinkSway = "";
         this.form.ProductLst = [];
 
         this.officeLst = [];
