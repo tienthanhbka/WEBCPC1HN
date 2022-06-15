@@ -8,7 +8,7 @@
       <el-form
         aria-orientation="vertical"
         :model="form"
-        label-width="120px"
+        label-width="140px"
         class="demo-ruleForm"
       >
         <el-form-item label="Số tiền" prop="amount">
@@ -34,7 +34,6 @@
 
         <el-form-item label="Ngày chuyển" prop="note">
           <div class="inline-block">
-            <span></span>
             <el-date-picker
               style="width:100%"
               placeholder="Chọn ngày"
@@ -61,9 +60,26 @@
         </el-form-item>
         <el-form-item label="Đơn hàng từ" v-if="!this.coupon">
           <el-radio-group v-model="form.fast_sales">
-            <el-radio :label="0">BFO</el-radio>
             <el-radio :label="1">FAST</el-radio>
+            <el-radio :label="0">BFO</el-radio>
           </el-radio-group>
+        </el-form-item>
+        <el-form-item label="Nguồn tiền">
+          <el-radio-group v-model="form.source_money">
+            <el-radio :label="'0'">Thu từ khách hàng</el-radio>
+            <el-radio :label="'1'">Tạm ứng công nợ</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item label="Ngày dự kiến trả" v-if="form.source_money == 1">
+          <div class="inline-block">
+            <el-date-picker
+              style="width:100%"
+              placeholder="Chọn ngày"
+              format="dd/MM/yyyy"
+              value-format="yyyy-MM-dd"
+              v-model="form.time_expected"
+            ></el-date-picker>
+          </div>
         </el-form-item>
         <el-form-item label="Ghi chú" prop="note">
           <el-input
@@ -104,7 +120,9 @@ export default {
         note: "",
         timeSendMoney: "",
         account: "",
-        fast_sales: 1
+        fast_sales: 1,
+        source_money: "0",
+        time_expected: ""
       }
     };
   },
@@ -144,6 +162,8 @@ export default {
           this.coupon.note = res.Data.note;
           this.coupon.account_bank = res.Data.account;
           this.coupon.fast_sales = res.Data.fast_sales;
+          this.coupon.source_money = res.Data.source_money;
+          this.coupon.time_expected = res.Data.time_expected;
           this.closeModal();
           this.$message({
             message: "Đã sửa phiếu",
@@ -154,6 +174,9 @@ export default {
     },
     closeModal() {
       VoerroModal.hide(this.modalId);
+    },
+    changeSource() {
+      this.form.time_expected = "";
     }
   },
   watch: {
@@ -166,7 +189,9 @@ export default {
           note: "",
           timeSendMoney: "",
           account: "",
-          fast_sales: 0
+          fast_sales: 0,
+          source_money: "0",
+          time_expected: ""
         };
       } else {
         this.form = {
@@ -176,9 +201,14 @@ export default {
             ? val.time_send_money.substring(0, 10)
             : "",
           account: val.account_bank,
-          fast_sales: val.fast_sales
+          fast_sales: val.fast_sales,
+          source_money: val.source_money,
+          time_expected: val.time_expected
         };
       }
+    },
+    source_money() {
+      this.changeSource();
     }
   },
   filters: {

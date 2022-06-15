@@ -11,32 +11,23 @@
         :coupon="this.currentCoupon"
       ></fee-request-modal>
     </el-dialog>
-    <div v-if="!isGroupPage">
-      <el-button
-        type="primary"
-        icon="el-icon-refresh"
-        class="inline-block"
-        @click="fetchData"
-      ></el-button>
-      <el-button @click="openModalFee()" type="warning"
-        ><i class="fas fa-plus"></i> Phiếu đề nghị chi phí</el-button
-      >
-      <div style="display: inline-block;">
-        <el-input
-          placeholder="Tên NV | Mã KH"
-          v-model="search"
-          class="input-with-select"
+    <div v-if="!isGroupPage" class="inline-block">
+      <div class="inline-block">
+        <el-button
+          type="primary"
+          icon="el-icon-refresh"
+          class="inline-block"
+          @click="fetchData"
+        ></el-button>
+      </div>
+      <div class="inline-block">
+        <el-button @click="openModalFee()" type="warning"
+          ><i class="fas fa-plus"></i> Phiếu đề nghị chi phí</el-button
         >
-          <el-button
-            slot="append"
-            icon="el-icon-search"
-            @click="fetchData"
-          ></el-button>
-        </el-input>
       </div>
     </div>
-    <el-row v-if="isGroupPage" :gutter="10">
-      <el-col :xs="24" :sm="12" :lg="12">
+    <div v-if="isGroupPage" class="inline-block">
+      <div class="inline-block">
         <el-select
           style="width:100%; margin-bottom:10px"
           v-model="currentGroup"
@@ -49,9 +40,8 @@
             :value="group.idGroup"
           ></el-option>
         </el-select>
-      </el-col>
-
-      <el-col :xs="24" :sm="12" :lg="12">
+      </div>
+      <div class="inline-block">
         <el-select
           style="width:100%;margin-bottom:10px"
           v-model="currentEm"
@@ -64,8 +54,21 @@
             :value="em.idEmployee"
           ></el-option>
         </el-select>
-      </el-col>
-    </el-row>
+      </div>
+    </div>
+    <div class="inline-block">
+      <el-input
+        placeholder="Tên NV | Mã KH"
+        v-model="search"
+        class="input-with-select"
+      >
+        <el-button
+          slot="append"
+          icon="el-icon-search"
+          @click="fetchData"
+        ></el-button>
+      </el-input>
+    </div>
     <el-table
       :data="tableData"
       v-loading="isLoading"

@@ -1162,7 +1162,8 @@ export default {
     fetchData() {
       GetHDLD({ RowID: this.$route.params.id }).then(res => {
         this.info = res.Data[0];
-        console.log(this.info);
+                this.info.AddressOften = this.info.AddressOften.split(",").splice(1,4).join(",");
+
       });
     },
     convert(printpage) {

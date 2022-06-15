@@ -93,19 +93,29 @@
         <el-input class="selectIDGroup" v-model="form.Content"></el-input>
       </el-form-item>
       <el-form-item label="Ngày ra quyết định">
-        <el-input
-          class="selectIDGroup"
-          type="date"
-          v-model="form.Date"
-        ></el-input>
+        <el-date-picker
+              class="selectIDGroup"
+              style="width:100%"
+              type="date"
+              placeholder="Chọn ngày"
+              v-model="form.Date"
+              format="dd/MM/yyyy"
+              value-format="yyyy-MM-dd"
+            ></el-date-picker>
+        
       </el-form-item>
 
       <el-form-item label="Ngày hiệu lực">
-        <el-input
-          class="selectIDGroup"
-          type="date"
-          v-model="form.DateStart"
-        ></el-input>
+        <el-date-picker
+              class="selectIDGroup"
+              style="width:100%"
+              type="date"
+              placeholder="Chọn ngày"
+              v-model="form.DateStart"
+              format="dd/MM/yyyy"
+              value-format="yyyy-MM-dd"
+            ></el-date-picker>
+        
       </el-form-item>
       <!-- <el-form-item label="Lý do ra quyết định">
                   <el-input  v-model="form.DecisionReason" ></el-input>

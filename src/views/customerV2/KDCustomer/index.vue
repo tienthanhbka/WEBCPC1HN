@@ -2,16 +2,26 @@
   <div>
     <el-row :gutter="20" style="margin-bottom:10px">
       <el-col :xs="24" :sm="24" :lg="24">
-        <div class="inline-block" style="float: right;padding:10px">
-          <el-button
-            @click="createCustomer"
-            icon="fas fa-user-plus"
-            type="primary"
-            size="small"
-          >
-            Thêm mới
-          </el-button>
+        <div style="float: right;padding:10px">
+          <div class="inline-block">
+            <el-input
+              size="small"
+              v-model="search"
+              placeholder="Tìm kiếm theo tên..."
+            ></el-input>
+          </div>
+          <div class="inline-block">
+            <el-button
+              @click="createCustomer"
+              icon="fas fa-user-plus"
+              type="primary"
+              size="small"
+            >
+              Thêm mới
+            </el-button>
+          </div>
         </div>
+        <div class="clear--both"></div>
       </el-col>
     </el-row>
     <el-table
@@ -172,7 +182,8 @@ export default {
       pageSize: 10,
       currentPage: 1,
       dialogFormCreate: false,
-      titleDialog: ""
+      titleDialog: "",
+      search: ""
       //place: ""
     };
   },
@@ -281,10 +292,17 @@ export default {
       this.isLoading = false;
     },
     fetchTable() {
-      this.tableData = this.tableDataCustomer.slice(
-        (this.currentPage - 1) * this.pageSize,
-        this.currentPage * this.pageSize
-      );
+      this.tableData = this.tableDataCustomer
+        .filter(
+          data =>
+            !this.search ||
+            data.CustomerName.toLowerCase().includes(this.search.toLowerCase())
+        )
+
+        .slice(
+          (this.currentPage - 1) * this.pageSize,
+          this.currentPage * this.pageSize
+        );
     },
     getCustomer(val) {
       //console.log(val);
@@ -310,6 +328,9 @@ export default {
   watch: {
     place() {
       this.fetchData();
+    },
+    search() {
+      this.fetchTable();
     }
   }
 };

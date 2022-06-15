@@ -455,7 +455,7 @@
         </h3></el-row
       >
       <el-row>
-        <el-col :xs="24" :lg="8">
+        <el-col :xs="24" :lg="12">
           <el-form-item
             label="Đơn vị (Chi nhánh):"
             prop="Branch"
@@ -478,7 +478,29 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :xs="24" :lg="8">
+        <el-col :xs="24" :lg="12">
+          <el-form-item
+            label="Nơi làm việc:"
+            prop="BranchNS"
+            label-width="160px"
+            class="item-form-custom"
+          >
+            <el-select
+              class="selectIDGroup"
+              v-model="form.BranchNS"
+              placeholder="Chọn nơi làm việc"
+              style="width:100%"
+            >
+              <el-option
+                v-for="item in Branch"
+                :key="item.Branch"
+                :label="item.Branch"
+                :value="item.Branch"
+              ></el-option>
+            </el-select>
+          </el-form-item>
+        </el-col>
+        <el-col :xs="24" :lg="12">
           <el-form-item
             label="Phòng ban:"
             prop="Office"
@@ -501,7 +523,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col :xs="24" :lg="8">
+        <el-col :xs="24" :lg="12">
           <el-form-item
             label="Chức danh:"
             prop="Position"
@@ -955,7 +977,8 @@ export default {
         TK_Employee_Note: "",
         TK_Employee_Name: "",
         TK_Company: "",
-        TK_Company_Note: ""
+        TK_Company_Note: "",
+        BranchNS: ""
       },
       City: [],
       District: [],
@@ -1618,6 +1641,7 @@ export default {
 
         this.form.TK_Company = this.user[0].TK_Company;
         this.form.TK_Company_Note = this.user[0].TK_Company_Note;
+        this.form.BranchNS = this.user[0].BranchNS;
       } else {
         this.form.EmployeeName = null;
         this.form.Img = null;
@@ -1663,6 +1687,7 @@ export default {
         this.form.BHXH = null;
         this.form.Religion = null;
         this.form.LinkFace = null;
+        this.form.BranchNS = null;
       }
     },
     check() {
@@ -1701,7 +1726,8 @@ export default {
         this.form.Folk == null ||
         this.form.Religion == null ||
         this.form.TranningTime == null ||
-        this.form.TranningTime == ""
+        this.form.TranningTime == "" ||
+        this.form.BranchNS == null
       ) {
         return false;
       } else if (this.displayPlace == true && this.form.Place.length < 1) {

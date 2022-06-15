@@ -325,8 +325,9 @@ export default {
             ArrayDate.length > 0 ? JSON.stringify(ArrayDate) : "";
           this.form.Email = this.form.Email.join(";");
           this.form.TimeStart = Date.parse(this.form.TimeStart).toString(
-            "yyyy-MM-dd HH:mm:ss"
+            "yyyy-MM-dd"
           );
+          this.form.TimeStart = this.form.TimeStart + " 00:00:00";
           this.form.TimeEnd = Date.parse(this.form.TimeEnd).toString(
             "yyyy-MM-dd HH:mm:ss"
           );

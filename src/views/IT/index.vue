@@ -24,7 +24,7 @@
       <transition name="el-zoom-in-center">
         <div class="box-content" v-if="viewAll">
           <el-row :gutter="20">
-            <el-col :xs="24" :lg="8">
+            <el-col :xs="24" :lg="12">
               <el-input
                 v-model="searchEm"
                 placeholder="Tìm kiếm theo SĐT"
@@ -66,6 +66,11 @@
                       <span>{{ employeeInfo.EmployeeID }}</span>
                     </div>
                   </el-form-item>
+                  <el-form-item label="TTKD: ">
+                    <div class="form-item-block">
+                      <span>{{ employeeInfo.Center }}</span>
+                    </div>
+                  </el-form-item>
                   <el-form-item label="IDGroup: ">
                     <div class="form-item-block">
                       <span>{{ employeeInfo.GroupID }}</span>
@@ -92,7 +97,7 @@
                 </div>
               </div>
             </el-col>
-            <el-col :xs="24" :lg="8">
+            <el-col :xs="24" :lg="12">
               <div class="box-form-info">
                 <el-divider content-position="left">Actions</el-divider>
                 <el-form
@@ -291,7 +296,110 @@
                       </el-col>
                     </el-row>
                   </el-form-item>
+                  <el-form-item label="Cài đặt TTKD">
+                    <el-row style="width:100%">
+                      <el-col :xs="24" :lg="18">
+                        <el-select
+                          :disabled="disable"
+                          style="width:100%"
+                          v-model="center"
+                          filterable
+                          placeholder="Chọn TTKD"
+                        >
+                          <el-option
+                            v-for="(item, index) in centerLst"
+                            :key="index"
+                            :label="item.label"
+                            :value="item.value"
+                          >
+                          </el-option>
+                        </el-select>
+                      </el-col>
+                      <el-col :xs="24" :lg="6">
+                        <el-button
+                          style="width:100px"
+                          @click="setupCenter"
+                          type="primary"
+                          icon="fas fa-exchange-alt"
+                        ></el-button>
+                      </el-col>
+                    </el-row>
+                  </el-form-item>
                 </el-form>
+              </div>
+              <div class="box-form">
+                <el-divider content-position="left">NPP</el-divider>
+                <div style="float:right;padding: 5px 0">
+                  <div class="inline-block">
+                    <el-select
+                      size="small"
+                      style="width:100%"
+                      v-model="localStore"
+                      filterable
+                      placeholder="Chọn NPP"
+                    >
+                      <el-option
+                        v-for="(item, index) in localLst"
+                        :key="index"
+                        :label="item.LocalName"
+                        :value="item"
+                      >
+                        <span style="float: left">{{ item.LocalName }}</span>
+                        <span
+                          style="float: right; color: #8492a6; font-size: 13px"
+                          >{{ item.City }}</span
+                        >
+                      </el-option>
+                    </el-select>
+                  </div>
+                  <div class="inline-block">
+                    <el-button
+                      size="small"
+                      type="primary"
+                      icon="fas fa-plus-circle"
+                      @click="addLocal"
+                    ></el-button>
+                  </div>
+                </div>
+                <div class="clear--both"></div>
+                <el-table
+                  class="el-mobile-table"
+                  :data="localEmLst"
+                  size="small"
+                  border
+                  fit
+                  highlight-current-row
+                >
+                  <el-table-column align="center" width="100px" label="STT">
+                    <template slot-scope="scope">
+                      <div class="dat-cell" label="STT">
+                        {{ scope.$index + 1 }}
+
+                        <el-tooltip content="Xóa">
+                          <el-button
+                            @click="delLocal(scope.row)"
+                            type="text"
+                            style="color:red;"
+                            ><i class="el-icon-delete"></i></el-button
+                        ></el-tooltip>
+                      </div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column width="150px" label="Mã NPP">
+                    <template slot-scope="scope">
+                      <div class="dat-cell" label="Mã NPP">
+                        {{ scope.row.StoreCode }}
+                      </div>
+                    </template>
+                  </el-table-column>
+                  <el-table-column min-width="150px" label="Tên nhà phân phối">
+                    <template slot-scope="scope">
+                      <div class="dat-cell" label="Tên nhà phân phối">
+                        {{ scope.row.LocalName }}
+                      </div>
+                    </template>
+                  </el-table-column>
+                </el-table>
               </div>
               <div class="box-form">
                 <el-divider content-position="left">Nhóm</el-divider>
@@ -407,9 +515,16 @@ import {
   AddEmployeeGroup,
   CreateGroup,
   ChangeEmployeeCode,
-  ChangeMailCompany
+  ChangeMailCompany,
+  SetupCenterEmployee
 } from "@/api/it";
 import { GetEmployeeDefine } from "@/api/employeeAdmin";
+import {
+  GetLocalStore,
+  GetLocalStoreByEm,
+  CreateEmployeeLocal,
+  DelEmployeeLocal
+} from "@/api/npp";
 export default {
   data() {
     return {
@@ -431,7 +546,17 @@ export default {
       groupName: "",
       branchGroup: "",
       groupSelect: "",
+      center: "",
+      localStore: "",
       groupLst: [],
+      localLst: [],
+      localEmLst: [],
+      centerLst: [
+        { value: "01", label: "Trụ sở chính - nhà máy" },
+        { value: "02", label: "Chi nhánh Hồ Chí Minh" },
+        { value: "03", label: "Chi nhánh Đà Nẵng" },
+        { value: "04", label: "Chi nhánh Hà Nội" }
+      ],
       employeeInfo: {},
       branchLst: [
         { value: "CNHN" },
@@ -480,6 +605,7 @@ export default {
           this.loading = false;
         }
       });
+      this.fetchLocalEm();
     },
     changePass() {
       const req = {
@@ -541,6 +667,32 @@ export default {
             this.$notify({
               title: "Thành công",
               message: "Phân quyền thành công",
+              type: "success",
+              position: "top-left"
+            });
+            this.searchEmployee();
+          }
+        });
+      }
+    },
+    setupCenter() {
+      const req = {
+        EmployeeID: this.searchEm,
+        Center: this.center
+      };
+      if (!this.searchEm) {
+        this.$notify({
+          title: "Lỗi",
+          message: "Chưa nhập thông tin nhân viên",
+          type: "error",
+          position: "top-left"
+        });
+      } else {
+        SetupCenterEmployee(req).then(res => {
+          if (res.RespCode == 0) {
+            this.$notify({
+              title: "Thành công",
+              message: "Cập nhật TTKD thành công",
               type: "success",
               position: "top-left"
             });
@@ -750,11 +902,62 @@ export default {
           }
         });
       }
+    },
+    addLocal() {
+      const req = {
+        EmployeeID: this.searchEm,
+        StoreCode: this.localStore.StoreCode,
+        LocalName: this.localStore.LocalName
+      };
+      CreateEmployeeLocal({ EmployeeLocalInfo: req }).then(res => {
+        if (res.RespCode == 0) {
+          this.$notify({
+            title: "Thành công",
+            message: "Cài đặt NPP thành công",
+            type: "success",
+            position: "top-left"
+          });
+          this.fetchLocalEm();
+        }
+      });
+    },
+    delLocal(item) {
+      const req = {
+        EmployeeID: this.searchEm,
+        StoreCode: item.StoreCode,
+        LocalName: item.LocalName
+      };
+      DelEmployeeLocal({ EmployeeLocalInfo: req }).then(res => {
+        if (res.RespCode == 0) {
+          this.$notify({
+            title: "Thành công",
+            message: "Xóa NPP thành công",
+            type: "success",
+            position: "top-left"
+          });
+          this.fetchLocalEm();
+        }
+      });
+    },
+    fetchLocal() {
+      GetLocalStore().then(res => {
+        if (res.RespCode == 0) {
+          this.localLst = res.Data;
+        }
+      });
+    },
+    fetchLocalEm() {
+      GetLocalStoreByEm({ EmployeeID: this.searchEm }).then(res => {
+        if (res.RespCode == 0) {
+          this.localEmLst = res.Data;
+        }
+      });
     }
   },
   created() {
     this.fetchGroup();
     this.fetchTypeOTC();
+    this.fetchLocal();
   },
   mounted() {
     //this.dialogFormCheck = true;

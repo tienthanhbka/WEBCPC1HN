@@ -53,19 +53,29 @@
         <el-input class="selectIDGroup" v-model="form.Content"></el-input>
       </el-form-item>
       <el-form-item label="Ngày ra quyết định">
-        <el-input
-          class="selectIDGroup"
-          type="date"
-          v-model="form.Date"
-        ></el-input>
+        <el-date-picker
+              class="selectIDGroup"
+              style="width:100%"
+              type="date"
+              placeholder="Chọn ngày"
+              v-model="form.Date"
+              format="dd/MM/yyyy"
+              value-format="yyyy-MM-dd"
+            ></el-date-picker>
+        
       </el-form-item>
 
       <el-form-item label="Ngày hiệu lực">
-        <el-input
-          class="selectIDGroup"
-          type="date"
-          v-model="form.DateStart"
-        ></el-input>
+        <el-date-picker
+              class="selectIDGroup"
+              style="width:100%"
+              type="date"
+              placeholder="Chọn ngày"
+              v-model="form.DateStart"
+              format="dd/MM/yyyy"
+              value-format="yyyy-MM-dd"
+            ></el-date-picker>
+        
       </el-form-item>
     </el-form>
 
@@ -172,7 +182,7 @@ export default {
     initForm() {
       this.form.EmployeeID = this.row.EmployeeID;
       this.form.DecisionName = this.row.DecisionName;
-      this.form.Date = this.row.Data;
+      this.form.Date = this.row.Date;
       this.form.Type = this.row.Type;
       this.form.DecisionReason = this.row.DecisionReason;
       this.form.DecisionNumber = this.row.DecisionNumber;

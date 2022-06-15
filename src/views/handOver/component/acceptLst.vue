@@ -6,7 +6,7 @@
       style="width: 100%"
       :data="tableData"
       border
-      size="small"
+      size="mini"
       highlight-current-row
     >
       <el-table-column width="80px" label="STT" align="center">

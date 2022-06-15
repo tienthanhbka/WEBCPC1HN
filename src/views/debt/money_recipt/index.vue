@@ -124,6 +124,11 @@
         >
           <template slot-scope="scope">{{ scope.row.nameEmployee }}</template>
         </el-table-column>
+        <el-table-column width="170" label="Hình thức">
+          <template slot-scope="{ row }">{{
+            row.source_money | toSource
+          }}</template>
+        </el-table-column>
         <el-table-column width="170" label="Số tiền">
           <template slot-scope="{ row }">{{ row.amount | toVND }}</template>
         </el-table-column>
@@ -216,6 +221,11 @@
               : ""
           }}</template>
         </el-table-column>
+        <el-table-column width="150" label="T/g dự kiến">
+          <template slot-scope="{ row }">{{
+            row["time_expected"] ? row["time_expected"].substring(0, 10) : ""
+          }}</template>
+        </el-table-column>
         <el-table-column width="150" label="T/g lập phiếu">
           <template slot-scope="{ row }">{{
             row["time"] ? row["time"].substring(0, 10) : ""
@@ -271,6 +281,15 @@ export default {
   components: {
     CouponModal,
     SaleHeader
+  },
+  filters: {
+    toSource(val) {
+      if (val == 0) {
+        return "Thu từ khách hàng";
+      } else if (val == 1) {
+        return "Tạm ứng công nợ";
+      }
+    }
   },
   methods: {
     checkRow({ row, rowIndex }) {

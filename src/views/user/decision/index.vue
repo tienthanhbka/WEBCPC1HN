@@ -87,7 +87,7 @@
         >
           <template slot-scope="scope">
             <div class="dat-cell" label="Ngày ra quyết định">
-              <span>{{ scope.row.Date }}</span>
+              <span v-if="scope.row.Date">{{ Date.parse(scope.row.Date).toString("dd/MM/yyyy") }}</span>
             </div>
           </template>
         </el-table-column>
@@ -98,7 +98,7 @@
         >
           <template slot-scope="scope">
             <div class="dat-cell" label="Ngày có hiệu lực">
-              <span>{{ scope.row.DateStart }}</span>
+              <span v-if="scope.row.DateStart">{{ Date.parse(scope.row.DateStart).toString("dd/MM/yyyy") }}</span>
             </div>
           </template>
         </el-table-column>

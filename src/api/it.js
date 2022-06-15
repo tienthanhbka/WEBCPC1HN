@@ -125,4 +125,11 @@ export function UpdateTKCompany(data) {
       data:data
     })
   }
+  export function SetupCenterEmployee(data) {
+    return request({
+      url: 'IT/SetupCenterEmployee',
+      method: 'post',
+      data:data
+    })
+  }
   

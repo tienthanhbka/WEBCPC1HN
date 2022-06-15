@@ -1,15 +1,15 @@
 <template>
   <div class="container-handover">
     <el-row :gutter="10">
-      <el-col :xs="24" :lg="10">
+      <el-col :xs="24" :lg="24">
         <div class="approve">
           <h3>Xác nhận phiếu bàn giao</h3>
           <acceptHandOver2 :row="rowID" @acceptOK="acceptOK"></acceptHandOver2>
           <accept-lst :row="rowID" style="margin-top:20px"></accept-lst>
         </div>
       </el-col>
-      <el-col :xs="24" :lg="14">
-        <el-aside width="600pt" style="height:210mm;padding:0">
+      <el-col :xs="24" :lg="24">
+        <el-aside width="600pt" style="margin:0 auto;height:210mm;padding:0">
           <div style="postion: relative">
             <div style="border: none;" ref="content">
               <el-card
