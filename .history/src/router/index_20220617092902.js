@@ -180,7 +180,7 @@ export const constantRoutes = [
       {
         path: "/chi-tiet-hop-dong-thu-viec/:id",
         name: "Chi tiết hợp đồng thử việc",
-        component: () => import("@/views/user/workProcess/component/view2A4"),
+        component: () => import("@/views/user/workProcess/component/view2"),
         meta: { title: "Chi tiết hợp đồng", icon: "fas fa-home" }
       },
       {
