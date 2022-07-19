@@ -164,7 +164,6 @@
                 ></strong
               >
             </p>
-            <br/>
             <p
               style="margin-top:6pt; margin-bottom:6pt; text-align:center; line-height:150%; font-size:16pt;"
             >
@@ -174,7 +173,6 @@
                 ></strong
               >
             </p>
-            <br/>
             <p
               style="margin-top:0pt; margin-bottom:0pt; text-indent:26.95pt; text-align:justify; line-height:150%; font-size:13pt;"
             >
@@ -520,7 +518,7 @@
                 của</span
               >
             </p>
-            <br /><br /><br /><br /><br /><br /><br /><br />
+            <br /><br /><br /><br /><br />
 
             <p
               style="margin-top:0pt; margin-bottom:0pt; text-align:justify; line-height:150%; font-size:13pt;"
@@ -764,6 +762,8 @@
                 nghiệp.</span
               >
             </p>
+            <br /><br /><br /><br /><br />
+
             <p
               style="margin-top:0pt; margin-bottom:0pt; text-align:justify; line-height:150%; font-size:13pt;"
             >
@@ -771,16 +771,19 @@
                 >Trường hợp sau khi kết th&uacute;c qu&aacute; tr&igrave;nh thử
                 việc, người lao động kh&ocirc;ng được tiếp nhận l&agrave;m việc
                 tại Doanh nghiệp, th&igrave; người lao động phải nộp thuế Thu
-                nhập c&aacute; nh&acirc;n, bị khấu trừ 10% v&agrave;o tiền lương tại thời điểm người sử dụng lao
+                nhập c&aacute; nh&acirc;n, bị khấu</span
+              >
+            </p>
+
+            <p
+              style="margin-top:0pt; margin-bottom:0pt; text-align:justify; line-height:150%; font-size:13pt;"
+            >
+              <span style="font-family:'Times New Roman';">
+                trừ 10% v&agrave;o tiền lương tại thời điểm người sử dụng lao
                 động chi trả theo quy định ph&aacute;p luật hiện
                 h&agrave;nh.</span
               >
             </p>
-            <br /><br /><br /><br /><br /><br />
-
-            
-
-           
 
             <p
               style="margin-top:0pt; margin-bottom:0pt; text-align:justify; line-height:150%; font-size:13pt;"
@@ -918,7 +921,9 @@
                 C&ocirc;ng ty v&agrave; quy định hiện h&agrave;nh.</span
               >
             </p>
-             <p
+            <br /><br /><br /><br /><br /><br />
+
+            <p
               style="margin-top:0pt; margin-bottom:0pt; text-align:justify; line-height:150%; font-size:13pt;"
             >
               <strong
@@ -958,9 +963,6 @@
                 độ, quyền lợi ho người lao động theo Hợp đồng.</span
               >
             </p>
-            <br /><br /><br /><br /><br /><br /><br /><br />
-
-           
 
             <p
               style="margin-top:0pt; margin-bottom:0pt; text-align:justify; line-height:150%; font-size:13pt;"
@@ -1126,7 +1128,7 @@ export default {
           return "26-28 Hàn Mặc Tử, phường Tân Thành, quận Tân Phú, thành phố Hồ Chí Minh";
         }
       } else if (value.includes("Đà")) {
-        return "Lô 144-B2-2 đường Hoàng Thị Loan, phường Hòa Minh, quận Liên Chiểu, thành phố Đà Nẵng";
+        return "170 Nguyễn Đình Tựu, Phường An Khê, Quận Thanh Khê, Thành phố Đà Nẵng";
       }
     },
     toDakLak: function(value) {
@@ -1143,7 +1145,7 @@ export default {
           return "26-28 Hàn Mặc Tử, phường Tân Thành, quận Tân Phú, thành phố Hồ Chí Minh";
         }
       } else if (value.includes("Đà")) {
-        return "Lô 144-B2-2 đường Hoàng Thị Loan, phường Hòa Minh, quận Liên Chiểu, thành phố Đà Nẵng";
+        return "170 Nguyễn Đình Tựu, Phường An Khê, Quận Thanh Khê, Thành phố Đà Nẵng";
       }
     }
   },

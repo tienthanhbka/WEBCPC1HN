@@ -423,6 +423,11 @@
             <p
               style="margin-top:0pt; margin-bottom:0pt; text-align:justify; line-height:150%; font-size:13pt;"
             >
+              <span style="font-family:'Times New Roman';">&nbsp;</span>
+            </p>
+            <p
+              style="margin-top:0pt; margin-bottom:0pt; text-align:justify; line-height:150%; font-size:13pt;"
+            >
               <strong
                 ><span style="font-family:'Times New Roman';"
                   >Điều 1. Thời hạn v&agrave; c&ocirc;ng việc của hợp
@@ -1122,7 +1127,7 @@ export default {
           return "26-28 Hàn Mặc Tử, phường Tân Thành, quận Tân Phú, thành phố Hồ Chí Minh";
         }
       } else if (value.includes("Đà")) {
-        return "Lô 144-B2-2 đường Hoàng Thị Loan, phường Hòa Minh, quận Liên Chiểu, thành phố Đà Nẵng";
+        return "170 Nguyễn Đình Tựu, Phường An Khê, Quận Thanh Khê, Thành phố Đà Nẵng";
       }
     },
     toDakLak: function(value) {
@@ -1139,7 +1144,7 @@ export default {
           return "26-28 Hàn Mặc Tử, phường Tân Thành, quận Tân Phú, thành phố Hồ Chí Minh";
         }
       } else if (value.includes("Đà")) {
-        return "Lô 144-B2-2 đường Hoàng Thị Loan, phường Hòa Minh, quận Liên Chiểu, thành phố Đà Nẵng";
+        return "170 Nguyễn Đình Tựu, Phường An Khê, Quận Thanh Khê, Thành phố Đà Nẵng";
       }
     }
   },

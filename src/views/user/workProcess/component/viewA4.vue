@@ -1167,7 +1167,7 @@ export default {
           return "26-28 Hàn Mặc Tử, phường Tân Thành, quận Tân Phú, thành phố Hồ Chí Minh";
         }
       } else {
-        return "Lô 144-B2-2 đường Hoàng Thị Loan, phường Hòa Minh, quận Liên Chiểu, thành phố Đà Nẵng";
+        return "170 Nguyễn Đình Tựu, Phường An Khê, Quận Thanh Khê, Thành phố Đà Nẵng";
       }
     }
   },

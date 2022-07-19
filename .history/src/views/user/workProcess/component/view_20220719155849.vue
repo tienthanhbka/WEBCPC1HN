@@ -191,7 +191,6 @@
               >
             </p>
             <br />
-            <br />
             <p
               style="margin-top:0pt; margin-bottom:0pt;  text-align:justify; line-height:130%; font-size:13pt;"
             >
@@ -538,7 +537,7 @@
                 sự bố tr&iacute; điều động của c&ocirc;ng ty.</span
               >
             </p>
-            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+            <br /><br /><br /><br /><br /><br />
 
             <p
               style="margin-top:0pt; margin-bottom:0pt;  text-align:justify; line-height:130%; font-size:13pt;"
@@ -813,8 +812,10 @@
                 th&uacute;c kh&oacute;a học.</span
               >
             </p>
-              <p
-              style="margin-top:0pt; margin-bottom:0pt; margin-top:0px; text-align:justify; line-height:130%; font-size:13pt;"
+            <br /><br /><br />
+
+            <p
+              style="margin-top:0pt; margin-bottom:0pt; margin-top:20px; text-align:justify; line-height:130%; font-size:13pt;"
             >
               <span style="font-family:'Times New Roman';">-&nbsp;</span
               ><span style="font-family:'Times New Roman';"
@@ -823,9 +824,6 @@
                 kh&aacute;c theo quy định của ph&aacute;p luật.</span
               >
             </p>
-            <br /><br /><br /><br /><br /><br /><br /><br />
-
-          
 
             <p
               style="margin-top:0pt; margin-bottom:0pt;  text-align:justify; line-height:130%; font-size:13pt;"
@@ -1009,7 +1007,9 @@
                 ty.</span
               >
             </p>
-             <p
+            <br /><br /><br /><br /><br /><br /><br />
+
+            <p
               style="margin-top:0pt; margin-bottom:0pt;  text-align:justify; line-height:130%; font-size:13pt;"
             >
               <strong
@@ -1045,9 +1045,6 @@
                 đ&oacute;.</span
               >
             </p>
-            <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
-
-           
             <p
               style="margin-top:0pt; margin-bottom:0pt;  text-align:justify; line-height:130%; font-size:13pt;"
             >
@@ -1175,7 +1172,7 @@ export default {
           return "26-28 Hàn Mặc Tử, phường Tân Thành, quận Tân Phú, thành phố Hồ Chí Minh";
         }
       } else {
-        return "Lô 144-B2-2 đường Hoàng Thị Loan, phường Hòa Minh, quận Liên Chiểu, thành phố Đà Nẵng";
+        return "170 Nguyễn Đình Tựu, Phường An Khê, Quận Thanh Khê, Thành phố Đà Nẵng";
       }
     }
   },

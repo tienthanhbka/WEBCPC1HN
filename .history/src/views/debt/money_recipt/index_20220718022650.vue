@@ -215,7 +215,7 @@
           width="380"
         ></el-table-column>
           <el-table-column
-          prop="note_kt"
+          prop="_kt"
           label="Ghi chú KT"
           width="250"
         ></el-table-column>

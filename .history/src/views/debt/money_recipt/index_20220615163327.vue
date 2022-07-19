@@ -214,11 +214,6 @@
           label="Nội dung"
           width="380"
         ></el-table-column>
-          <el-table-column
-          prop="note_kt"
-          label="Ghi chú KT"
-          width="250"
-        ></el-table-column>
         <el-table-column width="150" label="T/g chuyển">
           <template slot-scope="{ row }">{{
             row["time_send_money"]

@@ -35,7 +35,7 @@
             size="mini"
             v-model="documentNo"
             clearable
-            placeholder="Mã hồ sơ"
+            placeholder="Số chứng từ | Chứng từ ngoại"
             autocomplete="off"
           ></el-input>
           <el-button
@@ -100,6 +100,7 @@
         layout="-> , prev, pager, next, sizes"
       ></el-pagination>
     </div>
+
     <div slot="footer" style="margin:10px;margin-left:auto;margin-right:20px">
       <el-button type="info" @click="closeModal">Hủy</el-button>
       <el-button type="success" @click="addInvoice">Thêm</el-button>
